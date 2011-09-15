@@ -3,9 +3,9 @@ package KClass;
 import net.ko.kobject.KListObject;
 import net.ko.kobject.KObject;
 /**
-* Classe KASSURER_LECON
+* Classe KAssurer_lecon
 */
-public class KASSURER_LECON extends KObject {
+public class KAssurer_lecon extends KObject {
 private int DUREE_LECON;
 private long idELEVE;
 private java.sql.Date DATE_LECON;
@@ -13,10 +13,10 @@ private int idMONITEUR;
 private int NUM_LECON;
 private String OBSERVATION_LECON;
 private int HEURE_LECON;
-public KASSURER_LECON() {
+public KAssurer_lecon() {
 	super();
 	keyFields="idMONITEUR,idELEVE";
-	tableName="ASSURER_LECON";
+	tableName="assurer_lecon";
 	//
 
 }

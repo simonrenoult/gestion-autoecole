@@ -3,14 +3,14 @@ package KClass;
 import net.ko.kobject.KListObject;
 import net.ko.kobject.KObject;
 /**
-* Classe KCHAMPS
+* Classe KChamps
 */
-public class KCHAMPS extends KObject {
+public class KChamps extends KObject {
 private String LIBELLE_ETAT_CHAMPS;
-public KCHAMPS() {
+public KChamps() {
 	super();
 	keyFields="id";
-	tableName="CHAMPS";
+	tableName="champs";
 	//
 
 }

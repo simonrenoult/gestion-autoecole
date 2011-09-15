@@ -3,17 +3,17 @@ package KClass;
 import net.ko.kobject.KListObject;
 import net.ko.kobject.KObject;
 /**
-* Classe KSUPERVISER
+* Classe KSuperviser
 */
-public class KSUPERVISER extends KObject {
+public class KSuperviser extends KObject {
 private boolean RESULTAT_PASSAGE;
 private int idMONITEUR;
 private int idEVALUATION_CONTROLE;
 private java.sql.Date DATE_PASSAGE;
-public KSUPERVISER() {
+public KSuperviser() {
 	super();
 	keyFields="idEVALUATION_CONTROLE,idMONITEUR";
-	tableName="SUPERVISER";
+	tableName="superviser";
 	//
 
 }

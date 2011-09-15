@@ -3,14 +3,14 @@ package KClass;
 import net.ko.kobject.KListObject;
 import net.ko.kobject.KObject;
 /**
-* Classe KEVALUATION_CONTROLE
+* Classe KEvaluation_controle
 */
-public class KEVALUATION_CONTROLE extends KObject {
+public class KEvaluation_controle extends KObject {
 private String LIBELLE_EVALUATION_CONTROLE;
-public KEVALUATION_CONTROLE() {
+public KEvaluation_controle() {
 	super();
 	keyFields="id";
-	tableName="EVALUATION_CONTROLE";
+	tableName="evaluation_controle";
 	//
 
 }

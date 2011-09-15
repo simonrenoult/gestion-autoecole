@@ -3,15 +3,15 @@ package KClass;
 import net.ko.kobject.KListObject;
 import net.ko.kobject.KObject;
 /**
-* Classe KMONITEUR
+* Classe KMoniteur
 */
-public class KMONITEUR extends KObject {
+public class KMoniteur extends KObject {
 private String NOM_MONITEUR;
 private String PRENOM_MONITEUR;
-public KMONITEUR() {
+public KMoniteur() {
 	super();
 	keyFields="id";
-	tableName="MONITEUR";
+	tableName="moniteur";
 	//
 
 }
