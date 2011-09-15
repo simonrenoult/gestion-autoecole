@@ -1,0 +1,30 @@
+package KClass;
+
+import net.ko.kobject.KListObject;
+import net.ko.kobject.KObject;
+/**
+* Classe KFORMATION
+*/
+public class KFORMATION extends KObject {
+private String LIBELLE_FORMATION;
+public KFORMATION() {
+	super();
+	keyFields="id";
+	tableName="FORMATION";
+	//
+
+}
+public String getLIBELLE_FORMATION(){
+	//return the value of LIBELLE_FORMATION
+	return this.LIBELLE_FORMATION;
+}
+
+public void setLIBELLE_FORMATION(String aLIBELLE_FORMATION){
+	//set the value of LIBELLE_FORMATION
+	this.LIBELLE_FORMATION=aLIBELLE_FORMATION;
+}
+@Override
+public String toString() {
+	return " [LIBELLE_FORMATION] = " + LIBELLE_FORMATION;
+}
+}
