@@ -3,16 +3,16 @@ package KClass;
 import net.ko.kobject.KListObject;
 import net.ko.kobject.KObject;
 /**
-* Classe KOBJECTIF
+* Classe KObjectif
 */
-public class KOBJECTIF extends KObject {
+public class KObjectif extends KObject {
 private int idCATEGORIE;
 private int idETAPE;
 private String LIBELLE_OBJECTIF;
-public KOBJECTIF() {
+public KObjectif() {
 	super();
 	keyFields="id";
-	tableName="OBJECTIF";
+	tableName="objectif";
 	//
 
 }

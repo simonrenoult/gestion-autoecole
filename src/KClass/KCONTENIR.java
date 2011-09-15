@@ -3,15 +3,15 @@ package KClass;
 import net.ko.kobject.KListObject;
 import net.ko.kobject.KObject;
 /**
-* Classe KCONTENIR
+* Classe KContenir
 */
-public class KCONTENIR extends KObject {
+public class KContenir extends KObject {
 private int idFORMATION;
 private int idETAPE;
-public KCONTENIR() {
+public KContenir() {
 	super();
 	keyFields="idETAPE,idFORMATION";
-	tableName="CONTENIR";
+	tableName="contenir";
 	//
 
 }

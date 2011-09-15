@@ -3,16 +3,16 @@ package KClass;
 import net.ko.kobject.KListObject;
 import net.ko.kobject.KObject;
 /**
-* Classe KFRANCHIR
+* Classe KFranchir
 */
-public class KFRANCHIR extends KObject {
+public class KFranchir extends KObject {
 private long idELEVE;
 private int idETAPE;
 private java.sql.Date DATE_FRANCHISSEMENT_ETAPE;
-public KFRANCHIR() {
+public KFranchir() {
 	super();
 	keyFields="idETAPE,idELEVE";
-	tableName="FRANCHIR";
+	tableName="franchir";
 	//
 
 }

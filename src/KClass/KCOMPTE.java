@@ -3,15 +3,15 @@ package KClass;
 import net.ko.kobject.KListObject;
 import net.ko.kobject.KObject;
 /**
-* Classe KCOMPTE
+* Classe KCompte
 */
-public class KCOMPTE extends KObject {
+public class KCompte extends KObject {
 private String MOT_DE_PASSE_UTILISATEUR;
 private long id_COMPTE_UTILISATEUR;
-public KCOMPTE() {
+public KCompte() {
 	super();
 	keyFields="id";
-	tableName="COMPTE";
+	tableName="compte";
 	//
 
 }

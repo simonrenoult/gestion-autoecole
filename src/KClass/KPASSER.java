@@ -3,19 +3,19 @@ package KClass;
 import net.ko.kobject.KListObject;
 import net.ko.kobject.KObject;
 /**
-* Classe KPASSER
+* Classe KPasser
 */
-public class KPASSER extends KObject {
+public class KPasser extends KObject {
 private int NB_H_PRATIQUE;
 private long idELEVE;
 private int RESULTAT;
 private java.sql.Date DATE_PASSAGE_SYNTHESE;
 private long idSYNTHESE;
 private int NB_H_TH;
-public KPASSER() {
+public KPasser() {
 	super();
 	keyFields="idSYNTHESE,idELEVE";
-	tableName="PASSER";
+	tableName="passer";
 	//
 
 }

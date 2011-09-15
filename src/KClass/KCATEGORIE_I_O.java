@@ -3,14 +3,14 @@ package KClass;
 import net.ko.kobject.KListObject;
 import net.ko.kobject.KObject;
 /**
-* Classe KCATEGORIE_I_O
+* Classe KCategorie_i_o
 */
-public class KCATEGORIE_I_O extends KObject {
+public class KCategorie_i_o extends KObject {
 private String LIBELLE_CATEGORIE;
-public KCATEGORIE_I_O() {
+public KCategorie_i_o() {
 	super();
 	keyFields="id";
-	tableName="CATEGORIE_I_O";
+	tableName="categorie_i_o";
 	//
 
 }

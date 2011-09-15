@@ -3,14 +3,14 @@ package KClass;
 import net.ko.kobject.KListObject;
 import net.ko.kobject.KObject;
 /**
-* Classe KFORMATION
+* Classe KFormation
 */
-public class KFORMATION extends KObject {
+public class KFormation extends KObject {
 private String LIBELLE_FORMATION;
-public KFORMATION() {
+public KFormation() {
 	super();
 	keyFields="id";
-	tableName="FORMATION";
+	tableName="formation";
 	//
 
 }

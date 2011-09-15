@@ -3,18 +3,18 @@ package KClass;
 import net.ko.kobject.KListObject;
 import net.ko.kobject.KObject;
 /**
-* Classe KREPONSE
+* Classe KReponse
 */
-public class KREPONSE extends KObject {
+public class KReponse extends KObject {
 private long idELEVE;
 private boolean ETAT_REPONSE;
 private int idQUESTIONS_SYNTHESE;
 private long idSYNTHESE;
 private int idETAT_CHAMPS;
-public KREPONSE() {
+public KReponse() {
 	super();
 	keyFields="idELEVE,idSYNTHESE,idETAT_CHAMPS,idQUESTIONS_SYNTHESE";
-	tableName="REPONSE";
+	tableName="reponse";
 	//
 
 }

@@ -3,15 +3,15 @@ package KClass;
 import net.ko.kobject.KListObject;
 import net.ko.kobject.KObject;
 /**
-* Classe KSYNTHESE
+* Classe KSynthese
 */
-public class KSYNTHESE extends KObject {
+public class KSynthese extends KObject {
 private int idETAPE;
 private String LIBELLE_SYNTHESE;
-public KSYNTHESE() {
+public KSynthese() {
 	super();
 	keyFields="id";
-	tableName="SYNTHESE";
+	tableName="synthese";
 	//
 
 }

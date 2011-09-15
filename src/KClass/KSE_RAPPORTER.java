@@ -3,15 +3,15 @@ package KClass;
 import net.ko.kobject.KListObject;
 import net.ko.kobject.KObject;
 /**
-* Classe KSE_RAPPORTER
+* Classe KSe_rapporter
 */
-public class KSE_RAPPORTER extends KObject {
+public class KSe_rapporter extends KObject {
 private int idETAPE;
 private int idEVALUATION_CONTROLE;
-public KSE_RAPPORTER() {
+public KSe_rapporter() {
 	super();
 	keyFields="idETAPE,idEVALUATION_CONTROLE";
-	tableName="SE_RAPPORTER";
+	tableName="se_rapporter";
 	//
 
 }

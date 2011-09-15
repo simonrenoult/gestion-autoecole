@@ -3,18 +3,18 @@ package KClass;
 import net.ko.kobject.KListObject;
 import net.ko.kobject.KObject;
 /**
-* Classe KREALISER
+* Classe KRealiser
 */
-public class KREALISER extends KObject {
+public class KRealiser extends KObject {
 private long idELEVE;
 private long idOBJECTIF;
 private java.sql.Date DATE_REALISATION_OBJECTIF;
 private int ETAT_OBJECTIF;
 private String OBSERVATION_OBJECTIF;
-public KREALISER() {
+public KRealiser() {
 	super();
 	keyFields="idOBJECTIF,idELEVE";
-	tableName="REALISER";
+	tableName="realiser";
 	//
 
 }

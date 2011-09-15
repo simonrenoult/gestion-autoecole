@@ -3,14 +3,14 @@ package KClass;
 import net.ko.kobject.KListObject;
 import net.ko.kobject.KObject;
 /**
-* Classe KETAPE
+* Classe KEtape
 */
-public class KETAPE extends KObject {
+public class KEtape extends KObject {
 private String LIBELLE_ETAPE;
-public KETAPE() {
+public KEtape() {
 	super();
 	keyFields="id";
-	tableName="ETAPE";
+	tableName="etape";
 	//
 
 }
