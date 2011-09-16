@@ -1,0 +1,34 @@
+aaaaa
+##############GENERALITES##############
+
+Projet : gestion_autoecole
+Organisation : IUT Informatique Caen
+
+Description : Gestion de la fiche de suivi des élèves d'une auto-école
+
+Début du projet : 01-04-11
+Début du développement : 12-09-11
+
+Contact : projet1a2a@gmail.com
+
+Mainteneurs principaux :
+- Simon RENOULT (aka g4llic4)
+- Alexis CHRETIENNE (aka xelais)
+- Louis-Axel AMBROISE (aka louisaxel.ambroise)
+- Florent LUCET (aka nosuke)
+
+###############DETAILS#################
+
+bin : fichiers binaires exécutables de l'application.
+
+doc : documentation de l'application.
+
+lib : bibliothèques nécessaires au fonctionnement du programme.
+        -> kObject
+        -> mysql-connector
+        
+sql : générateur de la base de données mysql.
+
+src : fichiers sources de l'application.
+
+
