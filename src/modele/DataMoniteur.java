@@ -10,60 +10,62 @@ import KClass.*;
 public class DataMoniteur {
 
 	private KDBMysql db = bdd.connexion();
-	
-	public DataMoniteur(){}
-	
-public KListObject<KMONITEUR> recupererListe() {
-		
-		KListObject<KMONITEUR> Kliste = new KListObject<KMONITEUR>(KMONITEUR.class);
-		Kliste.loadFromDb(db);
-		
-		return Kliste;
-		
+
+	public DataMoniteur() {
 	}
 
-public KMONITEUR recupererProfilMoniteur (int id){
-	
-	KMONITEUR moniteur = new KMONITEUR();
-	moniteur.setId(id);
-	try {
-		moniteur.loadOne(db);
-	} catch (SecurityException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	} catch (IllegalArgumentException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	} catch (SQLException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	} catch (NoSuchFieldException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	} catch (IllegalAccessException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
+	public KListObject<KMoniteur> recupererListe() {
+
+		KListObject<KMoniteur> Kliste = new KListObject<KMoniteur>(
+				KMoniteur.class);
+		Kliste.loadFromDb(db);
+
+		return Kliste;
+
 	}
-	return moniteur;
-}
-	
-	public KMONITEUR ajouterMoniteur (String nom, String Prenom, int id) {
-		
-		KMONITEUR moniteur = new KMONITEUR();
+
+	public KMoniteur recupererProfilMoniteur(int id) {
+
+		KMoniteur moniteur = new KMoniteur();
+		moniteur.setId(id);
+		try {
+			moniteur.loadOne(db);
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchFieldException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return moniteur;
+	}
+
+	public KMoniteur ajouterMoniteur(String nom, String Prenom, int id) {
+
+		KMoniteur moniteur = new KMoniteur();
 		moniteur.setId(id);
 		moniteur.setPRENOM_MONITEUR(Prenom);
 		moniteur.setNOM_MONITEUR(nom);
 		moniteur.add(db);
-		
+
 		return moniteur;
-		
+
 	}
-	
+
 	public void supprimerMoniteur(Object id) {
-		
-		KMONITEUR moniteur = new KMONITEUR();
+
+		KMoniteur moniteur = new KMoniteur();
 		moniteur.setId(id);
-	
+
 		try {
 			moniteur.loadOne(db);
 		} catch (SecurityException e) {
@@ -84,18 +86,14 @@ public KMONITEUR recupererProfilMoniteur (int id){
 		}
 		System.out.println(moniteur);
 		moniteur.delete(db);
-		
-		
-		
+
 	}
 
+	public KMoniteur majMoniteur(String nom, String prenom, Object id) {
 
-
-	public KMONITEUR majMoniteur(String nom,String prenom, Object id) {
-		
-		KMONITEUR moniteur = new KMONITEUR();
+		KMoniteur moniteur = new KMoniteur();
 		moniteur.setId(id);
-	
+
 		try {
 			moniteur.loadOne(db);
 		} catch (SecurityException e) {
@@ -117,9 +115,9 @@ public KMONITEUR recupererProfilMoniteur (int id){
 		moniteur.setNOM_MONITEUR(nom);
 		moniteur.setPRENOM_MONITEUR(prenom);
 		moniteur.update(db);
-		
+
 		return moniteur;
-		
+
 	}
-	
-}              
+
+}

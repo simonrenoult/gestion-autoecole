@@ -1,7 +1,8 @@
 package modele;
 
-import KClass.KOBJECTIF;
+import KClass.KObjectif;
 import net.ko.kobject.KListObject;
+import net.ko.kobject.KObject;
 import net.ko.ksql.KDBMysql;
 
 public class DataEtape {
@@ -19,8 +20,8 @@ public class DataEtape {
 		} catch (Exception e){}
 	}
 	
-	public KListObject<KOBJECTIF> chargerObjectif(int numEtape){
-		KListObject<KOBJECTIF> objEtape = new KListObject<KOBJECTIF>(KOBJECTIF.class);
+	public KListObject<KObjectif> chargerObjectif(int numEtape){
+		KListObject<KObjectif> objEtape = new KListObject<KObjectif>(KObjectif.class);
 		objEtape.loadFromDb(db, "select * from OBJECTIF where idEtape = '"+numEtape+"'");
 		
 		return objEtape;

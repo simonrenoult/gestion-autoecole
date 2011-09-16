@@ -1,4 +1,5 @@
 package vue;
+
 import javax.swing.*;
 import javax.swing.table.*;
 
@@ -7,8 +8,6 @@ import controleur.EcouteurFicheEleve;
 import net.ko.kobject.KListObject;
 
 import KClass.*;
-
-
 
 import modele.DataFicheEleve;
 import modele.DataFicheEleve1;
@@ -26,8 +25,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class FicheEleve extends JPanel {
-
-
 
 	private DataFicheEleve1 dataFiche1 = new DataFicheEleve1();
 	private int idEleve;
@@ -55,20 +52,20 @@ public class FicheEleve extends JPanel {
 	private JTextField eMail = new JTextField();
 	private JTextField profession = new JTextField();
 	private JTextField numLivret = new JTextField();
-	private JComboBox dateNaissJ; 
-	private JComboBox dateNaissM; 
+	private JComboBox dateNaissJ;
+	private JComboBox dateNaissM;
 	private JComboBox dateNaissA;
-	private JComboBox dateEvaJ; 
-	private JComboBox dateEvaM; 
+	private JComboBox dateEvaJ;
+	private JComboBox dateEvaM;
 	private JComboBox dateEvaA;
 	private JComboBox resultatEva = new JComboBox();
 	private JComboBox formaTheo = new JComboBox();
 	private JComboBox formaPra = new JComboBox();
-	private JComboBox dateInscriJ; 
-	private JComboBox dateInscriM; 
+	private JComboBox dateInscriJ;
+	private JComboBox dateInscriM;
 	private JComboBox dateInscriA;
-	private JComboBox dateEnregiJ; 
-	private JComboBox dateEnregiM; 
+	private JComboBox dateEnregiJ;
+	private JComboBox dateEnregiM;
 	private JComboBox dateEnregiA;
 	private JComboBox responsableForma = new JComboBox();
 	private JComboBox formateur;
@@ -82,20 +79,22 @@ public class FicheEleve extends JPanel {
 	private JScrollPane scrollTestVue = new JScrollPane(areaTestVue);
 
 	private DataMoniteur moniteur = new DataMoniteur();
-	private String[]ListeMoniteur  ;
+	private String[] ListeMoniteur;
 
 	private JTable tableau;
-	private ArrayList<String> comboData ;
+	private ArrayList<String> comboData;
 	private ArrayList<String> listeFormation[] = new ArrayList[6];
-	private TableModel2 zModel ;
-	private String  titleTableauJtable[] = {"Lecon","Date", "Horaire", "Duree", "Moniteur", "Observation"};
+	private TableModel2 zModel;
+	private String titleTableauJtable[] = { "Lecon", "Date", "Horaire",
+			"Duree", "Moniteur", "Observation" };
 
-	private JButton boutonAjouter = new JButton("Ajouter");//bouton de l'onglet contenant la Jtable.
+	private JButton boutonAjouter = new JButton("Ajouter");// bouton de l'onglet
+															// contenant la
+															// Jtable.
 
 	private RDVMoniteurEleve rdv;
 
-
-	public FicheEleve(){
+	public FicheEleve() {
 		ListeMoniteur = new String[moniteur.recupererListe().count()];
 		recupererListeMoniteur();
 		initElementGraphique();
@@ -104,10 +103,10 @@ public class FicheEleve extends JPanel {
 	}
 
 	public void initElementGraphique() {
-		this.setPreferredSize(new Dimension(900,670));
+		this.setPreferredSize(new Dimension(900, 670));
 
 		texteTitre = new JLabel("Fiche de suivi PERMIS B");
-		texteTitre.setFont(new Font(null,Font.BOLD,20));
+		texteTitre.setFont(new Font(null, Font.BOLD, 20));
 
 		containerEvaluaD.setBorder(BorderFactory.createTitledBorder(""));
 		containerIdEleve.setBorder(BorderFactory.createTitledBorder(""));
@@ -124,8 +123,7 @@ public class FicheEleve extends JPanel {
 		this.parametrerJPanel(containerIdEleveS1, 380, 289, Color.white);
 		this.parametrerJPanel(containerIdEleveS2, 200, 289, Color.white);
 
-		texteTitre.setPreferredSize(new Dimension(800,50));
-
+		texteTitre.setPreferredSize(new Dimension(800, 50));
 
 		JTabbedPane onglet = new JTabbedPane();
 		JPanel partie1 = new JPanel();
@@ -149,12 +147,12 @@ public class FicheEleve extends JPanel {
 		containerSous2.add(containerNumLivret);
 		containerSous2.add(containerResponsable);
 
-		Font f = new Font(null,Font.BOLD,13);
+		Font f = new Font(null, Font.BOLD, 13);
 
 		JLabel labelNom = new JLabel("Nom : ");
 		this.parametrerJLabelEtJTextField(labelNom, f, nom, 300, 20);
 		JLabel labelPrenom = new JLabel("Prenom :");
-		this.parametrerJLabelEtJTextField(labelPrenom, f, prenom, 280, 20);			
+		this.parametrerJLabelEtJTextField(labelPrenom, f, prenom, 280, 20);
 
 		JLabel labelDateNaiss = new JLabel("Date de naissance :");
 		labelDateNaiss.setFont(f);
@@ -162,25 +160,29 @@ public class FicheEleve extends JPanel {
 		dateNaissJ = new JComboBox();
 		dateNaissM = new JComboBox();
 		dateNaissA = new JComboBox();
-		parametrerJComboBoxDate(dateNaissJ, dateNaissM, dateNaissA);			
+		parametrerJComboBoxDate(dateNaissJ, dateNaissM, dateNaissA);
 
 		JLabel labelEMail = new JLabel("E-Mail :");
 		this.parametrerJLabelEtJTextField(labelEMail, f, eMail, 290, 20);
 
 		JLabel labelTelephoneM = new JLabel("Numero de Telephone :");
-		this.parametrerJLabelEtJTextField(labelTelephoneM, f, telephone, 180, 20);
+		this.parametrerJLabelEtJTextField(labelTelephoneM, f, telephone, 180,
+				20);
 
 		JLabel labelAdresse = new JLabel("Adresse :");
 		this.parametrerJLabelEtJTextField(labelAdresse, f, adresse, 283, 20);
 
 		JLabel labelCodePostal = new JLabel("Code Postal :");
-		this.parametrerJLabelEtJTextField(labelCodePostal, f, codePostal, 40, 20);
+		this.parametrerJLabelEtJTextField(labelCodePostal, f, codePostal, 40,
+				20);
 
 		JLabel labelCommune = new JLabel("Commune :");
-		this.parametrerJLabelEtJTextField(labelCommune, f, communeEleve, 135, 20);
+		this.parametrerJLabelEtJTextField(labelCommune, f, communeEleve, 135,
+				20);
 
 		JLabel labelProfession = new JLabel("Profession :");
-		this.parametrerJLabelEtJTextField(labelProfession, f, profession, 268, 20);
+		this.parametrerJLabelEtJTextField(labelProfession, f, profession, 268,
+				20);
 
 		containerIdEleve.add(containerIdEleveS1);
 		containerIdEleve.add(containerIdEleveS2);
@@ -210,20 +212,17 @@ public class FicheEleve extends JPanel {
 
 		labelPhoto = new JLabel("");
 
-
-
 		labelPhoto.setBorder(BorderFactory.createTitledBorder(""));
 		labelPhoto.setPreferredSize(new Dimension(140, 180));
 
-
 		JButton parcourir = new JButton("Parcourir");
-		//parcourir.setEnabled(false);// grise le bouton
-		parcourir.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent arg0) {				
+		// parcourir.setEnabled(false);// grise le bouton
+		parcourir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
 				JFileChooser chooser = new JFileChooser();
-				JFrame test= new JFrame();
+				JFrame test = new JFrame();
 				int returnVal = chooser.showOpenDialog(test);
-				if(returnVal == JFileChooser.APPROVE_OPTION) {
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					System.out.println(chooser.getSelectedFile().getPath());
 					chemin = chooser.getSelectedFile().getPath();
 					Icon icon = new ImageIcon(chemin);
@@ -231,7 +230,7 @@ public class FicheEleve extends JPanel {
 					System.out.println(chemin);
 
 				}
-			}			
+			}
 		});
 
 		containerIdEleveS2.add(labelPhoto);
@@ -253,18 +252,18 @@ public class FicheEleve extends JPanel {
 		JLabel labelResultat = new JLabel("Resultat :");
 		labelResultat.setFont(f);
 		resultatEva = new JComboBox();
-		for(int i=0; i<=30; i++) {
+		for (int i = 0; i <= 30; i++) {
 			resultatEva.addItem(i);
 		}
 
-		JLabel labelVoluF= new JLabel("Volume de formation prevu :");
+		JLabel labelVoluF = new JLabel("Volume de formation prevu :");
 		labelVoluF.setFont(f);
 		labelVoluF.setPreferredSize(new Dimension(210, 20));
 
 		JLabel labelFormaTheo = new JLabel("Theorique :");
 		labelFormaTheo.setFont(f);
 		formaTheo = new JComboBox();
-		for(int i=0; i<=50; i++) {
+		for (int i = 0; i <= 50; i++) {
 			formaTheo.addItem(i);
 		}
 		labelFormaTheo.setPreferredSize(new Dimension(100, 20));
@@ -272,7 +271,7 @@ public class FicheEleve extends JPanel {
 		JLabel labelFormaPra = new JLabel("Pratique :");
 		labelFormaPra.setFont(f);
 		formaPra = new JComboBox();
-		for(int i=0; i<=50; i++) {
+		for (int i = 0; i <= 50; i++) {
 			formaPra.addItem(i);
 		}
 		labelFormaPra.setPreferredSize(new Dimension(100, 20));
@@ -289,7 +288,6 @@ public class FicheEleve extends JPanel {
 		containerEvaluaD.add(formaTheo);
 		containerEvaluaD.add(labelFormaPra);
 		containerEvaluaD.add(formaPra);
-
 
 		JLabel labelInscription = new JLabel("Inscription");
 		labelInscription.setFont(f);
@@ -341,7 +339,8 @@ public class FicheEleve extends JPanel {
 		containerNumLivret.add(labelNumLivret);
 		containerNumLivret.add(numLivret);
 
-		JLabel labelResponsableForma = new JLabel("Responsable de la formation :");
+		JLabel labelResponsableForma = new JLabel(
+				"Responsable de la formation :");
 		labelResponsableForma.setFont(f);
 		labelResponsableForma.setPreferredSize(new Dimension(200, 20));
 		responsableForma.addItem("JOLLY Didier");
@@ -358,17 +357,15 @@ public class FicheEleve extends JPanel {
 		containerResponsable.add(formateur);
 
 		JLabel labelFormaPratique = new JLabel("Formation Pratique");
-		labelFormaPratique.setFont(new Font(null,Font.BOLD,20));
+		labelFormaPratique.setFont(new Font(null, Font.BOLD, 20));
 		labelFormaPratique.setPreferredSize(new Dimension(780, 40));
 
-		containerTabForma.add(labelFormaPratique );
-
-
+		containerTabForma.add(labelFormaPratique);
 
 		JPanel containerAjouter = new JPanel();
-		containerAjouter.setPreferredSize(new Dimension(400,40));
+		containerAjouter.setPreferredSize(new Dimension(400, 40));
 		containerAjouter.setBackground(Color.white);
-		boutonAjouter.setPreferredSize(new Dimension(80,20));
+		boutonAjouter.setPreferredSize(new Dimension(80, 20));
 		EcouteurFicheEleve ecouteur = new EcouteurFicheEleve(this);
 		boutonAjouter.addActionListener(ecouteur);
 		containerAjouter.add(boutonAjouter);
@@ -393,15 +390,15 @@ public class FicheEleve extends JPanel {
 		formaPra.setBackground(Color.white);
 	}
 
-	public void creationJtable(){
-		//tableau de liste.
-		//declaration des colonnes.
-		for (int i = 0; i < listeFormation.length; i++){
+	public void creationJtable() {
+		// tableau de liste.
+		// declaration des colonnes.
+		for (int i = 0; i < listeFormation.length; i++) {
 			listeFormation[i] = new ArrayList<String>();
 		}
 
 		ajouterLigneJtable();
-		zModel = new TableModel2(listeFormation,  titleTableauJtable);
+		zModel = new TableModel2(listeFormation, titleTableauJtable);
 
 		tableau = new JTable();
 		tableau.setModel(zModel);
@@ -413,55 +410,84 @@ public class FicheEleve extends JPanel {
 
 	}
 
-	public void definirJtableGraphique(){
-		for (int i = 0; i<tableau.getColumnCount(); i++){
+	public void definirJtableGraphique() {
+		for (int i = 0; i < tableau.getColumnCount(); i++) {
 
-			switch(i){
-			case 0 : tableau.getColumnModel().getColumn(i).setMaxWidth(50);break;
-			case 5 : tableau.getColumnModel().getColumn(i).setMaxWidth(350);
-			tableau.getColumnModel().getColumn(i).setCellEditor(new CellEditorAera());
-			tableau.getColumnModel().getColumn(i).setCellRenderer(new CellRenderAera());break;
-			default :tableau.getColumnModel().getColumn(i).setMaxWidth(100);break;		 
+			switch (i) {
+			case 0:
+				tableau.getColumnModel().getColumn(i).setMaxWidth(50);
+				break;
+			case 5:
+				tableau.getColumnModel().getColumn(i).setMaxWidth(350);
+				tableau.getColumnModel().getColumn(i)
+						.setCellEditor(new CellEditorAera());
+				tableau.getColumnModel().getColumn(i)
+						.setCellRenderer(new CellRenderAera());
+				break;
+			default:
+				tableau.getColumnModel().getColumn(i).setMaxWidth(100);
+				break;
 			}
 
 		}
 
-
-
-		for(int i = 0; i < tableau.getRowCount(); i++){
+		for (int i = 0; i < tableau.getRowCount(); i++) {
 			tableau.setRowHeight(i, 17);
 		}
 		tableau.getTableHeader().setReorderingAllowed(false);
 		tableau.getTableHeader().setResizingAllowed(false);
-		//tableau.setBackground(new Color(2));
-
-
+		// tableau.setBackground(new Color(2));
 
 	}
 
 	public void ajouterLigneJtable() {
-		for (int i = 0; i < listeFormation.length; i++){
+		for (int i = 0; i < listeFormation.length; i++) {
 
-			switch (i){
+			switch (i) {
 
-			case 0 :for(int j = 0; j<rdv.getListeAssurerLecon().count();j++){
-				listeFormation[i].add(""+rdv.getListeAssurerLecon().get(j).getNUM_LECON());
-			}break;	
-			case 1 :for(int j = 0; j<rdv.getListeAssurerLecon().count();j++){
-				listeFormation[i].add(""+rdv.getListeAssurerLecon().get(j).getDATE_LECON());
-			}break;
-			case 2 :for(int j = 0; j<rdv.getListeAssurerLecon().count();j++){
-				listeFormation[i].add(""+rdv.getListeAssurerLecon().get(j).getHEURE_LECON());
-			}break;
-			case 3 :for(int j = 0; j<rdv.getListeAssurerLecon().count();j++){
-				listeFormation[i].add(""+rdv.getListeAssurerLecon().get(j).getDUREE_LECON());
-			}break;
-			case 4 :for(int j = 0; j<rdv.getListeAssurerLecon().count();j++){
-				listeFormation[i].add(""+rdv.getListeAssurerLecon().get(j).getIdMONITEUR());
-			}break;
-			case 5 :for(int j = 0; j<rdv.getListeAssurerLecon().count();j++){
-				listeFormation[i].add(""+rdv.getListeAssurerLecon().get(j).getOBSERVATION_LECON());
-			}break;
+			case 0:
+				for (int j = 0; j < rdv.getListeAssurerLecon().count(); j++) {
+					listeFormation[i].add(""
+							+ rdv.getListeAssurerLecon().get(j).getNUM_LECON());
+				}
+				break;
+			case 1:
+				for (int j = 0; j < rdv.getListeAssurerLecon().count(); j++) {
+					listeFormation[i]
+							.add(""
+									+ rdv.getListeAssurerLecon().get(j)
+											.getDATE_LECON());
+				}
+				break;
+			case 2:
+				for (int j = 0; j < rdv.getListeAssurerLecon().count(); j++) {
+					listeFormation[i].add(""
+							+ rdv.getListeAssurerLecon().get(j)
+									.getHEURE_LECON());
+				}
+				break;
+			case 3:
+				for (int j = 0; j < rdv.getListeAssurerLecon().count(); j++) {
+					listeFormation[i].add(""
+							+ rdv.getListeAssurerLecon().get(j)
+									.getDUREE_LECON());
+				}
+				break;
+			case 4:
+				for (int j = 0; j < rdv.getListeAssurerLecon().count(); j++) {
+					listeFormation[i]
+							.add(""
+									+ rdv.getListeAssurerLecon().get(j)
+											.getIdMONITEUR());
+				}
+				break;
+			case 5:
+				for (int j = 0; j < rdv.getListeAssurerLecon().count(); j++) {
+					listeFormation[i].add(""
+							+ rdv.getListeAssurerLecon().get(j)
+									.getOBSERVATION_LECON());
+				}
+				break;
 			}
 
 		}
@@ -469,133 +495,173 @@ public class FicheEleve extends JPanel {
 
 	public void ajouterLigneJtableVierge() {
 		int numero = listeFormation[0].size();
-		for (int i = 0; i < listeFormation.length; i++){
-			if(i==0){listeFormation[i].add(""+numero);}
-			else{listeFormation[i].add("");}
-		}	
+		for (int i = 0; i < listeFormation.length; i++) {
+			if (i == 0) {
+				listeFormation[i].add("" + numero);
+			} else {
+				listeFormation[i].add("");
+			}
+		}
 
-		//une liste repr�sente une colonne. ICi 6 colonnes donc on met les des champs vides.
+		// une liste repr�sente une colonne. ICi 6 colonnes donc on met les
+		// des champs vides.
 	}
-
 
 	public void recupererListeMoniteur() {
-		for (int i =0; i<ListeMoniteur.length; i++){
+		for (int i = 0; i < ListeMoniteur.length; i++) {
 			ListeMoniteur[i] = "";
 		}
-		KListObject<KMONITEUR>KListe = new KListObject<KMONITEUR>(KMONITEUR.class);
+		KListObject<KMoniteur> KListe = new KListObject<KMoniteur>(
+				KMoniteur.class);
 		KListe = moniteur.recupererListe();
-		for (int i =0; i<KListe.count(); i++){
-			ListeMoniteur[i] = KListe.get(i).getPRENOM_MONITEUR().toLowerCase()+" "+KListe.get(i).getNOM_MONITEUR().toUpperCase();
+		for (int i = 0; i < KListe.count(); i++) {
+			ListeMoniteur[i] = KListe.get(i).getPRENOM_MONITEUR().toLowerCase()
+					+ " " + KListe.get(i).getNOM_MONITEUR().toUpperCase();
 		}
 
-
-		formateur =   new JComboBox(ListeMoniteur);
+		formateur = new JComboBox(ListeMoniteur);
 	}
 
-	public void chargerDonnees(int id){
-		KELEVE Eleve = new KELEVE();
+	public void chargerDonnees(int id) {
+		KEleve Eleve = new KEleve();
 		Eleve = dataFiche1.recupererProfil(id);
 		System.out.println(Eleve);
 
-		if(Eleve != null){
+		if (Eleve != null) {
 			nom.setText(Eleve.getNOM_ELEVE());
 			prenom.setText(Eleve.getPRENOM_ELEVE());
 			adresse.setText(Eleve.getADRESSE_ELEVE());
-			codePostal.setText(""+Eleve.getCODE_POSTAL_ELEVE());
-			communeEleve.setText(Eleve.getCOMMUNE_ELEVE()); 
-			telephone.setText(""+Eleve.getTELEPHONE_ELEVE());
+			codePostal.setText("" + Eleve.getCODE_POSTAL_ELEVE());
+			communeEleve.setText(Eleve.getCOMMUNE_ELEVE());
+			telephone.setText("" + Eleve.getTELEPHONE_ELEVE());
 			eMail.setText(Eleve.getMAIL_ELEVE());
 			profession.setText(Eleve.getPROFESSION_ELEVE());
-			resultatEva.setSelectedIndex(recupererIndexHeures(0, Eleve.getRESULTAT_ELEVE_ORAL()));
-			formaTheo.setSelectedIndex(recupererIndexHeures(0, Eleve.getVOLUME_HORAIRE_TH_ELEVE()));
-			formaPra.setSelectedIndex(recupererIndexHeures(0, Eleve.getVOLUME_HORAIRE_PRATIQUE_ELEVE()));
+			resultatEva.setSelectedIndex(recupererIndexHeures(0,
+					Eleve.getRESULTAT_ELEVE_ORAL()));
+			formaTheo.setSelectedIndex(recupererIndexHeures(0,
+					Eleve.getVOLUME_HORAIRE_TH_ELEVE()));
+			formaPra.setSelectedIndex(recupererIndexHeures(0,
+					Eleve.getVOLUME_HORAIRE_PRATIQUE_ELEVE()));
 			numLivret.setText("A INCLURE");
 			responsableForma.setSelectedIndex(0);
 
-
-			// Besoin de r�cup�rer le nom du moniteur � partir de la cl� etrangere sur l'eleve.
-			KMONITEUR monit = new KMONITEUR();
+			// Besoin de r�cup�rer le nom du moniteur � partir de la cl�
+			// etrangere sur l'eleve.
+			KMoniteur monit = new KMoniteur();
 			DataMoniteur DataMoniteur = new DataMoniteur();
 			monit = DataMoniteur.recupererProfilMoniteur(Eleve.getIdMONITEUR());
-			formateur.setSelectedIndex((Integer) monit.getId()-1);
+			formateur.setSelectedIndex((Integer) monit.getId() - 1);
 
-			//chargement des dates.
+			// chargement des dates.
 			Date date = new Date();
 			date = Eleve.getDATE_DE_NAISS_ELEVE();
-			//System.out.println(date);
+			// System.out.println(date);
 			SimpleDateFormat dateStandard = new SimpleDateFormat("dd/MM/yyyy");
-			/*System.out.println("Date : "+dateStandard.format(date).substring(0,2));
-	    		System.out.println("Date : "+dateStandard.format(date).substring(3,5));
-				System.out.println("Date : "+dateStandard.format(date).substring(6,10));
+			/*
+			 * System.out.println("Date : "+dateStandard.format(date).substring(0
+			 * ,2));
+			 * System.out.println("Date : "+dateStandard.format(date).substring
+			 * (3,5));
+			 * System.out.println("Date : "+dateStandard.format(date).substring
+			 * (6,10));
 			 */
 			System.out.println(date);
-			dateNaissA.setSelectedIndex(recupererIndexHeures(1900, Integer.parseInt(dateStandard.format(date).substring(6,10))));
-			dateNaissM.setSelectedIndex(recupererIndexHeures(1, Integer.parseInt(dateStandard.format(date).substring(3,5))));
-			dateNaissJ.setSelectedIndex(recupererIndexHeures(1, Integer.parseInt(dateStandard.format(date).substring(0,2))));
+			dateNaissA.setSelectedIndex(recupererIndexHeures(1900, Integer
+					.parseInt(dateStandard.format(date).substring(6, 10))));
+			dateNaissM
+					.setSelectedIndex(recupererIndexHeures(1,
+							Integer.parseInt(dateStandard.format(date)
+									.substring(3, 5))));
+			dateNaissJ
+					.setSelectedIndex(recupererIndexHeures(1,
+							Integer.parseInt(dateStandard.format(date)
+									.substring(0, 2))));
 
 			date = Eleve.getDATE_EVAL_ELEVE();
 			System.out.println(date);
-			dateEvaJ.setSelectedIndex(recupererIndexHeures(1, Integer.parseInt(dateStandard.format(date).substring(0,2))));
-			dateEvaM.setSelectedIndex(recupererIndexHeures(1, Integer.parseInt(dateStandard.format(date).substring(3,5))));
-			dateEvaA.setSelectedIndex(recupererIndexHeures(1900, Integer.parseInt(dateStandard.format(date).substring(6,10))));
+			dateEvaJ.setSelectedIndex(recupererIndexHeures(1,
+					Integer.parseInt(dateStandard.format(date).substring(0, 2))));
+			dateEvaM.setSelectedIndex(recupererIndexHeures(1,
+					Integer.parseInt(dateStandard.format(date).substring(3, 5))));
+			dateEvaA.setSelectedIndex(recupererIndexHeures(1900, Integer
+					.parseInt(dateStandard.format(date).substring(6, 10))));
 
 			date = Eleve.getDATE_ENREGISTREMENT_ELEVE();
 			System.out.println(date);
-			dateEnregiA.setSelectedIndex(recupererIndexHeures(1900, Integer.parseInt(dateStandard.format(date).substring(6,10))));
-			dateEnregiM.setSelectedIndex(recupererIndexHeures(1, Integer.parseInt(dateStandard.format(date).substring(3,5))));
-			dateEnregiJ.setSelectedIndex(recupererIndexHeures(1, Integer.parseInt(dateStandard.format(date).substring(0,2))));
+			dateEnregiA.setSelectedIndex(recupererIndexHeures(1900, Integer
+					.parseInt(dateStandard.format(date).substring(6, 10))));
+			dateEnregiM
+					.setSelectedIndex(recupererIndexHeures(1,
+							Integer.parseInt(dateStandard.format(date)
+									.substring(3, 5))));
+			dateEnregiJ
+					.setSelectedIndex(recupererIndexHeures(1,
+							Integer.parseInt(dateStandard.format(date)
+									.substring(0, 2))));
 
 			date = Eleve.getDATE_INSCRIPTION_ELEVE();
 			System.out.println(date);
-			dateInscriA.setSelectedIndex(recupererIndexHeures(1900, Integer.parseInt(dateStandard.format(date).substring(6,10))));
-			dateInscriM.setSelectedIndex(recupererIndexHeures(1, Integer.parseInt(dateStandard.format(date).substring(3,5))));
-			dateInscriJ.setSelectedIndex(recupererIndexHeures(1, Integer.parseInt(dateStandard.format(date).substring(0,2))));
+			dateInscriA.setSelectedIndex(recupererIndexHeures(1900, Integer
+					.parseInt(dateStandard.format(date).substring(6, 10))));
+			dateInscriM
+					.setSelectedIndex(recupererIndexHeures(1,
+							Integer.parseInt(dateStandard.format(date)
+									.substring(3, 5))));
+			dateInscriJ
+					.setSelectedIndex(recupererIndexHeures(1,
+							Integer.parseInt(dateStandard.format(date)
+									.substring(0, 2))));
 
-			if (Eleve.getTEST_VU_ELEVE()){
+			if (Eleve.getTEST_VU_ELEVE() == 1) {
 				testVueO.setSelected(true);
+			} else {
+				testVueN.setSelected(true);
 			}
-			else{testVueN.setSelected(true);}
 
 			areaTestVue.setText(Eleve.getOBSERVATION_VUE_ELEVE());
 
-			/*icon = new ImageIcon(Eleve.getPHOTO_ELEVE());
-			    labelPhoto.setIcon(icon);*/
+			/*
+			 * icon = new ImageIcon(Eleve.getPHOTO_ELEVE());
+			 * labelPhoto.setIcon(icon);
+			 */
 		}
 
 		MajJtable();
 		creationJtable();
 
-	}	
+	}
 
-	public void MajJtable(){
+	public void MajJtable() {
 		rdv = new RDVMoniteurEleve();
 		rdv.setListeAssurerLecon(rdv.recupererListeEleve(idEleve));
 
-
 	}
 
-	public int recupererIndexHeures ( int depart, int nombre ) {
+	public int recupererIndexHeures(int depart, int nombre) {
 		int i = 0;
-		while (depart != nombre){
+		while (depart != nombre) {
 			i++;
 			depart++;
 		}
 		return i;
 	}
 
-	class StateListener implements ActionListener{
+	class StateListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("source : " + ((JRadioButton)e.getSource()).getText() + " - etat : " + ((JRadioButton)e.getSource()).isSelected());
+			System.out.println("source : "
+					+ ((JRadioButton) e.getSource()).getText() + " - etat : "
+					+ ((JRadioButton) e.getSource()).isSelected());
 		}
 	}
 
 	private void parametrerJPanel(JPanel p, int l, int h, Color c) {
 		p.setBackground(c);
-		p.setPreferredSize(new Dimension(l,h));
+		p.setPreferredSize(new Dimension(l, h));
 	}
 
-	private void parametrerJLabelEtJTextField(JLabel la, Font f, JTextField tf, int h, int l) {
+	private void parametrerJLabelEtJTextField(JLabel la, Font f, JTextField tf,
+			int h, int l) {
 		la.setFont(f);
 		tf.setPreferredSize(new Dimension(h, l));
 	}
@@ -604,30 +670,30 @@ public class FicheEleve extends JPanel {
 		Date date = new Date();
 		SimpleDateFormat dateStandard = new SimpleDateFormat("dd/MM/yyyy");
 
-		for(int i=1; i<32; i++) {
+		for (int i = 1; i < 32; i++) {
 			j.addItem(i);
 
-			if(dateStandard.format(date).substring(0,2).equals(""+i+""))
-				j.setSelectedIndex(i-1);
+			if (dateStandard.format(date).substring(0, 2).equals("" + i + ""))
+				j.setSelectedIndex(i - 1);
 		}
 		j.setPreferredSize(new Dimension(50, 20));
-		for(int i=1; i<13; i++) {
+		for (int i = 1; i < 13; i++) {
 			m.addItem(i);
-			if((dateStandard.format(date).substring(3,5).equals("0"+i+""))||(dateStandard.format(date).substring(3,5).equals(""+i+"")))
-				m.setSelectedIndex(i-1);
+			if ((dateStandard.format(date).substring(3, 5).equals("0" + i + ""))
+					|| (dateStandard.format(date).substring(3, 5).equals("" + i
+							+ "")))
+				m.setSelectedIndex(i - 1);
 		}
 		m.setPreferredSize(new Dimension(50, 20));
-		for(int i=1900; i<=2011; i++) {
+		for (int i = 1900; i <= 2011; i++) {
 			a.addItem(i);
-			if(dateStandard.format(date).substring(6,10).equals(""+i+""))
-				a.setSelectedIndex(i-1900);
+			if (dateStandard.format(date).substring(6, 10).equals("" + i + ""))
+				a.setSelectedIndex(i - 1900);
 
 		}
 		a.setPreferredSize(new Dimension(60, 20));
 
 	}
-
-
 
 	public DataFicheEleve1 getDatafiche1() {
 		return dataFiche1;
@@ -636,19 +702,22 @@ public class FicheEleve extends JPanel {
 	public JButton getBoutonAjouter() {
 		return boutonAjouter;
 	}
+
 	public JTable getTableau() {
 		return tableau;
 	}
+
 	public ArrayList<String>[] getListeFormation() {
 		return listeFormation;
 	}
+
 	public ArrayList<String> getComboData() {
 		return comboData;
 	}
 
 	public DataFicheEleve1 getDataFiche1() {
 		return dataFiche1;
-	}        
+	}
 
 	public TableModel2 getzModel() {
 		return zModel;
@@ -673,4 +742,4 @@ public class FicheEleve extends JPanel {
 	public void setIdEleve(int idEleve) {
 		this.idEleve = idEleve;
 	}
-}
+}

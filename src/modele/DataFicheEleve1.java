@@ -15,18 +15,18 @@ public class DataFicheEleve1 {
 
 	public DataFicheEleve1() {}
 
-	public KListObject<KELEVE> recupererListe() {
+	public KListObject<KEleve> recupererListe() {
 
-		KListObject<KELEVE> Kliste = new KListObject<KELEVE>(KELEVE.class);
+		KListObject<KEleve> Kliste = new KListObject<KEleve>(KEleve.class);
 		Kliste.loadFromDb(db);
 
 		return Kliste;
 
 	}
 	
-	public KELEVE recupererProfil(int id) {
+	public KEleve recupererProfil(int id) {
 	
-		KELEVE Eleve = new KELEVE();
+		KEleve Eleve = new KEleve();
 		Eleve.setId(id+1);
 	
 		try {

@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import KClass.KOBJECTIF;
+import KClass.KObjectif;
 
 import net.ko.kobject.KListObject;
 
@@ -18,7 +18,7 @@ public class EcouteurEtape implements ActionListener, MouseListener{
 	private int numEtape;
 	private Etape fenetre;
 	private DataEtape de;
-	private KListObject<KOBJECTIF> listObj;
+	private KListObject<KObjectif> listObj;
 	
 	public EcouteurEtape(int numEtape, Etape f){
 		// Initialisation des variables.

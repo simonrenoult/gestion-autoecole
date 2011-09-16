@@ -20,7 +20,7 @@ public class Test_autoecole_KReponse {
 		KCache.loadAllCache();
 		KSession ks=new KSession();
 		try {
-			ks.connect(new KDBMysql("localhost", "admin", "admin", "autoecole"));
+			ks.connect(new KDBMysql("localhost", "root", "", "autoecole"));
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
