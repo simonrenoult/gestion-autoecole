@@ -1,4 +1,4 @@
-package KClass;
+package kernel.tests;
 
 import net.ko.kobject.KListObject;
 import net.ko.kobject.KObject;

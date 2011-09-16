@@ -15,7 +15,7 @@ public class bdd {
 		
 	public static KDBMysql connexion(){
 		
-		KDBMysql db = new KDBMysql("localhost","root","","autoecole");
+		KDBMysql db = new KDBMysql("localhost","root","ueg7q7t","autoecole");
 		
 		try {
 			db.connect();
