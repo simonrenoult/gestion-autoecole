@@ -22,7 +22,7 @@ public class DataEtape {
 	
 	public KListObject<KObjectif> chargerObjectif(int numEtape){
 		KListObject<KObjectif> objEtape = new KListObject<KObjectif>(KObjectif.class);
-		objEtape.loadFromDb(db, "select * from OBJECTIF where idEtape = '"+numEtape+"'");
+		objEtape.loadFromDb(db, "select * from objectif where idEtape = '"+numEtape+"'");
 		
 		return objEtape;
 	}

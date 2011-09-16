@@ -16,7 +16,7 @@ public class DataInterroOrale {
 		KListObject<KCategorie_i_o> list = new KListObject<KCategorie_i_o>(
 				KCategorie_i_o.class);
 
-		list.loadFromDb(db, "select * from CATEGORIE_I_O order by id");
+		list.loadFromDb(db, "select * from categorie_i_o order by id");
 
 		return list;
 	}
@@ -27,7 +27,7 @@ public class DataInterroOrale {
 				KObjectif.class);
 
 		list.loadFromDb(db,
-				"select * from OBJECTIF where idEtape = 5 and idCATEGORIE = "
+				"select * from objectif where idEtape = 5 and idCATEGORIE = "
 						+ categorie + " order by id");
 		System.out.println(list);
 		return list;
