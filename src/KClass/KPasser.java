@@ -15,7 +15,7 @@ private int NB_H_TH;
 public KPasser() {
 	super();
 	keyFields="idSYNTHESE,idELEVE";
-	tableName="passer";
+	tableName="PASSER";
 	//
 
 }

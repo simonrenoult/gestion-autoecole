@@ -13,7 +13,7 @@ private java.sql.Date DATE_PASSAGE;
 public KSuperviser() {
 	super();
 	keyFields="idEVALUATION_CONTROLE,idMONITEUR";
-	tableName="superviser";
+	tableName="SUPERVISER";
 	//
 
 }

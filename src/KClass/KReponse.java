@@ -14,7 +14,7 @@ private int idETAT_CHAMPS;
 public KReponse() {
 	super();
 	keyFields="idELEVE,idSYNTHESE,idETAT_CHAMPS,idQUESTIONS_SYNTHESE";
-	tableName="reponse";
+	tableName="REPONSE";
 	//
 
 }

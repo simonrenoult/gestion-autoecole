@@ -11,7 +11,7 @@ private String LIBELLE_SYNTHESE;
 public KSynthese() {
 	super();
 	keyFields="id";
-	tableName="synthese";
+	tableName="SYNTHESE";
 	//
 
 }

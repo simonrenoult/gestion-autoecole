@@ -10,7 +10,7 @@ private String LIBELLE_FORMATION;
 public KFormation() {
 	super();
 	keyFields="id";
-	tableName="formation";
+	tableName="FORMATION";
 	//
 
 }

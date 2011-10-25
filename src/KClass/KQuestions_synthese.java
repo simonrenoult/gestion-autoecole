@@ -10,7 +10,7 @@ private String LIBELLE_QUESTION_SYNTHESE;
 public KQuestions_synthese() {
 	super();
 	keyFields="id";
-	tableName="questions_synthese";
+	tableName="QUESTIONS_SYNTHESE";
 	//
 
 }

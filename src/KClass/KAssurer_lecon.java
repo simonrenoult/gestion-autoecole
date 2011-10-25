@@ -16,7 +16,7 @@ private int HEURE_LECON;
 public KAssurer_lecon() {
 	super();
 	keyFields="idMONITEUR,idELEVE";
-	tableName="assurer_lecon";
+	tableName="ASSURER_LECON";
 	//
 
 }

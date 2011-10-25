@@ -14,7 +14,7 @@ private String OBSERVATION_OBJECTIF;
 public KRealiser() {
 	super();
 	keyFields="idOBJECTIF,idELEVE";
-	tableName="realiser";
+	tableName="REALISER";
 	//
 
 }

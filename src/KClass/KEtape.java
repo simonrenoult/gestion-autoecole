@@ -10,7 +10,7 @@ private String LIBELLE_ETAPE;
 public KEtape() {
 	super();
 	keyFields="id";
-	tableName="etape";
+	tableName="ETAPE";
 	//
 
 }

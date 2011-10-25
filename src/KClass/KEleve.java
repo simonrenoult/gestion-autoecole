@@ -30,7 +30,7 @@ private int TEST_VU_ELEVE;
 public KEleve() {
 	super();
 	keyFields="id";
-	tableName="eleve";
+	tableName="ELEVE";
 	//
 
 }

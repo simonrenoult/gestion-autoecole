@@ -10,7 +10,7 @@ private String LIBELLE_CATEGORIE;
 public KCategorie_i_o() {
 	super();
 	keyFields="id";
-	tableName="categorie_i_o";
+	tableName="CATEGORIE_I_O";
 	//
 
 }

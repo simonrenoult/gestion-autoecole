@@ -11,7 +11,7 @@ private long id_COMPTE_UTILISATEUR;
 public KCompte() {
 	super();
 	keyFields="id";
-	tableName="compte";
+	tableName="COMPTE";
 	//
 
 }

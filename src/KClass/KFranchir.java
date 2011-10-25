@@ -12,7 +12,7 @@ private java.sql.Date DATE_FRANCHISSEMENT_ETAPE;
 public KFranchir() {
 	super();
 	keyFields="idETAPE,idELEVE";
-	tableName="franchir";
+	tableName="FRANCHIR";
 	//
 
 }

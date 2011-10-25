@@ -10,7 +10,7 @@ private String LIBELLE_EVALUATION_CONTROLE;
 public KEvaluation_controle() {
 	super();
 	keyFields="id";
-	tableName="evaluation_controle";
+	tableName="EVALUATION_CONTROLE";
 	//
 
 }

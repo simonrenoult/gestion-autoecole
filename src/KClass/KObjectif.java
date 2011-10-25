@@ -12,7 +12,7 @@ private String LIBELLE_OBJECTIF;
 public KObjectif() {
 	super();
 	keyFields="id";
-	tableName="objectif";
+	tableName="OBJECTIF";
 	//
 
 }

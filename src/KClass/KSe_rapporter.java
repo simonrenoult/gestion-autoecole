@@ -11,7 +11,7 @@ private int idEVALUATION_CONTROLE;
 public KSe_rapporter() {
 	super();
 	keyFields="idETAPE,idEVALUATION_CONTROLE";
-	tableName="se_rapporter";
+	tableName="SE_RAPPORTER";
 	//
 
 }

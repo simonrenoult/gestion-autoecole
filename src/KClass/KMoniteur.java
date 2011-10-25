@@ -11,7 +11,7 @@ private String PRENOM_MONITEUR;
 public KMoniteur() {
 	super();
 	keyFields="id";
-	tableName="moniteur";
+	tableName="MONITEUR";
 	//
 
 }

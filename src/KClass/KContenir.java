@@ -11,7 +11,7 @@ private int idETAPE;
 public KContenir() {
 	super();
 	keyFields="idETAPE,idFORMATION";
-	tableName="contenir";
+	tableName="CONTENIR";
 	//
 
 }

@@ -10,7 +10,7 @@ private String LIBELLE_ETAT_CHAMPS;
 public KChamps() {
 	super();
 	keyFields="id";
-	tableName="champs";
+	tableName="CHAMPS";
 	//
 
 }
