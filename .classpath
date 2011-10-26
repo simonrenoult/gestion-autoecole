@@ -2,7 +2,12 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+<<<<<<< HEAD
 	<classpathentry kind="lib" path="/home/g4llic4/Projets/app-dev/gestion_autoecole/lib/koCreator-1.0.0.13-beta1.jar"/>
 	<classpathentry kind="lib" path="/home/g4llic4/Projets/app-dev/gestion_autoecole/lib/mysql-connector-java-5.1.17-bin.jar"/>
+=======
+	<classpathentry kind="lib" path="/home/g4llic4/projets/app-dev/gestion_autoecole/lib/koCreator-1.0.0.13-beta1.jar"/>
+	<classpathentry kind="lib" path="/media/data_local/projets/app-dev/gestion_autoecole/lib/mysql-connector-java-5.1.17-bin.jar"/>
+>>>>>>> 09cb3fdf312ad3908497561d2152a38b6192971b
 	<classpathentry kind="output" path="bin"/>
 </classpath>
