@@ -3,21 +3,27 @@ package KClass;
 import net.ko.kobject.KListObject;
 import net.ko.kobject.KObject;
 /**
-* Classe KSynthese
+* Classe KSYNTHESE
 */
 public class KSynthese extends KObject {
-private int idETAPE;
+private long ID_SYNTHESE;
+private int ID_ETAPE;
 private String LIBELLE_SYNTHESE;
 public KSynthese() {
 	super();
-	keyFields="id";
+	keyFields="ID_SYNTHESE";
 	tableName="SYNTHESE";
 	//
 
 }
-public int getIdETAPE(){
-	//return the value of idETAPE
-	return this.idETAPE;
+public long getID_SYNTHESE(){
+	//return the value of ID_SYNTHESE
+	return this.ID_SYNTHESE;
+}
+
+public int getID_ETAPE(){
+	//return the value of ID_ETAPE
+	return this.ID_ETAPE;
 }
 
 public String getLIBELLE_SYNTHESE(){
@@ -25,9 +31,13 @@ public String getLIBELLE_SYNTHESE(){
 	return this.LIBELLE_SYNTHESE;
 }
 
-public void setIdETAPE(int aIdETAPE){
-	//set the value of idETAPE
-	this.idETAPE=aIdETAPE;
+public void setID_SYNTHESE(long aID_SYNTHESE){
+	//set the value of ID_SYNTHESE
+	this.ID_SYNTHESE=aID_SYNTHESE;
+}
+public void setID_ETAPE(int aID_ETAPE){
+	//set the value of ID_ETAPE
+	this.ID_ETAPE=aID_ETAPE;
 }
 public void setLIBELLE_SYNTHESE(String aLIBELLE_SYNTHESE){
 	//set the value of LIBELLE_SYNTHESE
@@ -35,6 +45,6 @@ public void setLIBELLE_SYNTHESE(String aLIBELLE_SYNTHESE){
 }
 @Override
 public String toString() {
-	return " [idETAPE] = " + idETAPE+" [LIBELLE_SYNTHESE] = " + LIBELLE_SYNTHESE;
+	return " [ID_SYNTHESE] = " + ID_SYNTHESE+" [ID_ETAPE] = " + ID_ETAPE+" [LIBELLE_SYNTHESE] = " + LIBELLE_SYNTHESE;
 }
 }

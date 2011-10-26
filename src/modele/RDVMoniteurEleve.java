@@ -26,7 +26,7 @@ public class RDVMoniteurEleve {
 		System.out.println(Kliste);
 
 		for (int i = 0; i < Kliste.count(); i++) {
-			if (Kliste.get(i).getIdELEVE() != idEleve) {
+			if (Kliste.get(i).getID_ELEVE() != idEleve) {
 				Kliste.delete(i);
 				i--;
 			}

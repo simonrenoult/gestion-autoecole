@@ -3,38 +3,38 @@ package KClass;
 import net.ko.kobject.KListObject;
 import net.ko.kobject.KObject;
 /**
-* Classe KContenir
+* Classe KCONTENIR
 */
 public class KContenir extends KObject {
-private int idFORMATION;
-private int idETAPE;
+private int ID_FORMATION;
+private int ID_ETAPE;
 public KContenir() {
 	super();
-	keyFields="idETAPE,idFORMATION";
+	keyFields="ID_ETAPE,ID_FORMATION";
 	tableName="CONTENIR";
 	//
 
 }
-public int getIdFORMATION(){
-	//return the value of idFORMATION
-	return this.idFORMATION;
+public int getID_FORMATION(){
+	//return the value of ID_FORMATION
+	return this.ID_FORMATION;
 }
 
-public int getIdETAPE(){
-	//return the value of idETAPE
-	return this.idETAPE;
+public int getID_ETAPE(){
+	//return the value of ID_ETAPE
+	return this.ID_ETAPE;
 }
 
-public void setIdFORMATION(int aIdFORMATION){
-	//set the value of idFORMATION
-	this.idFORMATION=aIdFORMATION;
+public void setID_FORMATION(int aID_FORMATION){
+	//set the value of ID_FORMATION
+	this.ID_FORMATION=aID_FORMATION;
 }
-public void setIdETAPE(int aIdETAPE){
-	//set the value of idETAPE
-	this.idETAPE=aIdETAPE;
+public void setID_ETAPE(int aID_ETAPE){
+	//set the value of ID_ETAPE
+	this.ID_ETAPE=aID_ETAPE;
 }
 @Override
 public String toString() {
-	return " [idFORMATION] = " + idFORMATION+" [idETAPE] = " + idETAPE;
+	return " [ID_FORMATION] = " + ID_FORMATION+" [ID_ETAPE] = " + ID_ETAPE;
 }
 }

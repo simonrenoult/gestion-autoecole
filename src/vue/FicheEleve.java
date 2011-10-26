@@ -456,14 +456,14 @@ public class FicheEleve extends JPanel {
 					listeFormation[i]
 							.add(""
 									+ rdv.getListeAssurerLecon().get(j)
-											.getDATE_LECON());
+											.getDATE_AGENDA());
 				}
 				break;
 			case 2:
 				for (int j = 0; j < rdv.getListeAssurerLecon().count(); j++) {
 					listeFormation[i].add(""
 							+ rdv.getListeAssurerLecon().get(j)
-									.getHEURE_LECON());
+									.getHEURE());
 				}
 				break;
 			case 3:
@@ -478,7 +478,7 @@ public class FicheEleve extends JPanel {
 					listeFormation[i]
 							.add(""
 									+ rdv.getListeAssurerLecon().get(j)
-											.getIdMONITEUR());
+											.getID_MONITEUR());
 				}
 				break;
 			case 5:
@@ -549,7 +549,7 @@ public class FicheEleve extends JPanel {
 			// etrangere sur l'eleve.
 			KMoniteur monit = new KMoniteur();
 			DataMoniteur DataMoniteur = new DataMoniteur();
-			monit = DataMoniteur.recupererProfilMoniteur(Eleve.getIdMONITEUR());
+			monit = DataMoniteur.recupererProfilMoniteur(Eleve.getID_MONITEUR());
 			formateur.setSelectedIndex((Integer) monit.getId() - 1);
 
 			// chargement des dates.
