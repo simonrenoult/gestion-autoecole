@@ -1,0 +1,35 @@
+------------Application----------
+
+Fiche Eleve (Alexis)
+    ?   Livret d'apprentissage N.E.P.H
+    ?   Responsable formation
+    =>  Données personnelles
+    =>  Tableau des leçons
+    =>  Contraintes d'intégrité
+    
+Fiches Etapes (Simon)
+    =>  Synthèses
+    =>  Contraintes d'intégrité
+    
+Examen Blanc (Louis-Axel)
+    =>  A supprimer de l'application
+    =>  Contraintes d'intégrité
+    
+Gestion Moniteur (?)
+    =>  Contraintes d'intégrité
+    
+Interrogation Orale (Louis-Axel)
+    =>  MVC
+    =>  Contraintes d'intégrité
+       
+----------------Menu-------------    
+
+Fichier (Florent)
+    =>  Import/Export
+    =>  Impression
+    
+Eleves (Florent)
+    =>  Fonction de recherche
+    
+A propos (Florent)
+    =>  Ajouter menu "?"
