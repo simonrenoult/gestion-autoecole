@@ -53,6 +53,7 @@ public class Synthese extends JPanel
 	}
 	
 	//------CONTENU-GAUCHE------//
+	@SuppressWarnings("unused")
 	private Integer initSynthese (int numEtape, DataEtape donnees_etape)
 	{
 		//Contient la synthese 1 et 2

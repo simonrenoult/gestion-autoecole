@@ -34,85 +34,10 @@ public class JtableAssurerLeconModel extends AbstractTableModel
 		
 	}
 	
+	
 	// ----------------------------------------- //
-	// ---------------ACCESSEURS---------------- //
+	// -----------------METHODES---------------- //
 	// ----------------------------------------- //
-	
-	/**
-	 * Retourne le titre de la colonne à l'indice spécifé
-	 */
-	public String getColumnName(int col)
-	{
-		return this.title[col];
-	}
-	
-	/**
-	 * Retourne le nombre de colonnes
-	 */
-	public int getColumnCount()
-	{
-		
-		return this.title.length;
-	}
-	
-	/**
-	 * Retourne le nombre de lignes
-	 */
-	public int getRowCount()
-	{
-		try
-		{
-			return this.data.length;
-		}
-		catch (NullPointerException e)
-		{}
-		return 0;
-	}
-	
-	/**
-	 * Retourne la valeur à l'emplacement spécifié
-	 */
-	public Object getValueAt(int row, int col)
-	{
-		return this.data[row][col];
-	}
-	
-	/**
-	 * Défini la valeur à l'emplacement spécifié
-	 */
-	public void setValueAt(Object value, int row, int col)
-	{
-		// On interdit la modification sur certaine colonne !
-		if (!this.getColumnName(col).equals("Lecon") && !this.getColumnName(col).equals("Suppression"))
-			this.data[row][col] = value;
-	}
-	
-	/**
-	 * Retourne la classe de la donnée de la colonne
-	 * 
-	 * @param col
-	 */
-	@SuppressWarnings("static-access")
-	public Class getColumnClass(int col)
-	{
-		// On retourne le type de la cellule à la colonne demandée
-		// On se moque de la ligne puisque les données sur chaque ligne sont les
-		// mêmes
-		// On choisit donc la première ligne
-		
-		// System.out.println(col+data[0][col].getClass().toString());
-		try
-		{
-			return this.data[0][col].getClass();
-		}
-		catch (NullPointerException e)
-		{
-			new JOptionPane().showMessageDialog(null , "Veuillez selectionner un élève" , "Erreur" ,
-					JOptionPane.ERROR_MESSAGE);
-			return null;
-		}
-		
-	}
 	
 	/**
 	 * Méthode permettant de retirer une ligne du tableau
@@ -121,7 +46,6 @@ public class JtableAssurerLeconModel extends AbstractTableModel
 	 */
 	public void removeRow(int position)
 	{
-		
 		int indice = 0, indice2 = 0, nbRow = this.getRowCount() - 1, nbCol = this.getColumnCount();
 		Object temp[][] = new Object [nbRow] [nbCol];
 		
@@ -170,7 +94,6 @@ public class JtableAssurerLeconModel extends AbstractTableModel
 		this.fireTableDataChanged();
 	}
 	
-	@SuppressWarnings("deprecation")
 	public boolean isCellEditable(int row, int col)
 	{
 		
@@ -199,6 +122,45 @@ public class JtableAssurerLeconModel extends AbstractTableModel
 		return false;
 	}
 	
+	// ----------------------------------------- //
+	// ----------------LISTENERS---------------- //
+	// ----------------------------------------- //
+	
+	// permet de rafraichir la fenetre e chaque action "bouger"
+	public void actionPerformed(ActionEvent arg0)
+	{
+		
+	}
+	
+	// ----------------------------------------- //
+	// ---------------ACCESSEURS---------------- //
+	// ----------------------------------------- //
+	
+	/**
+	 * Retourne la classe de la donnée de la colonne
+	 * 
+	 * @param col
+	 */
+	@SuppressWarnings({ "static-access", "unchecked", "rawtypes" })
+	public Class getColumnClass(int col)
+	{
+		// On retourne le type de la cellule à la colonne demandée
+		// On se moque de la ligne puisque les données sur chaque ligne sont les
+		// mêmes
+		// On choisit donc la première ligne
+		
+		try
+		{
+			return this.data[0][col].getClass();
+		}
+		catch (NullPointerException e)
+		{
+			new JOptionPane().showMessageDialog(null , "Veuillez selectionner un élève" , "Erreur" ,
+					JOptionPane.ERROR_MESSAGE);
+			return null;
+		}
+	}
+	
 	/**
 	 * @return the data
 	 */
@@ -213,12 +175,6 @@ public class JtableAssurerLeconModel extends AbstractTableModel
 	public String [] getTitle()
 	{
 		return title;
-	}
-	
-	// permet de rafraichir la fenetre e chaque action "bouger"
-	public void actionPerformed(ActionEvent arg0)
-	{
-		
 	}
 	
 	/**
@@ -237,9 +193,58 @@ public class JtableAssurerLeconModel extends AbstractTableModel
 		return serialVersionUID;
 	}
 	
+	/**
+	 * Retourne le titre de la colonne à l'indice spécifé
+	 */
+	public String getColumnName(int col)
+	{
+		return this.title[col];
+	}
+	
+	/**
+	 * Retourne le nombre de colonnes
+	 */
+	public int getColumnCount()
+	{
+		
+		return this.title.length;
+	}
+	
+	/**
+	 * Retourne le nombre de lignes
+	 */
+	public int getRowCount()
+	{
+		try
+		{
+			return this.data.length;
+		}
+		catch (NullPointerException e)
+		{}
+		return 0;
+	}
+	
+	/**
+	 * Retourne la valeur à l'emplacement spécifié
+	 */
+	public Object getValueAt(int row, int col)
+	{
+		return this.data[row][col];
+	}
+		
 	// ----------------------------------------- //
 	// ----------------MUTATEURS---------------- //
 	// ----------------------------------------- //
+	
+	/**
+	 * Défini la valeur à l'emplacement spécifié
+	 */
+	public void setValueAt(Object value, int row, int col)
+	{
+		// On interdit la modification sur certaine colonne !
+		if (!this.getColumnName(col).equals("Lecon") && !this.getColumnName(col).equals("Suppression"))
+			this.data[row][col] = value;
+	}
 	
 	/**
 	 * @param data
@@ -258,7 +263,7 @@ public class JtableAssurerLeconModel extends AbstractTableModel
 	{
 		this.title = title;
 	}
-		
+	
 	/**
 	 * @param ligneRef
 	 *            the ligneRef to set
