@@ -36,11 +36,18 @@ import vue.FicheEleve;
 
 public class EcouteurFicheEleve implements ActionListener, ItemListener, FocusListener{
 	
+	// ----------------------------------------- //
+	// ----------------ATTRIBUTS---------------- //
+	// ----------------------------------------- //
+	
 	FicheEleve ficheEleve;
 	private Hashtable correspondanceMoniteur = new Hashtable();
 	private String messageToolTip="";
 	
-////////////////////////////////////////////////////////////CONSTRUCTEURS
+	// ----------------------------------------- //
+	// --------------CONSTRUCTEURS-------------- //
+	// ----------------------------------------- //
+	
 	public EcouteurFicheEleve(FicheEleve fiche) {
 		ficheEleve = fiche;
 		recupererListeMoniteur();
@@ -50,7 +57,10 @@ public class EcouteurFicheEleve implements ActionListener, ItemListener, FocusLi
 		
 		
 	}
-/////////////////////////////////////////////////////////////METHODES	
+
+	// ----------------------------------------- //
+	// -----------------METHODES---------------- //
+	// ----------------------------------------- //
 	
 	/*
 	 * Permet de remettre les dates à la date actuelle.
