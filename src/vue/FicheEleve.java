@@ -8,7 +8,7 @@ import vue.JTableAssurerLecon.JTableAssurerLecon;
 
 
 import controleur.EcouteurFicheEleve;
-import modele.DataFicheEleve1;
+import modele.DataFicheEleve;
 import modele.TableauLecon;
 
 import java.awt.*;
@@ -18,7 +18,7 @@ import java.util.Date;
 @SuppressWarnings("serial")
 public class FicheEleve extends JPanel {
 
-	private DataFicheEleve1 dataFiche1 = new DataFicheEleve1();
+	private DataFicheEleve dataFiche1 = new DataFicheEleve();
 	private TableauLecon tableauLecon = new TableauLecon();
 	private int idEleve=0;
 	private int idMoniteur=0;
@@ -512,14 +512,14 @@ public class FicheEleve extends JPanel {
 	/**
 	 * @return the dataFiche1
 	 */
-	public DataFicheEleve1 getDataFiche1() {
+	public DataFicheEleve getDataFiche1() {
 		return dataFiche1;
 	}
 
 	/**
 	 * @param dataFiche1 the dataFiche1 to set
 	 */
-	public void setDataFiche1(DataFicheEleve1 dataFiche1) {
+	public void setDataFiche1(DataFicheEleve dataFiche1) {
 		this.dataFiche1 = dataFiche1;
 	}
 

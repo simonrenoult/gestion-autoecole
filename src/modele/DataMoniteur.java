@@ -1,126 +1,148 @@
+
 package modele;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.regex.Pattern;
-
-import net.ko.creator.KernelCreator;
 import net.ko.kobject.KListObject;
-import net.ko.ksql.KDBMysql;
 import KClass.*;
 
-public class DataMoniteur {
-
-	private Boolean [] TableauChampSaisieOk = null;
-
-////////////////////////////////////CONSTRUCTEUR
-	public DataMoniteur() {
+public class DataMoniteur
+{
+	// ----------------------------------------- //
+	// ----------------ATTRIBUTS---------------- //
+	// ----------------------------------------- //
+	
+	private Boolean []	TableauChampSaisieOk	= null;
+	
+	// ----------------------------------------- //
+	// --------------CONSTRUCTEURS-------------- //
+	// ----------------------------------------- //
+	
+	public DataMoniteur()
+	{
 		TableauChampSaisieOk = new Boolean [2];
-		for (int i = 0; i< TableauChampSaisieOk.length; i++){
+		for (int i = 0; i < TableauChampSaisieOk.length; i++)
+		{
 			TableauChampSaisieOk[i] = false;
 		}
 	}
-
-///////////////////////////////////////////////////////////////METHODES
+	
+	// ----------------------------------------- //
+	// -----------------METHODES---------------- //
+	// ----------------------------------------- //
 	
 	/*
 	 * permet de recuprer la liste des moniteur selon leur nom par ordre
 	 */
-	public KListObject<KMoniteur> recupererListe() {
-
-		KListObject<KMoniteur> Kliste = new KListObject<KMoniteur>(
-				KMoniteur.class);
-		Kliste.loadFromDb(bdd.db,"Select * from moniteur order by nom_moniteur asc");
-
-		return Kliste;
-
+	public KListObject<KMoniteur> recupererListe()
+	{
+		KListObject<KMoniteur> Kliste = new KListObject<KMoniteur>(KMoniteur.class);
+		Kliste.loadFromDb(bdd.db , "Select * from moniteur order by nom_moniteur asc");
+		
+		return Kliste;		
 	}
 	
 	/*
 	 * recupere un profil de moniteur
 	 */
-	public KMoniteur recupererProfilMoniteur(int id) {
-
+	public KMoniteur recupererProfilMoniteur(int id)
+	{
 		KMoniteur moniteur = new KMoniteur();
 		moniteur.setId(id);
-		try {
+		try
+		{
 			moniteur.loadOne(bdd.db);
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
+		}
+		catch (SecurityException e)
+		{
 			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
+		}
+		catch (IllegalArgumentException e)
+		{
 			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		}
+		catch (SQLException e)
+		{
 			e.printStackTrace();
-		} catch (NoSuchFieldException e) {
-			// TODO Auto-generated catch block
+		}
+		catch (NoSuchFieldException e)
+		{
 			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
+		}
+		catch (IllegalAccessException e)
+		{
 			e.printStackTrace();
 		}
 		return moniteur;
 	}
-
+	
 	/*
 	 * Ajout d'un moniteur en BDD
 	 */
-	public boolean ajouterMoniteur(KMoniteur moniteur,int id) {
+	public boolean ajouterMoniteur(KMoniteur moniteur, int id)
+	{
 		
 		moniteur.setId(id);
 		return moniteur.add(bdd.db);
 	}
-
+	
 	/*
 	 * suppression d'un moniteur en BDD
 	 */
-	public void supprimerMoniteur(Object id) {
-
+	public void supprimerMoniteur(Object id)
+	{
+		
 		KMoniteur moniteur = new KMoniteur();
 		moniteur.setId(id);
-
-		try {
+		
+		try
+		{
 			moniteur.loadOne(bdd.db);
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoSuchFieldException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
+		}
+		catch (SecurityException e)
+		{
 			e.printStackTrace();
 		}
-		System.out.println(moniteur);
-		moniteur.delete(bdd.db);
-
+		catch (IllegalArgumentException e)
+		{
+			e.printStackTrace();
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		catch (NoSuchFieldException e)
+		{
+			e.printStackTrace();
+		}
+		catch (IllegalAccessException e)
+		{
+			e.printStackTrace();
+		}
+		
+		moniteur.delete(bdd.db);		
 	}
-
+	
 	/*
 	 * MAJ d'un moniteur en BDD
 	 */
-	public boolean majMoniteur(KMoniteur moniteur) {
-
-		return moniteur.update(bdd.db);
-
+	public boolean majMoniteur(KMoniteur moniteur)
+	{
+		return moniteur.update(bdd.db);	
 	}
-
+	
 	/*
 	 * Verfie que tous les champs sont au bon format
 	 */
-	public boolean tableauChampSaisieTrue(){
-		boolean b= true;
-		for(int i = 0; i<TableauChampSaisieOk.length;i++ ){
-			if(!TableauChampSaisieOk[i]){
-				b= false;
+	public boolean tableauChampSaisieTrue()
+	{
+		boolean b = true;
+		
+		for (int i = 0; i < TableauChampSaisieOk.length; i++)
+		{
+			if (!TableauChampSaisieOk[i])
+			{
+				b = false;
 			}
 		}
 		
@@ -130,50 +152,69 @@ public class DataMoniteur {
 	/*
 	 * Message renvoyée lors d'une erreur
 	 */
-	public Object messageRenvoyeeUI(int num) {
-		switch(num){
-		case 5 : return "-Echec de l'opération : mise à jour d'un moniteur dans base de donnée\n";
-			
-		case 4 : return "-Succès de l'opération : mise à jour d'un moniteur dans la base de donnée\n";
-		
-		case 3 : return "-Echec de l'opération : ajout d'un moniteur en base de donnée\n";
-		
-		case 2 : return "-Succès de l'opération : ajout d'un moniteur en base de donnée\n";
-		
-		case 1 : return "";
-		
-		case -5 : return "-Tous les champs n'ont pas été rempli correctement. Tous les champs symbolisé par * doivent être rempli\n";
+	public Object messageRenvoyeeUI(int num)
+	{
+		switch (num)
+		{
+			case 5:
+				return "-Echec de l'opération : mise à jour d'un moniteur dans base de donnée\n";
+				
+			case 4:
+				return "-Succès de l'opération : mise à jour d'un moniteur dans la base de donnée\n";
+				
+			case 3:
+				return "-Echec de l'opération : ajout d'un moniteur en base de donnée\n";
+				
+			case 2:
+				return "-Succès de l'opération : ajout d'un moniteur en base de donnée\n";
+				
+			case 1:
+				return "";
+				
+			case -5:
+				return "-Tous les champs n'ont pas été rempli correctement. Tous les champs symbolisé par * doivent être rempli\n";
 		}
 		
 		return "";
 	}
 	
-	///////REGEX
-	public boolean regexTraitementNom(String chaine){
-		return Pattern.matches("^[A-Za-z'-|\\s]{0,19}+$",chaine) && (!chaine.isEmpty());
+	// ----------------------------------------- //
+	// ------------------REGEXP----------------- //
+	// ----------------------------------------- //
+	
+	public boolean regexTraitementNom(String chaine)
+	{
+		return Pattern.matches("^[A-Za-z'-|\\s]{0,19}+$" , chaine) && (!chaine.isEmpty());
 	}
 	
-	public boolean regexTraitementPrenom(String chaine){
-		return Pattern.matches("^[A-Za-z'-|\\s]{0,19}+$",chaine) && (!chaine.isEmpty());
+	public boolean regexTraitementPrenom(String chaine)
+	{
+		return Pattern.matches("^[A-Za-z'-|\\s]{0,19}+$" , chaine) && (!chaine.isEmpty());
 	}
 	
+	// ----------------------------------------- //
+	// ---------------ACCESSEURS---------------- //
+	// ----------------------------------------- //
 	
-//////////////////////////////////////////////////////////////ACCESSEURS
-
 	/**
 	 * @return the tableauChampSaisieOk
 	 */
-	public Boolean[] getTableauChampSaisieOk() {
+	public Boolean [] getTableauChampSaisieOk()
+	{
 		return TableauChampSaisieOk;
 	}
-
+	
+	// ----------------------------------------- //
+	// ----------------MUTATEURS---------------- //
+	// ----------------------------------------- //
+	
 	/**
-	 * @param tableauChampSaisieOk the tableauChampSaisieOk to set
+	 * @param tableauChampSaisieOk
+	 *            the tableauChampSaisieOk to set
 	 */
-	public void setTableauChampSaisieOk(Boolean[] tableauChampSaisieOk) {
+	public void setTableauChampSaisieOk(Boolean [] tableauChampSaisieOk)
+	{
 		TableauChampSaisieOk = tableauChampSaisieOk;
 	}
-
-	
 	
 }
