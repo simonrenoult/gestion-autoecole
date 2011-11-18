@@ -1,4 +1,6 @@
+
 package controleur;
+
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,67 +12,77 @@ import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.ArrayList;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-
 import com.sun.org.apache.xalan.internal.xsltc.runtime.Hashtable;
-
 import net.ko.kobject.KListObject;
-
 import modele.DataMoniteur;
 import vue.*;
 import KClass.*;
 
-public class EcouteurMoniteur implements MouseListener, ActionListener, KeyListener, WindowListener, FocusListener {
-
-	private FenetreMoniteur f;
-	private int idMoniteur = 0;
-	private DataMoniteur Datamoniteur = new DataMoniteur();
-	private Hashtable hashMoniteurRef = new Hashtable();
-	private Hashtable hashMoniteurVar = new Hashtable();
-	private String messageToolTip="";
-/////////////////////////////////////////////////////CONSTRUCTEUR
+public class EcouteurMoniteur implements MouseListener, ActionListener, KeyListener, WindowListener, FocusListener
+{
 	
-	public EcouteurMoniteur(FenetreMoniteur f) {
+	// ----------------------------------------- //
+	// ----------------ATTRIBUTS---------------- //
+	// ----------------------------------------- //
+	
+	private FenetreMoniteur	f;
+	private int				idMoniteur		= 0;
+	private DataMoniteur	Datamoniteur	= new DataMoniteur();
+	private Hashtable		hashMoniteurRef	= new Hashtable();
+	private Hashtable		hashMoniteurVar	= new Hashtable();
+	private String			messageToolTip	= "";
+	
+	// ----------------------------------------- //
+	// --------------CONSTRUCTEURS-------------- //
+	// ----------------------------------------- //
+	
+	public EcouteurMoniteur(FenetreMoniteur f)
+	{
 		this.f = f;
 		Datamoniteur = f.getDataMoniteur();
 		initialiserJlist();
 	}
 	
-
-//////////////////////////////////METHODES
+	// ----------------------------------------- //
+	// -----------------METHODES---------------- //
+	// ----------------------------------------- //
+	
 	/*
 	 * Recharge la Jlist avec une liste de moniteur.
 	 */
-	private void initialiserJlist(){
-		f.getListeMoniteur().setListData( recupererListeMoniteur().toArray());
+	private void initialiserJlist()
+	{
+		f.getListeMoniteur().setListData(recupererListeMoniteur().toArray());
 	}
 	
 	/*
 	 * recupere une liste de moniteur Nom-Prenom pour l'afficher
 	 */
-	private ArrayList<String> recupererListeMoniteur() {
+	private ArrayList<String> recupererListeMoniteur()
+	{
 		KListObject<KMoniteur> KListe = Datamoniteur.recupererListe();
 		ArrayList<String> listeMoniteur = new ArrayList<String>();
-		for (int i = 0; i < KListe.count(); i++) {
-			hashMoniteurRef.put(i,KListe.get(i).getId());
-			listeMoniteur.add(KListe.get(i).getPRENOM_MONITEUR().toLowerCase()
-					+ " " + KListe.get(i).getNOM_MONITEUR().toUpperCase());
+		for (int i = 0; i < KListe.count(); i++)
+		{
+			hashMoniteurRef.put(i , KListe.get(i).getId());
+			listeMoniteur.add(KListe.get(i).getPRENOM_MONITEUR().toLowerCase() + " "
+					+ KListe.get(i).getNOM_MONITEUR().toUpperCase());
 		}
 		return listeMoniteur;
 		
 	}
-
+	
 	/*
 	 * MAJ des labels graphiques pour identifier un moniteur
 	 */
-	private void ChargerDonneesMoniteur() {
+	private void ChargerDonneesMoniteur()
+	{
 		KMoniteur moniteur = Datamoniteur.recupererProfilMoniteur(idMoniteur);
-		if (moniteur != null){
+		if (moniteur != null)
+		{
 			f.getNom().setText(moniteur.getNOM_MONITEUR());
 			f.getPrenom().setText(moniteur.getPRENOM_MONITEUR());
 		}
@@ -79,80 +91,88 @@ public class EcouteurMoniteur implements MouseListener, ActionListener, KeyListe
 	/*
 	 * Permet de filtrer sur le nom, prenom du moniteur
 	 */
-	private void filtreRechercheNomPrenomEleve() {
+	private void filtreRechercheNomPrenomEleve()
+	{
 		ArrayList<String> listeMoniteur = new ArrayList<String>();
-		listeMoniteur =  recupererListeMoniteur();
-		//On met à jour la plus récente des listes de moniteurs
-		f.getListeMoniteur().setListData( listeMoniteur.toArray());
-		//on recupere la chaine frappé dans la barre recherche.
+		listeMoniteur = recupererListeMoniteur();
+		// On met à jour la plus récente des listes de moniteurs
+		f.getListeMoniteur().setListData(listeMoniteur.toArray());
+		// on recupere la chaine frappé dans la barre recherche.
 		String chaineRecherche = f.getRechercheM().getText();
-		//on recupere la taille de la liste de type JlistModel contenu dans la Jlist.
-		int tailleListeMoniteur =listeMoniteur.size();
+		// on recupere la taille de la liste de type JlistModel contenu dans la
+		// Jlist.
+		int tailleListeMoniteur = listeMoniteur.size();
 		hashMoniteurVar = hashMoniteurRef;
-		String tabMoniteurRecherche[] = new String[tailleListeMoniteur];
+		String tabMoniteurRecherche[] = new String [tailleListeMoniteur];
 		int cpt = 0;
-		for(int i=0; i<tailleListeMoniteur; i++) {
+		for (int i = 0; i < tailleListeMoniteur; i++)
+		{
 			// On recupere une a une les chaines de la Jlist
 			String chaineListe = f.getListeMoniteur().getModel().getElementAt(i).toString();
-			if(chaineListe.toUpperCase().indexOf(chaineRecherche)!=-1 || 
-					chaineListe.toUpperCase().indexOf(chaineRecherche.toUpperCase())!=-1)
+			if (chaineListe.toUpperCase().indexOf(chaineRecherche) != -1
+					|| chaineListe.toUpperCase().indexOf(chaineRecherche.toUpperCase()) != -1)
 			{
-				hashMoniteurVar.put(cpt, hashMoniteurRef.get(i));
-				//System.out.println("cpt : "+cpt+"id :"+correspondanceEleveRef.get(i));
+				hashMoniteurVar.put(cpt , hashMoniteurRef.get(i));
+				// System.out.println("cpt : "+cpt+"id :"+correspondanceEleveRef.get(i));
 				tabMoniteurRecherche[cpt] = chaineListe;
 				cpt++;
 			}
 			
-			
 		}
 		
 		// On redefinit un tableau pour la taille.
-		String tabMoniteur[] = new String[cpt];
-		for(int i=0; i<cpt; i++){
+		String tabMoniteur[] = new String [cpt];
+		for (int i = 0; i < cpt; i++)
+		{
 			tabMoniteur[i] = tabMoniteurRecherche[i];
 			
-		}	
+		}
 		f.getListeMoniteur().setListData(tabMoniteur);
 		
-		
 	}
-
+	
 	/*
-	 * permet de changer la couleur du champ sur la regx appliqué 
+	 * permet de changer la couleur du champ sur la regx appliqué
 	 */
-	private boolean couleurChampPerteFocus(JTextField champ, boolean donneeCorrect){
+	private boolean couleurChampPerteFocus(JTextField champ, boolean donneeCorrect)
+	{
 		
-		if (donneeCorrect){
-			//champ.setBorder(BorderFactory.createLineBorder(Color.GREEN));
-			champ.setBackground(new Color(146,243,130));
+		if (donneeCorrect)
+		{
+			// champ.setBorder(BorderFactory.createLineBorder(Color.GREEN));
+			champ.setBackground(new Color(146 , 243 , 130));
 			champ.setToolTipText("");
 			
 		}
-		else{
+		else
+		{
 			
-			champ.setBackground(new Color(240,123,123));
+			champ.setBackground(new Color(240 , 123 , 123));
 			champ.setToolTipText(messageToolTip);
-			
 			
 		}
 		
 		return donneeCorrect;
 		
 	}
-
+	
 	/*
 	 * permet la MAJ du moniteur (fonction principale)
 	 */
-	private void MAJmoniteur() {
-		if (Datamoniteur.tableauChampSaisieTrue()){
+	private void MAJmoniteur()
+	{
+		if (Datamoniteur.tableauChampSaisieTrue())
+		{
 			KMoniteur MoniteurAinserer = creationMoniteurMAJ();
-			if(confirmationEtInsertMaj(MoniteurAinserer)){
+			if (confirmationEtInsertMaj(MoniteurAinserer))
+			{
 				initialiserJlist();
 			}
 		}
-		else{
-			JOptionPane.showMessageDialog(null,Datamoniteur.messageRenvoyeeUI(-5)
-					, "Erreur", JOptionPane.ERROR_MESSAGE);
+		else
+		{
+			JOptionPane.showMessageDialog(null , Datamoniteur.messageRenvoyeeUI(-5) , "Erreur" ,
+					JOptionPane.ERROR_MESSAGE);
 		}
 		
 	}
@@ -160,29 +180,33 @@ public class EcouteurMoniteur implements MouseListener, ActionListener, KeyListe
 	/*
 	 * permet l'ajout du moniteur (fonction proncipale)
 	 */
-	private void ajoutMoniteur() {
-		if (Datamoniteur.tableauChampSaisieTrue()){
+	private void ajoutMoniteur()
+	{
+		if (Datamoniteur.tableauChampSaisieTrue())
+		{
 			KMoniteur MoniteurAinserer = creationMoniteurAjout();
-			if(confirmationEtInsertAjout(MoniteurAinserer)){
+			if (confirmationEtInsertAjout(MoniteurAinserer))
+			{
 				initialiserJlist();
 			}
 		}
-		else{
-			JOptionPane.showMessageDialog(null,Datamoniteur.messageRenvoyeeUI(-5)
-					, "Erreur", JOptionPane.ERROR_MESSAGE);
+		else
+		{
+			JOptionPane.showMessageDialog(null , Datamoniteur.messageRenvoyeeUI(-5) , "Erreur" ,
+					JOptionPane.ERROR_MESSAGE);
 		}
 		
 	}
-
+	
 	/*
 	 * permet de creer un moniteur pour l'ajout
 	 */
-	private KMoniteur creationMoniteurAjout() {
+	private KMoniteur creationMoniteurAjout()
+	{
 		
 		KMoniteur moniteur = new KMoniteur();
 		moniteur.setNOM_MONITEUR(f.getNom().getText());
 		moniteur.setPRENOM_MONITEUR(f.getPrenom().getText());
-		
 		
 		return moniteur;
 	}
@@ -190,13 +214,13 @@ public class EcouteurMoniteur implements MouseListener, ActionListener, KeyListe
 	/*
 	 * permet de creer un moniteur pour la MAJ
 	 */
-	private KMoniteur creationMoniteurMAJ() {
+	private KMoniteur creationMoniteurMAJ()
+	{
 		
 		KMoniteur moniteur = new KMoniteur();
 		moniteur.setId(idMoniteur);
 		moniteur.setNOM_MONITEUR(f.getNom().getText());
 		moniteur.setPRENOM_MONITEUR(f.getPrenom().getText());
-		
 		
 		return moniteur;
 	}
@@ -204,109 +228,128 @@ public class EcouteurMoniteur implements MouseListener, ActionListener, KeyListe
 	/*
 	 * Boite de confirmation pre et post ajout d'un moniteur
 	 */
-	private boolean confirmationEtInsertAjout(KMoniteur MoniteurAinserer) {
+	private boolean confirmationEtInsertAjout(KMoniteur MoniteurAinserer)
+	{
 		boolean confirmation = true;
-		int option = JOptionPane.showConfirmDialog(null, "Ajouter le moniteur "+MoniteurAinserer.getPRENOM_MONITEUR()+ " "+MoniteurAinserer.getNOM_MONITEUR()+" à la base de donnée ?" ,
-				"Demande de confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+		int option = JOptionPane.showConfirmDialog(
+				null ,
+				"Ajouter le moniteur " + MoniteurAinserer.getPRENOM_MONITEUR() + " "
+						+ MoniteurAinserer.getNOM_MONITEUR() + " à la base de donnée ?" , "Demande de confirmation" ,
+				JOptionPane.YES_NO_OPTION , JOptionPane.QUESTION_MESSAGE);
 		
-		if(option == JOptionPane.OK_OPTION){
-			confirmation =Datamoniteur.ajouterMoniteur(MoniteurAinserer,f.getListeMoniteur().getModel().getSize());
-			if(confirmation){
-				JOptionPane.showMessageDialog(null,Datamoniteur.messageRenvoyeeUI(2)
-						, "Opération d'ajout d'un élève", JOptionPane.INFORMATION_MESSAGE);
+		if (option == JOptionPane.OK_OPTION)
+		{
+			confirmation = Datamoniteur.ajouterMoniteur(MoniteurAinserer , f.getListeMoniteur().getModel().getSize());
+			if (confirmation)
+			{
+				JOptionPane.showMessageDialog(null , Datamoniteur.messageRenvoyeeUI(2) ,
+						"Opération d'ajout d'un élève" , JOptionPane.INFORMATION_MESSAGE);
 			}
-			else{
-				JOptionPane.showMessageDialog(null,Datamoniteur.messageRenvoyeeUI(3)
-						, "Erreur", JOptionPane.ERROR_MESSAGE);
+			else
+			{
+				JOptionPane.showMessageDialog(null , Datamoniteur.messageRenvoyeeUI(3) , "Erreur" ,
+						JOptionPane.ERROR_MESSAGE);
 			}
 		}
 		return confirmation;
-		
-		
-	}
-	/*
-	 *  Boite de confirmation pre et post MAJ d'un moniteur
-	 */
-	private boolean confirmationEtInsertMaj(KMoniteur MoniteurAinserer) {
-		boolean confirmation = true;
-		int option = JOptionPane.showConfirmDialog(null, "Mettre à jour le moniteur "+MoniteurAinserer.getPRENOM_MONITEUR()+ " "+MoniteurAinserer.getNOM_MONITEUR()+" dans la base de donnée ?" ,
-				"Demande de confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-		
-		if(option == JOptionPane.OK_OPTION){
-			confirmation = Datamoniteur.majMoniteur(MoniteurAinserer);
-			if(confirmation){
-				JOptionPane.showMessageDialog(null,Datamoniteur.messageRenvoyeeUI(4)
-						, "Opération de mise à jour d'un élève", JOptionPane.INFORMATION_MESSAGE);
-			}
-			else{
-				JOptionPane.showMessageDialog(null,Datamoniteur.messageRenvoyeeUI(5)
-						, "Erreur", JOptionPane.ERROR_MESSAGE);
-			}
-		}
-		return confirmation;
-		
 		
 	}
 	
-	//////////////////////////////////////////MOUSELISTENER
-
-	public void mouseClicked(java.awt.event.MouseEvent e) {
-		// TODO Auto-generated method stub
-	}
-			
-	@Override
-	public void mouseEntered(java.awt.event.MouseEvent e) {
-		// TODO Auto-generated method stub
+	/*
+	 * Boite de confirmation pre et post MAJ d'un moniteur
+	 */
+	private boolean confirmationEtInsertMaj(KMoniteur MoniteurAinserer)
+	{
+		boolean confirmation = true;
+		int option = JOptionPane.showConfirmDialog(
+				null ,
+				"Mettre à jour le moniteur " + MoniteurAinserer.getPRENOM_MONITEUR() + " "
+						+ MoniteurAinserer.getNOM_MONITEUR() + " dans la base de donnée ?" , "Demande de confirmation" ,
+				JOptionPane.YES_NO_OPTION , JOptionPane.QUESTION_MESSAGE);
+		
+		if (option == JOptionPane.OK_OPTION)
+		{
+			confirmation = Datamoniteur.majMoniteur(MoniteurAinserer);
+			if (confirmation)
+			{
+				JOptionPane.showMessageDialog(null , Datamoniteur.messageRenvoyeeUI(4) ,
+						"Opération de mise à jour d'un élève" , JOptionPane.INFORMATION_MESSAGE);
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(null , Datamoniteur.messageRenvoyeeUI(5) , "Erreur" ,
+						JOptionPane.ERROR_MESSAGE);
+			}
+		}
+		return confirmation;
 		
 	}
+	
+	// ----------------------------------------- //
+	// ----------------LISTENERS---------------- //
+	// ----------------------------------------- //
+	
+	// --------MOUSE-------- //
+	
+	public void mouseClicked(java.awt.event.MouseEvent e)
+	{}
+	
 	@Override
-	public void mouseExited(java.awt.event.MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+	public void mouseEntered(java.awt.event.MouseEvent e)
+	{}
+	
+	@Override
+	public void mouseExited(java.awt.event.MouseEvent e)
+	{		
 	}
+	
 	@Override
-	public void mousePressed(java.awt.event.MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+	public void mousePressed(java.awt.event.MouseEvent e)
+	{		
 	}
+	
 	@Override
-	public void mouseReleased(java.awt.event.MouseEvent e) {
-		if(e.getSource() == f.getListeMoniteur() && e.getClickCount()==2) {
+	public void mouseReleased(java.awt.event.MouseEvent e)
+	{
+		if (e.getSource() == f.getListeMoniteur() && e.getClickCount() == 2)
+		{
 			int index = f.getListeMoniteur().getSelectedIndex();
-			idMoniteur = (Integer)(hashMoniteurRef.get(index));
+			idMoniteur = (Integer) (hashMoniteurRef.get(index));
 			ChargerDonneesMoniteur();
 			f.getAjouter().setText("Mettre à jour");
 			f.getEffacer().setEnabled(true);
 		}
-		if(e.getSource() == f.getRechercheM() && e.getClickCount()==1) {
+		if (e.getSource() == f.getRechercheM() && e.getClickCount() == 1)
+		{
 			f.getRechercheM().setText("");
-	}
+		}
 		
-		
 	}
-
-
-
-
-/////////////////////////////////////////////////////////////////////ACTIONLISTENER
-
+	
+	// --------ACTION-------- //
+	
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e)
+	{
 		
-		if(e.getSource() == f.getEffacer()) {
+		if (e.getSource() == f.getEffacer())
+		{
 			System.out.println("effacer");
 		}
-		if(e.getSource() == f.getAjouter()) {
-			if (f.getAjouter().getText() == "Ajouter"){
+		if (e.getSource() == f.getAjouter())
+		{
+			if (f.getAjouter().getText() == "Ajouter")
+			{
 				ajoutMoniteur();
 			}
-			else {
+			else
+			{
 				MAJmoniteur();
 			}
 			
-			
 		}
-		if (e.getSource() == f.getNouveauMoniteur()) {
+		if (e.getSource() == f.getNouveauMoniteur())
+		{
 			System.out.println("ok");
 			f.getNom().setText("");
 			f.getPrenom().setText("");
@@ -319,111 +362,92 @@ public class EcouteurMoniteur implements MouseListener, ActionListener, KeyListe
 		}
 		
 	}
-
-///////////////////////////////////////////////////////KEYLISTENER
-
+	
+	// --------KEY-------- //
+	
 	@Override
-	public void keyPressed(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	public void keyPressed(KeyEvent arg0)
+	{
 	}
-
+	
 	@Override
-	public void keyReleased(KeyEvent e) {
-		if(e.getSource() == f.getRechercheM()) {
+	public void keyReleased(KeyEvent e)
+	{
+		if (e.getSource() == f.getRechercheM())
+		{
 			filtreRechercheNomPrenomEleve();
 		}
-		
 	}
-
 	
-
-
 	@Override
-	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	public void keyTyped(KeyEvent arg0)
+	{
 	}
-
-
 	
-//////////////////////////////////////////////////////////////WINDOWLISTENER
-	@Override
-	public void windowActivated(WindowEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	// --------WINDOW-------- //
+	
+	public void windowActivated(WindowEvent arg0)
+	{
 	}
-
-
+	
 	@Override
-	public void windowClosed(WindowEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	public void windowClosed(WindowEvent arg0)
+	{
 	}
-
-
+	
 	@SuppressWarnings("static-access")
 	@Override
-	public void windowClosing(WindowEvent arg0) {
-		int option = new JOptionPane().showConfirmDialog(null, "Voulez-vous quitter la fenêtre de gestion des moniteurs ?",
-				"Quitter", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-
-		if(option == JOptionPane.OK_OPTION)
+	public void windowClosing(WindowEvent arg0)
+	{
+		int option = new JOptionPane().showConfirmDialog(null ,
+				"Voulez-vous quitter la fenêtre de gestion des moniteurs ?" , "Quitter" , JOptionPane.YES_NO_OPTION ,
+				JOptionPane.QUESTION_MESSAGE);
+		
+		if (option == JOptionPane.OK_OPTION)
 		{
-			f.setDefaultCloseOperation( JFrame.HIDE_ON_CLOSE);
+			f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		}
-		else{
-			f.setDefaultCloseOperation( JFrame.DO_NOTHING_ON_CLOSE);
+		else
+		{
+			f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		}
 		
 	}
-
-
+	
 	@Override
-	public void windowDeactivated(WindowEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
+	public void windowDeactivated(WindowEvent arg0)
+	{}
+	
 	@Override
-	public void windowDeiconified(WindowEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
+	public void windowDeiconified(WindowEvent arg0)
+	{}
+	
 	@Override
-	public void windowIconified(WindowEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
+	public void windowIconified(WindowEvent arg0)
+	{}
+	
 	@Override
-	public void windowOpened(WindowEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-////////////////////////////////////////////////////////////FOCUSLISTENER
+	public void windowOpened(WindowEvent arg0)
+	{}
+	
+	// //////////////////////////////////////////////////////////FOCUSLISTENER
 	@Override
-	public void focusGained(FocusEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
+	public void focusGained(FocusEvent arg0)
+	{}
+	
 	@Override
-	public void focusLost(FocusEvent e) {
-		if(e.getSource()==f.getNom()) {
+	public void focusLost(FocusEvent e)
+	{
+		if (e.getSource() == f.getNom())
+		{
 			messageToolTip = "Le nom de Famille est invalide pour l'enregistrement";
-			Datamoniteur.getTableauChampSaisieOk()[0] = couleurChampPerteFocus(f.getNom(),
+			Datamoniteur.getTableauChampSaisieOk()[0] = couleurChampPerteFocus(f.getNom() ,
 					Datamoniteur.regexTraitementNom(f.getNom().getText()));
 		}
-		if(e.getSource()==f.getPrenom()) {
+		if (e.getSource() == f.getPrenom())
+		{
 			messageToolTip = "Le prénom est invalide pour l'enregistrement";
-			Datamoniteur.getTableauChampSaisieOk()[1] = couleurChampPerteFocus(f.getPrenom(),
+			Datamoniteur.getTableauChampSaisieOk()[1] = couleurChampPerteFocus(f.getPrenom() ,
 					Datamoniteur.regexTraitementPrenom(f.getPrenom().getText()));
 		}
 		
