@@ -5,6 +5,7 @@ import net.ko.kobject.KObject;
 /**
 * Classe KSynthese
 */
+@SuppressWarnings("serial")
 public class KSynthese extends KObject {
 private KListObject<KPasser> passers;
 private KEtape etape;

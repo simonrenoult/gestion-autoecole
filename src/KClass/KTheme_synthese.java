@@ -5,6 +5,7 @@ import net.ko.kobject.KObject;
 /**
 * Classe KTheme_synthese
 */
+@SuppressWarnings("serial")
 public class KTheme_synthese extends KObject {
 private String LIBELLE_THEME_SYNTHSE;
 private long idSYNTHESE;

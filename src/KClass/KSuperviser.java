@@ -1,10 +1,10 @@
 package KClass;
 
-import net.ko.kobject.KListObject;
 import net.ko.kobject.KObject;
 /**
 * Classe KSuperviser
 */
+@SuppressWarnings("serial")
 public class KSuperviser extends KObject {
 private KEleve eleve;
 private long idELEVE;

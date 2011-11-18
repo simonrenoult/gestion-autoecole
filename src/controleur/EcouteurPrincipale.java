@@ -24,7 +24,6 @@ import KClass.KMoniteur;
 
 public class EcouteurPrincipale implements ActionListener,MouseListener,KeyListener,ChangeListener,WindowListener
 {
-	
 	private FenetrePrincipale	fenetre;
 	private int					index;
 	private Hashtable			correspondanceEleveRef	= new Hashtable();
@@ -39,7 +38,6 @@ public class EcouteurPrincipale implements ActionListener,MouseListener,KeyListe
 	
 	public EcouteurPrincipale(FenetrePrincipale f)
 	{
-		
 		fenetre = f;
 		chargerListEleve();
 		recupererListeMoniteur();
@@ -52,7 +50,6 @@ public class EcouteurPrincipale implements ActionListener,MouseListener,KeyListe
 	
 	private void recupererListeMoniteur()
 	{
-		
 		DataMoniteur moniteur = new DataMoniteur();
 		KListObject<KMoniteur> KListe = new KListObject<KMoniteur>(KMoniteur.class);
 		KListe = moniteur.recupererListe();
@@ -64,7 +61,6 @@ public class EcouteurPrincipale implements ActionListener,MouseListener,KeyListe
 					+ KListe.get(i).getPRENOM_MONITEUR().toLowerCase();
 		}
 		correspondanceEleveVar = correspondanceEleveRef;
-		
 	}
 	
 	/*
@@ -73,7 +69,6 @@ public class EcouteurPrincipale implements ActionListener,MouseListener,KeyListe
 	 */
 	private void chargerListEleve()
 	{
-		
 		fenetre.getJlisteEleves().setListData(recupererListeEleve().toArray());
 	}
 	
@@ -106,7 +101,6 @@ public class EcouteurPrincipale implements ActionListener,MouseListener,KeyListe
 	 */
 	private void chargerDonneesFicheEleve(int id)
 	{
-		
 		Eleve = new KEleve();
 		Eleve = fenetre.getFicheEleve().getDataFiche1().recupererProfil(id);
 		
@@ -132,6 +126,7 @@ public class EcouteurPrincipale implements ActionListener,MouseListener,KeyListe
 			
 			// Besoin de recuperer le nom du moniteur a partir de la cle
 			// etrangere de l'eleve.
+			@SuppressWarnings("unused")
 			KMoniteur monit = new KMoniteur();
 			DataMoniteur DataMoniteur = new DataMoniteur();
 			monit = DataMoniteur.recupererProfilMoniteur(((Long) Eleve.getId()).intValue());
@@ -455,7 +450,7 @@ public class EcouteurPrincipale implements ActionListener,MouseListener,KeyListe
 	// ----------------LISTENERS---------------- //
 	// ----------------------------------------- //
 	
-	@SuppressWarnings("static-access")
+	@SuppressWarnings({ "static-access", "deprecation" })
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getSource() == fenetre.getBoutonFicheE())
