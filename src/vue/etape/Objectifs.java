@@ -29,37 +29,37 @@ public class Objectifs extends JPanel
 	private DataEtape				donneesEtape;
 	
 	private JLabel					titre;
-	private static String			CONTENU_TITRE					= "Etape";
-	private static Dimension		TAILLE_TITRE					= new Dimension(800, 30);
+	private static String			CONTENU_TITRE				= "Etape";
+	private static Dimension		TAILLE_TITRE				= new Dimension(800 , 30);
 	
 	private KListObject<KObjectif>	liste_objectifs;
 	private KListObject<KRealiser>	liste_observationsEtEtats;
 	
-	private Object[][]				donneesBrutes;
-	private static String[]			TITRES_TAB_DONNEES				= { "Objectifs", "Etats", "Observations" };
+	private Object [][]				donneesBrutes;
+	private static String []		TITRES_TAB_DONNEES			= { "Objectifs", "Etats", "Observations" };
 	
 	private JTable					donneesFormatees;
 	private TableModel				modele;
-	private static Integer			LARGEUR_DONNEES_FORMATEES_1_3	= 300;
-	private static Integer			LARGEUR_DONNEES_FORMATEES_2		= 1;
-	private static Integer			HAUTEUR_LIGNE					= 50;
-	private static String[]			ETATS_OBJ						= { "", "Aborde", "Traite", "Assimile" };
+	private static Integer			LARG_DONNEES_FORMATEES_1_3	= 300;
+	private static Integer			LARG_DONNEES_FORMATEES_2	= 1;
+	private static Integer			HAUTEUR_LIGNE				= 50;
+	private static String []		ETATS_OBJ					= { "", "Aborde", "Traite", "Assimile" };
 	
 	private JScrollPane				scroll_tab;
-	private static Dimension		TAILLE_SCROLL					= new Dimension(850, 519);
+	private static Dimension		TAILLE_SCROLL				= new Dimension(850 , 519);
 	
 	// ----------------------------------------- //
 	// --------------CONSTRUCTEURS-------------- //
 	// ----------------------------------------- //
 	
-	public Objectifs(int numEtape,DataEtape donnees_etape)
+	public Objectifs(int numEtape, DataEtape donnees_etape)
 	{
 		this.numEtape = numEtape;
 		this.donneesEtape = donnees_etape;
 		
 		buildTitre(numEtape);
 		
-		initDonneesEtape(numEtape, donnees_etape);
+		initDonneesEtape(numEtape , donnees_etape);
 		
 		buildTabDonneesBrutes();
 		donneesBrutesVersDonnesFormatees();
@@ -88,7 +88,7 @@ public class Objectifs extends JPanel
 	
 	// --------LISTE_OBJ-------- //
 	
-	private void initDonneesEtape(int numEtape,DataEtape donnees_etape)
+	private void initDonneesEtape(int numEtape, DataEtape donnees_etape)
 	{
 		donnees_etape = new DataEtape(this.numEtape);
 		liste_objectifs = donnees_etape.getObjectifs();
@@ -98,7 +98,7 @@ public class Objectifs extends JPanel
 	
 	private void buildTabDonneesBrutes()
 	{
-		donneesBrutes = new Object[liste_objectifs.count()][3];
+		donneesBrutes = new Object [liste_objectifs.count()] [3];
 		
 		for (int i = 0; i < donneesBrutes.length; i++)
 		{
@@ -110,7 +110,7 @@ public class Objectifs extends JPanel
 	
 	private void donneesBrutesVersDonnesFormatees()
 	{
-		modele = new TableModel(donneesBrutes, TITRES_TAB_DONNEES);
+		modele = new TableModel(donneesBrutes , TITRES_TAB_DONNEES);
 		donneesFormatees = new JTable(modele);
 	}
 	
@@ -129,7 +129,7 @@ public class Objectifs extends JPanel
 		donneesFormatees.getColumn("Etats").setCellEditor(new DefaultCellEditor(statut_obj));
 	}
 	
-	// --Colonnes--//
+	// ----Colonnes---- //
 	private void format_col()
 	{
 		format_col_obj(new TableColumn());
@@ -143,7 +143,7 @@ public class Objectifs extends JPanel
 	private void format_col_obj(TableColumn col)
 	{
 		col = donneesFormatees.getColumnModel().getColumn(0);
-		col.setPreferredWidth(LARGEUR_DONNEES_FORMATEES_1_3);
+		col.setPreferredWidth(LARG_DONNEES_FORMATEES_1_3);
 		col.setCellRenderer(new CellRenderAera());
 		// col.setCellEditor(new CellEditorAera());
 	}
@@ -151,22 +151,22 @@ public class Objectifs extends JPanel
 	private void format_col_etats(TableColumn col)
 	{
 		col = donneesFormatees.getColumnModel().getColumn(1);
-		col.setPreferredWidth(LARGEUR_DONNEES_FORMATEES_2);
+		col.setPreferredWidth(LARG_DONNEES_FORMATEES_2);
 	}
 	
 	private void format_col_observations(TableColumn col)
 	{
 		col = donneesFormatees.getColumnModel().getColumn(2);
-		col.setPreferredWidth(LARGEUR_DONNEES_FORMATEES_1_3);
+		col.setPreferredWidth(LARG_DONNEES_FORMATEES_1_3);
 		col.setCellRenderer(new CellRenderAera());
 		col.setCellEditor(new CellEditorAera());
 	}
 	
-	// --Lignes--//
+	// ----Lignes----//
 	private void format_ligne()
 	{
 		for (int i = 0; i < donneesFormatees.getRowCount(); i++)
-			donneesFormatees.setRowHeight(i, HAUTEUR_LIGNE);
+			donneesFormatees.setRowHeight(i , HAUTEUR_LIGNE);
 	}
 	
 	// --------SCROLLBAR--------//
@@ -188,30 +188,33 @@ public class Objectifs extends JPanel
 		{
 			try
 			{
-				donneesFormatees.setValueAt(transcrireIndexVersEtat(donneesEtape.getObsEtEtats(), i), i, 1);
-				donneesFormatees.setValueAt(donneesEtape.getObsEtEtats().get(i).getOBSERVATION_OBJECTIF(), i, 2);
+				donneesFormatees.setValueAt(transcrireIndexVersEtat(donneesEtape.getObsEtEtats() , i) , i , 1);
+				donneesFormatees.setValueAt(donneesEtape.getObsEtEtats().get(i).getOBSERVATION_OBJECTIF() , i , 2);
 			}
 			catch (IndexOutOfBoundsException e)
 			{
-				donneesFormatees.setValueAt("", i, 2);
+				donneesFormatees.setValueAt("" , i , 2);
 			}
-		}		
+		}
 	}
 	
-	private String transcrireIndexVersEtat(KListObject<KRealiser> tmp,int index)
+	private String transcrireIndexVersEtat(KListObject<KRealiser> tmp, int index)
 	{
-		if (tmp.get(index).getETAT_OBJECTIF() == KRealiser.ABORDE) return ETATS_OBJ[1];
-		else if (tmp.get(index).getETAT_OBJECTIF() == KRealiser.TRAITE) return ETATS_OBJ[2];
-		else if (tmp.get(index).getETAT_OBJECTIF() == KRealiser.ASSIMILE) return ETATS_OBJ[3];
+		if (tmp.get(index).getETAT_OBJECTIF() == KRealiser.ABORDE)
+			return ETATS_OBJ[1];
+		else if (tmp.get(index).getETAT_OBJECTIF() == KRealiser.TRAITE)
+			return ETATS_OBJ[2];
+		else if (tmp.get(index).getETAT_OBJECTIF() == KRealiser.ASSIMILE)
+			return ETATS_OBJ[3];
 		
 		return null;
 	}
-		
+	
 	// ----------------------------------------- //
 	// ---------------ACCESSEURS---------------- //
 	// ----------------------------------------- //
 	
-	public Object[][] getDonneesBrutes()
+	public Object [][] getDonneesBrutes()
 	{
 		return donneesBrutes;
 	}
@@ -255,7 +258,7 @@ public class Objectifs extends JPanel
 	// ----------------MUTATEURS---------------- //
 	// ----------------------------------------- //
 	
-	public void setDonneesBrutes(Object[][] tab_donnees_brut)
+	public void setDonneesBrutes(Object [][] tab_donnees_brut)
 	{
 		this.donneesBrutes = tab_donnees_brut;
 	}
