@@ -9,8 +9,8 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableModel;
 
+@SuppressWarnings("serial")
 public class ButtonEditor extends DefaultCellEditor {
 	  
 	protected JButton button;

@@ -3,12 +3,8 @@ package vue;
 import javax.swing.*;
 
 import modele.DataMoniteur;
-import net.ko.kobject.KListObject;
-
-import KClass.*;
 
 import java.awt.*;
-import java.util.ArrayList;
 import controleur.*;
 
 public class FenetreMoniteur extends JFrame {

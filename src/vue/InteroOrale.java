@@ -1,13 +1,10 @@
 package vue;
 import javax.swing.*;
 
-import controleur.EcouteurPrincipale;
 
 import modele.DataInterroOrale;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Vector;
 
 public class InteroOrale extends JPanel {

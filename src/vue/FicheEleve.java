@@ -1,11 +1,8 @@
 package vue;
 
 import javax.swing.*;
-import javax.swing.event.ChangeListener;
 
 import vue.JTableAssurerLecon.JTableAssurerLecon;
-
-
 
 import controleur.EcouteurFicheEleve;
 import modele.DataFicheEleve;
