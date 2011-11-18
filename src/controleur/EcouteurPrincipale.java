@@ -24,6 +24,10 @@ import KClass.KMoniteur;
 
 public class EcouteurPrincipale implements ActionListener,MouseListener,KeyListener,ChangeListener,WindowListener
 {
+	// ----------------------------------------- //
+	// ----------------ATTRIBUTS---------------- //
+	// ----------------------------------------- //
+	
 	private FenetrePrincipale	fenetre;
 	private int					index;
 	private Hashtable			correspondanceEleveRef	= new Hashtable();
@@ -81,15 +85,12 @@ public class EcouteurPrincipale implements ActionListener,MouseListener,KeyListe
 		KListObject<KEleve> KListe = new KListObject<KEleve>(KEleve.class);
 		
 		KListe = fenetre.getFicheEleve().getDataFiche1().recupererListe();
-		// System.out.println(KListe);
+
 		for (int i = 0; i < KListe.count(); i++)
 		{
 			correspondanceEleveRef.put(i, KListe.get(i).getId());
 			listeEleves.add(KListe.get(i).getNOM_ELEVE().toUpperCase() + " "
 					+ KListe.get(i).getPRENOM_ELEVE().toLowerCase());
-			// System.out.print("Clé de la liste : "+i+", ");
-			// System.out.println("valeur : "+KListe.get(i).getID_ELEVE()+"("+KListe.get(i).getPRENOM_ELEVE().toLowerCase()+")");
-			
 		}
 		
 		return listeEleves;
@@ -696,12 +697,10 @@ public class EcouteurPrincipale implements ActionListener,MouseListener,KeyListe
 				// On fait la correspondance entre le numéro de la personne
 				// selectionné et son ID à charger.
 				index = fenetre.getListeEleves().getSelectedIndex();
-				// System.out.println("index : "+index);
 				
 				// int IdEleve = (Integer) correspondanceEleveVar.get(index);
 				int IdEleve = ((Long) correspondanceEleveVar.get(index)).intValue();
 				fenetre.getFicheEleve().setIdEleve(IdEleve);
-				// System.out.println("idEleve : "+IdEleve);
 				chargerDonneesFicheEleve(IdEleve);
 				chargerDonneesTableauLecon();
 				
@@ -718,13 +717,11 @@ public class EcouteurPrincipale implements ActionListener,MouseListener,KeyListe
 				fenetre.getBoutonEtape3().setEnabled(true);
 				fenetre.getBoutonEtape4().setEnabled(true);
 				fenetre.getBoutonIntero().setEnabled(true);
-				fenetre.getBoutonExamB().setEnabled(false);// A mettre à vrai
-															// des que l'exam
-															// est pret
+				// A mettre à vrai des que l'exam est pret
+				fenetre.getBoutonExamB().setEnabled(false);
 				fenetre.getBoutonValider().setEnabled(true);
 				fenetre.getBoutonSupprimer().setEnabled(true);
 			}
-			
 		}
 		else if (e.getSource() == fenetre.getRechercheE() && e.getClickCount() == 1)
 		{

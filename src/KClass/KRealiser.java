@@ -17,6 +17,10 @@ public class KRealiser extends KObject
 	private KObjectif		objectif;
 	private String			OBSERVATION_OBJECTIF;
 	
+	public static Integer	ABORDE		= 0;
+	public static Integer	TRAITE		= 1;
+	public static Integer	ASSIMILE	= 2;
+	
 	public KRealiser()
 	{
 		super();

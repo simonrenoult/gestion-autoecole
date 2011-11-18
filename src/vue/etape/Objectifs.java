@@ -195,25 +195,18 @@ public class Objectifs extends JPanel
 			{
 				donneesFormatees.setValueAt("", i, 2);
 			}
-		}
-		
+		}		
 	}
 	
 	private String transcrireIndexVersEtat(KListObject<KRealiser> tmp,int index)
 	{
-		if (tmp.get(index).getETAT_OBJECTIF() == 0) return ETATS_OBJ[1];
-		else if (tmp.get(index).getETAT_OBJECTIF() == 1) return ETATS_OBJ[2];
-		else if (tmp.get(index).getETAT_OBJECTIF() == 2) return ETATS_OBJ[3];
+		if (tmp.get(index).getETAT_OBJECTIF() == KRealiser.ABORDE) return ETATS_OBJ[1];
+		else if (tmp.get(index).getETAT_OBJECTIF() == KRealiser.TRAITE) return ETATS_OBJ[2];
+		else if (tmp.get(index).getETAT_OBJECTIF() == KRealiser.ASSIMILE) return ETATS_OBJ[3];
 		
 		return null;
 	}
-	
-	// ----------MAIN----------//
-	/*
-	 * @SuppressWarnings("unused") public static void main (String [] args) {
-	 * Objectifs obj = new Objectifs(1); }
-	 */
-	
+		
 	// ----------------------------------------- //
 	// ---------------ACCESSEURS---------------- //
 	// ----------------------------------------- //
