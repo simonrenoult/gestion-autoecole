@@ -22,6 +22,8 @@ bin : fichiers binaires exécutables de l'application.
 
 doc : documentation de l'application.
 
+img : photos (stockées en bdd) s'affichant à la sélection d'un élève.
+
 lib : bibliothèques nécessaires au fonctionnement du programme.
         -> kObject
         -> mysql-connector
