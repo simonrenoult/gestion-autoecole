@@ -14,7 +14,7 @@ import javax.swing.JTable;
 import javax.swing.table.TableColumn;
 import controleur.EcouteurPrincipale;
 import KClass.*;
-import modele.DataEtape;
+import modele.etape.DataEtape;
 import net.ko.kobject.KListObject;
 
 @SuppressWarnings("serial")
@@ -91,7 +91,7 @@ public class Objectifs extends JPanel
 	private void initDonneesEtape(int numEtape, DataEtape donnees_etape)
 	{
 		donnees_etape = new DataEtape(this.numEtape);
-		liste_objectifs = donnees_etape.getObjectifs();
+		liste_objectifs = donnees_etape.getDonneesObjectifs().getObjectifs();
 	}
 	
 	// --------DONNEES_BRUTES--------//
@@ -182,14 +182,14 @@ public class Objectifs extends JPanel
 	public void chargerEtatsEtObervations()
 	{
 		this.numEleve = Integer.parseInt(EcouteurPrincipale.Eleve.getId().toString());
-		donneesEtape.setObsEtEtats(donneesEtape.chargerObsEtEtat(this.numEleve));
+		donneesEtape.getDonneesObjectifs().setObsEtEtats(donneesEtape.getDonneesObjectifs().chargerObsEtEtat(this.numEleve));
 		
 		for (int i = 0; i < liste_objectifs.count(); i++)
 		{
 			try
 			{
-				donneesFormatees.setValueAt(transcrireIndexVersEtat(donneesEtape.getObsEtEtats() , i) , i , 1);
-				donneesFormatees.setValueAt(donneesEtape.getObsEtEtats().get(i).getOBSERVATION_OBJECTIF() , i , 2);
+				donneesFormatees.setValueAt(transcrireIndexVersEtat(donneesEtape.getDonneesObjectifs().getObsEtEtats() , i) , i , 1);
+				donneesFormatees.setValueAt(donneesEtape.getDonneesObjectifs().getObsEtEtats().get(i).getOBSERVATION_OBJECTIF() , i , 2);
 			}
 			catch (IndexOutOfBoundsException e)
 			{

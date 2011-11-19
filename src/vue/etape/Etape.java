@@ -4,7 +4,7 @@ package vue.etape;
 import java.awt.Dimension;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import modele.DataEtape;
+import modele.etape.DataEtape;
 
 @SuppressWarnings("serial")
 public class Etape extends JPanel

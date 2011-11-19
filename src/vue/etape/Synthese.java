@@ -7,70 +7,72 @@ import javax.swing.JPanel;
 import KClass.KQuestions_synthese;
 import KClass.KSynthese;
 import net.ko.kobject.KListObject;
-import modele.DataEtape;
+import modele.etape.DataEtape;
 
 @SuppressWarnings("serial")
 public class Synthese extends JPanel
 {
-	// -------------------------------------//
-	// --------------ATTRIBUTES-------------//
-	// -------------------------------------//
+	// ----------------------------------------- //
+	// ----------------ATTRIBUTS---------------- //
+	// ----------------------------------------- //
+	
+	private Integer								numEtape;
+	private Integer								numEleve;
+	private DataEtape							donneesEtape;
 	
 	private JLabel								titre;
-	private static String						contenuTitre			= "Fiche d'evaluation de la synthese ";
+	private static String						CONTENU_TITRE			= "Fiche d'evaluation de la synthese ";
 	private static Dimension					TAILLE_TITRE			= new Dimension(800 , 30);
 	
 	private KListObject<KSynthese>				listeSyntheses;
 	private Object []							listeThemesSyntheses;
-	private KListObject<KQuestions_synthese>	listeQuestionsSyntheses;
+	private KListObject<KQuestions_synthese>	listeQtsSyntheses;
 	
 	private static Dimension					TAILLE_CONTENU_COL_G	= new Dimension(270 , 240);
 	private static Dimension					TAILLE_CONTENU_COL_D	= new Dimension(270 , 240);
 	
-	// -------------------------------------//
-	// -------------CONSTRUCTOR-------------//dp
-	// -------------------------------------//
+	// ----------------------------------------- //
+	// --------------CONSTRUCTEURS-------------- //
+	// ----------------------------------------- //
 	
 	public Synthese(Integer numEtape, DataEtape donnees_etape)
 	{
 		buildTitre(numEtape);
+		
+		buildQtsSyntheses();
 	}
 	
-	// -------------------------------------//
-	// ----------------METHODES-------------//
-	// -------------------------------------//
+	// ----------------------------------------- //
+	// -----------------METHODES---------------- //
+	// ----------------------------------------- //
 	
-	// ----------TITRE---------//
+	// ---------TITRE--------//
 	private void buildTitre(Integer numEtape)
 	{
-		titre = new JLabel(contenuTitre + numEtape);
+		titre = new JLabel(CONTENU_TITRE + numEtape);
 		titre.setPreferredSize(TAILLE_TITRE);
 		this.add(titre);
 	}
 	
-	// ------CONTENU-GAUCHE------//
-	@SuppressWarnings("unused")
-	private Integer initSynthese(int numEtape, DataEtape donnees_etape)
+	// --------Q_SYNTHESES-------- //
+	private void buildQtsSyntheses()
 	{
-		// Contient la synthese 1 et 2
-		listeSyntheses = donnees_etape.chargerSynthese(numEtape);
-		buildListeThemesSyntheses(listeSyntheses);
-		listeThemesSyntheses[0] = donnees_etape.chargerThemeSynthese((Integer) listeSyntheses.get(0).getId());
 		
-		return null;
 	}
 	
-	private void buildListeThemesSyntheses(KListObject<KSynthese> kliste)
+	// --------EVAL_CTL-------- //
+	private void buildEvalCtl()
 	{
-		listeThemesSyntheses = new Object [kliste.count()];
+		
 	}
 	
-	// -------------------------------------//
-	// ----------------GETTER---------------//
-	// -------------------------------------//
+	// --------var-------- //
 	
-	// -------------------------------------//
-	// ----------------SETTER---------------//
-	// -------------------------------------//
+	// ----------------------------------------- //
+	// ---------------ACCESSEURS---------------- //
+	// ----------------------------------------- //
 	
+	// ----------------------------------------- //
+	// ----------------MUTATEURS---------------- //
+	// ----------------------------------------- //
 }
