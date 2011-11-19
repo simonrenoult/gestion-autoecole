@@ -22,16 +22,13 @@ public class bdd
 	// ----------------------------------------- //
 	
 	public static KDBMysql connexion()
-	{	
+	{
 		db = new KDBMysql("localhost" , "admin" , "admin" , "autoecole.0.2");
 		
 		try
 		{
 			db.connect();
 			// genererClasses();
-			
-			// System.out.println("Connexion a "+db.getBaseName() +
-			// " reussie.");
 		}
 		catch (Exception e)
 		{}
@@ -52,12 +49,12 @@ public class bdd
 		catch (ClassNotFoundException e1)
 		{
 			e1.printStackTrace();
-			System.out.println("ça marche pas");
+			System.out.println("ï¿½a marche pas");
 		}
 		catch (SQLException e1)
 		{
 			e1.printStackTrace();
-			System.out.println("ça marche pas");
+			System.out.println("ï¿½a marche pas");
 		}
 	}
 }

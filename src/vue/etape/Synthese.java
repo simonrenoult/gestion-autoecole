@@ -28,7 +28,7 @@ public class Synthese extends JPanel
 	private static Dimension					TAILLE_CONTENU_COL_D	= new Dimension(270 , 240);
 	
 	// -------------------------------------//
-	// -------------CONSTRUCTOR-------------//
+	// -------------CONSTRUCTOR-------------//dp
 	// -------------------------------------//
 	
 	public Synthese(Integer numEtape, DataEtape donnees_etape)
