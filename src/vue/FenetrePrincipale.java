@@ -3,7 +3,7 @@ package vue;
 
 import controleur.*;
 import javax.swing.*;
-import vue.etape.Etape;
+import vue.etape.VueEtape;
 import modele.bdd;
 import java.awt.*;
 
@@ -15,7 +15,7 @@ public class FenetrePrincipale extends JFrame {
 	//Classes
 	
 	private FicheEleve ficheEleve = new FicheEleve();
-	private Etape[] etape = new Etape[4];
+	private VueEtape[] etape = new VueEtape[4];
 	private InteroOrale intero = new InteroOrale();
 	private ExamenBlanc examB = new ExamenBlanc();
 
@@ -65,7 +65,7 @@ public class FenetrePrincipale extends JFrame {
 		
 		//Creation des étapes.
 		for (int i = 0; i < 4; i++) {
-			etape[i] = new Etape(i);
+			etape[i] = new VueEtape(i);
 		}
 
 		JlisteEleves = new JList();
@@ -214,23 +214,23 @@ public class FenetrePrincipale extends JFrame {
 	
 	////////////////////////////////////////////////////////GETTERS/SETTERS
 	
-	public Etape[] getEtape(){
+	public VueEtape[] getEtape(){
 		return etape;
 	}
 	
-	public Etape getEtape1() {
+	public VueEtape getEtape1() {
 		return etape[0];
 	}
 
-	public Etape getEtape2() {
+	public VueEtape getEtape2() {
 		return etape[1];
 	}
 
-	public Etape getEtape3() {
+	public VueEtape getEtape3() {
 		return etape[2];
 	}
 
-	public Etape getEtape4() {
+	public VueEtape getEtape4() {
 		return etape[3];
 	}
 

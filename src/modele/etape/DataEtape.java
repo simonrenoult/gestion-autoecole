@@ -12,6 +12,8 @@ public class DataEtape
 	
 	private KDBMysql		db	= bdd.connexion();
 	
+	private Integer numEtape;
+	
 	private DataObjectifs	donneesObjectifs;
 	private DataSynthese	donneesSynthese;
 	
@@ -19,8 +21,9 @@ public class DataEtape
 	// --------------CONSTRUCTEURS-------------- //
 	// ----------------------------------------- //
 	
-	public DataEtape(int numEtape)
+	public DataEtape(Integer numeroEtape)
 	{
+		this.numEtape = numeroEtape;
 		donneesObjectifs = new DataObjectifs(this.db , numEtape);
 		donneesSynthese = new DataSynthese(this.db , numEtape);
 	}
