@@ -19,20 +19,19 @@ public class bdd
 	
 	public static KDBMysql connexion()
 	{
-		db = new KDBMysql("localhost" , "admin" , "admin" , "autoecolev2");
+		db = new KDBMysql("localhost" , "admin" , "admin" , "autoecole");
 		
 		try
 		{
 			db.connect();
-			// genererClasses();
 		}
 		catch (Exception e)
 		{
-			System.out.println("Erreur lors de l'établisement de la connexion à la base de données.");
-			System.out.println("Pensez à vérifier que :");
-			System.out.println('\t'+"1 - Votre serveur est bien allumé ;");
+			System.out.println("Erreur lors de l'etablisement de la connexion a la base de donnees.");
+			System.out.println("Pensez a verifier que :");
+			System.out.println('\t'+"1 - Votre serveur est bien allume ;");
 			System.out.println('\t'+"2 - Les identifiants de connexion sont exacts ;");
-			System.out.println('\t'+"3 - Le nom de la base de donnée est le bon ;");
+			System.out.println('\t'+"3 - Le nom de la base de donnee est le bon ;");
 		}
 		
 		return db;

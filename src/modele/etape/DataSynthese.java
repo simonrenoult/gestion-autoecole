@@ -5,7 +5,7 @@ import net.ko.kobject.KListObject;
 import net.ko.ksql.KDBMysql;
 import KClass.KQuestions_synthese;
 import KClass.KSynthese;
-import KClass.KTheme_synthese;
+import KClass.KThemes_synthese;
 
 public class DataSynthese
 {
@@ -17,7 +17,7 @@ public class DataSynthese
 	
 	private KListObject<KSynthese>				syntheses;
 	private KListObject<KQuestions_synthese>	questionsSyn;
-	private KListObject<KTheme_synthese>		themesSyn;
+	private KListObject<KThemes_synthese>		themesSyn;
 	
 	// ----------------------------------------- //
 	// --------------CONSTRUCTEURS-------------- //
@@ -44,9 +44,9 @@ public class DataSynthese
 		return tmp;
 	}
 	
-	public KListObject<KTheme_synthese> chargerThemeSynthese(int numSynthese)
+	public KListObject<KThemes_synthese> chargerThemeSynthese(int numSynthese)
 	{
-		KListObject<KTheme_synthese> tmp = new KListObject<KTheme_synthese>(KTheme_synthese.class);
+		KListObject<KThemes_synthese> tmp = new KListObject<KThemes_synthese>(KThemes_synthese.class);
 		tmp.loadFromDb(db , "select * from theme_synthese where idSYNTHESE = '" + numSynthese + "'");
 		
 		return tmp;
@@ -74,7 +74,7 @@ public class DataSynthese
 		return questionsSyn;
 	}
 	
-	public KListObject<KTheme_synthese> getThemesSyn()
+	public KListObject<KThemes_synthese> getThemesSyn()
 	{
 		return themesSyn;
 	}
@@ -93,7 +93,7 @@ public class DataSynthese
 		this.questionsSyn = questionsSyn;
 	}
 	
-	public void setThemesSyn(KListObject<KTheme_synthese> themesSyn)
+	public void setThemesSyn(KListObject<KThemes_synthese> themesSyn)
 	{
 		this.themesSyn = themesSyn;
 	}

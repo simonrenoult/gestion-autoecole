@@ -10,7 +10,7 @@ public class DataEtape
 	// ----------------ATTRIBUTS---------------- //
 	// ----------------------------------------- //
 	
-	private KDBMysql		db	= bdd.connexion();
+	private KDBMysql		db	= bdd.db;
 	
 	private Integer numEtape;
 	

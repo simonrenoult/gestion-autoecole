@@ -10,6 +10,7 @@ import java.net.MalformedURLException;
 import java.sql.SQLException;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import modele.bdd;
 import net.ko.kobject.KListObject;
 import net.ko.ksql.KDBMysql;
 import KClass.KAgenda;
@@ -45,9 +46,15 @@ public class Export
 {
 	
 	// ----------------------------------------- //
-	// --------------CONSTRUCTEURS-------------- //
+	// ----------------ATTRIBUTS---------------- //
 	// ----------------------------------------- //
 	
+	private KDBMysql db = bdd.db;
+
+	// ----------------------------------------- //
+	// --------------CONSTRUCTEURS-------------- //
+	// ----------------------------------------- //
+
 	// Constructeur de la classe Export().
 	public Export()
 	{
@@ -69,41 +76,41 @@ public class Export
 		 * - Le moins important : - Nettoyer le code (rcpctitions des synthcses
 		 * et des cases, fonction "passageALaLigneAutomatique"...). - Commenter.
 		 */
-		
+
 	}
-	
+
 	// ----------------------------------------- //
 	// -----------------METHODES---------------- //
 	// ----------------------------------------- //
-	
+
 	// Sclectionne si l'action choisie est un export ou une impression.
 	public void exportOuImpression(int index,FenetrePrincipale fenetre,int action)
 	{
-		
+
 		if (action == 0) exportPDF(index, fenetre);
 		if (action == 1) exportPDFs(fenetre);
 		if (action == 2) impressionPDF(index, fenetre);
-		
+
 	}
-	
+
 	// Crce et stocke un document PDF contenant toutes les donnces saisies dans
 	// le logiciel pour l'clcve sclectionnc.
 	private void exportPDF(int index,FenetrePrincipale fenetre)
 	{
-		
+
 		if (index != -1)
 		{
 			Document doc = new Document();
 			PdfWriter writer = null;
-			
+
 			try
 			{
 				JFileChooser chooser = null;
-				
+
 				// Instance du fichier s'il n'existe pas.
 				if (chooser == null) chooser = new JFileChooser();
 				chooser.setSelectedFile(new File("Eleve nc" + (index + 1)));
-				
+
 				// Ouverture d'une fenctre de dialogue pour choisir
 				// l'emplacement d'enregistrement du fichier.
 				if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION)
@@ -129,17 +136,17 @@ public class Export
 			{
 				e.printStackTrace();
 			}
-			
+
 			if (writer != null)
 			{
 				try
 				{
 					creationPDF(writer, doc, index, fenetre);
-					
+
 					// Affichage instantance du contenu du document PDF.
 					Runtime.getRuntime().exec(
 							"rundll32 url.dll, FileProtocolHandler " + "Eleve nc" + (index + 1) + ".pdf");
-					
+
 				}
 				catch (FileNotFoundException e1)
 				{
@@ -154,21 +161,21 @@ public class Export
 					e3.printStackTrace();
 				}
 			}
-			
+
 		}
 		else
 		{
 			JOptionPane.showMessageDialog(null, "Sans clcve sclectionnc, l'export est impossible.",
 					"Export impossible", JOptionPane.WARNING_MESSAGE);
 		}
-		
+
 	}
-	
+
 	// Crce et stocke plusieurs documents PDF contenant toutes les donnces
 	// saisies dans le logiciel pour tous les clcves.
 	private void exportPDFs(FenetrePrincipale fenetre)
 	{
-		
+
 		KDBMysql db = new KDBMysql("localhost", "admin", "admin", "autoecole4");
 		try
 		{
@@ -182,24 +189,24 @@ public class Export
 		{
 			e2.printStackTrace();
 		}
-		
+
 		KListObject<KEleve> eleves = new KListObject<KEleve>(KEleve.class);
 		eleves.loadFromDb(db);
-		
+
 		for (int i = 0; i < eleves.count(); i++)
 		{
-			
+
 			Document doc = new Document();
 			PdfWriter writer = null;
-			
+
 			try
 			{
 				JFileChooser chooser = null;
-				
+
 				// Instance du fichier s'il n'existe pas.
 				if (chooser == null) chooser = new JFileChooser();
 				chooser.setSelectedFile(new File("Eleve nc" + (i + 1)));
-				
+
 				try
 				{
 					writer = PdfWriter.getInstance(doc, new FileOutputStream(chooser.getSelectedFile() + ".pdf"));
@@ -217,7 +224,7 @@ public class Export
 			{
 				e.printStackTrace();
 			}
-			
+
 			if (writer != null)
 			{
 				try
@@ -238,17 +245,17 @@ public class Export
 				}
 			}
 		}
-		
+
 	}
-	
+
 	// Imprime un document PDF contenant toutes les donnces saisies dans le
 	// logiciel pour l'clcve sclectionnc.
 	private void impressionPDF(int index,FenetrePrincipale fenetre)
 	{
-		
+
 		Document doc = new Document();
 		PdfWriter writer = null;
-		
+
 		try
 		{
 			writer = PdfWriter.getInstance(doc, new FileOutputStream("Eleve nc" + (index + 1) + ".pdf"));
@@ -261,13 +268,13 @@ public class Export
 		{
 			e.printStackTrace();
 		}
-		
+
 		if (index != -1)
 		{
 			try
 			{
 				creationPDF(writer, doc, index, fenetre);
-				
+
 				// Vcrification pour savoir s'il y a un programme d'impression
 				// par dcfaut.
 				if (Desktop.isDesktopSupported())
@@ -294,7 +301,7 @@ public class Export
 								"Programme par dcfaut", JOptionPane.WARNING_MESSAGE);
 					}
 				}
-				
+
 			}
 			catch (FileNotFoundException e1)
 			{
@@ -315,21 +322,21 @@ public class Export
 			JOptionPane.showMessageDialog(null, "Sans clcve sclectionnc, l'impression est impossible.",
 					"Impression impossible", JOptionPane.WARNING_MESSAGE);
 		}
-		
+
 	}
-	
+
 	// Exporte les donnces saisies pour un clcve dans un livret gcncrc en PDF.
 	// Facilite l'impression.
 	private void creationPDF(PdfWriter writer,Document doc,int index,FenetrePrincipale fenetre)
 			throws FileNotFoundException,DocumentException,IOException
 	{
-		
+
 		// Ouverture du document PDF sur lequel on va ccrire les informations du
 		// livret.
 		doc.open();
-		
+
 		// Connexion c la base de donnces.
-		KDBMysql db = new KDBMysql("localhost", "admin", "admin", "autoecole4");
+		/*KDBMysql db = new KDBMysql("localhost", "admin", "admin", "autoecole4");
 		try
 		{
 			db.connect();
@@ -341,8 +348,8 @@ public class Export
 		catch (SQLException e2)
 		{
 			e2.printStackTrace();
-		}
-		
+		}*/
+
 		// Importation des diffcrentes donnces nccessaires pour le livret, c
 		// partir de la base de donnces.
 		KListObject<KEleve> eleves = new KListObject<KEleve>(KEleve.class);
@@ -350,7 +357,7 @@ public class Export
 		KEleve kEl = eleves.get(index);
 		KMoniteur kM = kEl.getMoniteur();
 		KFormation kFo = kEl.getFormation();
-		
+
 		// Initialisation de variables utilisces pour l'affichage de texte et
 		// d'images.
 		int xBaseGroupe = 0;
@@ -358,11 +365,11 @@ public class Export
 		BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
 		Paragraph sautLigne = new Paragraph(" ");
 		PdfContentByte canvas = writer.getDirectContent();
-		
+
 		// -------------------
 		// --- FICHE cLcVE ---
 		// -------------------
-		
+
 		// Affichage de la fiche clcve c partir des informations de la base de
 		// donnces.
 		affichageFicheEleve(xBaseGroupe, yBaseGroupe, sautLigne, doc, writer, canvas, bf, kEl, kM, kFo, fenetre);
@@ -371,16 +378,16 @@ public class Export
 		doc.add(sautLigne);
 		doc.add(sautLigne);
 		doc.add(sautLigne);
-		
+
 		// --------------------------
 		// --- TABLEAU DES LEcONS ---
 		// --------------------------
-		
+
 		// Affichage du titre du tableau des lecons.
 		bf = BaseFont.createFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
 		absText("FORMATION PRATIQUE", 200, 388, writer, bf, 17);
 		bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-		
+
 		// Affichage du tableau des lecons, dccomposc en deux parties, c partir
 		// des informations de la base de donnces.
 		tableauLecons(0, 17, 32, 365, canvas, db, kEl);
@@ -388,31 +395,31 @@ public class Export
 		tableauLecons(18, 53, 32, 700, canvas, db, kEl);
 		// tableauLecons(18, 35, 32, 700, canvas, db, kEl);
 		// tableauLecons(36, 53, 32, 350, canvas, db, kEl);
-		
+
 		// ----------------
 		// --- 4 ETAPES ---
 		// ----------------
-		
+
 		// Affichage de chacun des quatre ctapes (objectifs et synthcses) c
 		// partir des informations de la base de donnces.
 		for (int i = 1; i <= 4; i++)
 		{
 			affichageEtape(i, xBaseGroupe, yBaseGroupe, doc, writer, canvas, bf, db, kEl, kM, index, fenetre);
 		}
-		
+
 		// ---------------------------
 		// --- INTERROGATION ORALE ---
 		// ---------------------------
-		
+
 		// Ouverture d'une nouvelle page.
 		doc.newPage();
-		
+
 		// Affichage du titre de l'interrogation orale.
 		Paragraph titreIO = new Paragraph("INTERROGATION ORALE V2 (extcrieur vchicule)", FontFactory.getFont(
 				FontFactory.HELVETICA, 18, Font.BOLD));
 		doc.add(titreIO);
 		doc.add(new LineSeparator(1, 100, BaseColor.BLUE, Element.ALIGN_CENTER, -14));
-		
+
 		// Appel c la fonction permettant d'afficher les questions et les ctats
 		// des rcponses de l'interrogation orale.
 		// L'ordonnce et l'abscisse sont attribuces en fonction de la position
@@ -420,28 +427,28 @@ public class Export
 		xBaseGroupe = 45;
 		yBaseGroupe = 740;
 		questionsReponsesInterrogationOrale(xBaseGroupe, yBaseGroupe, doc, writer, bf, db, index);
-		
+
 		// --------------------
 		// --- EXAMEN BLANC ---
 		// --------------------
-		
+
 		// TODO : A faire.
-		
+
 		// Fermeture du document PDF.
 		doc.close();
-		
+
 	}
-	
+
 	// ----------------------------------------- //
 	// ---------------AFFICHAGES---------------- //
 	// ----------------------------------------- //
-	
+
 	// Affiche une fiche clcve c partir des informations de la base de donnces.
 	private void affichageFicheEleve(int xBaseGroupe,int yBaseGroupe,Paragraph sautLigne,Document doc,PdfWriter writer,
 			PdfContentByte canvas,BaseFont bf,KEleve kEl,KMoniteur kM,KFormation kFo,FenetrePrincipale fenetre)
 			throws DocumentException,IOException
 	{
-		
+
 		// Crcation des diffcrentes formes gcomctriques utilisces sur la
 		// premicre page.
 		canvas.setLineWidth(1);
@@ -451,7 +458,7 @@ public class Export
 		canvas.rectangle(28, 430, 260, 64);
 		canvas.rectangle(310, 430, 260, 45);
 		canvas.stroke();
-		
+
 		// Affichage du titre s'affichant en haut de la premicre page.
 		Paragraph titre = new Paragraph("FICHE DE SUIVI   " + kFo.getLIBELLE_FORMATION(), FontFactory.getFont(
 				FontFactory.HELVETICA, 20, Font.BOLD));
@@ -460,7 +467,7 @@ public class Export
 		doc.add(new LineSeparator(1, 100, BaseColor.BLUE, Element.ALIGN_CENTER, -14));
 		doc.add(sautLigne);
 		doc.add(sautLigne);
-		
+
 		// Affichage des informations lices c l'cvaluation de dcpart de l'clcve.
 		doc.add(new Paragraph("      Evaluation de dcpart", FontFactory.getFont(null, 14, Font.BOLD)));
 		doc.add(new Chunk("Date :", FontFactory.getFont(null, 12, Font.BOLD)));
@@ -473,14 +480,14 @@ public class Export
 		doc.add(new Paragraph("Thcorique :    " + kEl.getVOLUME_HORAIRE_TH_ELEVE() + " H"));
 		doc.add(new Paragraph("Pratique :    " + kEl.getVOLUME_HORAIRE_PRATIQUE_ELEVE() + " H"));
 		doc.add(sautLigne);
-		
+
 		// Affichage des dates d'inscription et d'enregistrement de l'clcve.
 		doc.add(new Paragraph("Inscription", FontFactory.getFont(null, 12, Font.BOLD)));
 		doc.add(new Paragraph("                " + kEl.getDATE_INSCRIPTION_ELEVE()));
 		doc.add(new Paragraph("Enregistrement", FontFactory.getFont(null, 12, Font.BOLD)));
 		doc.add(new Paragraph("                " + kEl.getDATE_ENREGISTREMENT_ELEVE()));
 		doc.add(sautLigne);
-		
+
 		// Affichage des diffcrentes informations personnelles (civilitcs) de
 		// l'clcve.
 		bf = BaseFont.createFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
@@ -500,7 +507,7 @@ public class Export
 		if (kEl.getPROFESSION_ELEVE() != null) absText("Profession :    " + kEl.getPROFESSION_ELEVE(), xBaseGroupe,
 				yBaseGroupe - 178, writer, bf, 12);
 		else absText("Profession :", xBaseGroupe, yBaseGroupe - 178, writer, bf, 12);
-		
+
 		// Affichage de la photo de l'clcve.
 		try
 		{
@@ -515,9 +522,9 @@ public class Export
 		}
 		catch (FileNotFoundException e)
 		{
-			
+
 		}
-		
+
 		// Affichage des informations lices au test de la vue passc par l'clcve.
 		if (kEl.getTEST_VU_ELEVE() == 1)
 		{
@@ -538,33 +545,33 @@ public class Export
 			doc.add(new Paragraph(""));
 		}
 		observationVueEleve(writer, bf, kEl);
-		
+
 		// Affichage du nc N.E.P.H. attribuc au livret de l'clcve, de son
 		// responsable de formation et de son moniteur.
 		xBaseGroupe = 340;
 		yBaseGroupe = 504;
-		
+
 		absText("LIVRET D'APPRENTISSAGE Nc N.E.P.H.", xBaseGroupe, yBaseGroupe, writer, bf, 12);
 		absText("" + kEl.getLIVRET_NEPH_ELEVE(), xBaseGroupe - 10, yBaseGroupe - 20, writer, bf, 12);
-		
+
 		absText("Responsable de la formation :    ", xBaseGroupe - 20, yBaseGroupe - 45, writer, bf, 12);
 		absText("Formateur :    " + kM.getPRENOM_MONITEUR() + " " + kM.getNOM_MONITEUR().toUpperCase(),
 				xBaseGroupe - 20, yBaseGroupe - 65, writer, bf, 12);
-		
+
 	}
-	
+
 	// Affiche l'observation de la vue de l'clcve de telle facon que le texte ne
 	// dcpasse pas du cadre le contenant.
 	private void observationVueEleve(PdfWriter writer,BaseFont bf,KEleve kEl) throws DocumentException,IOException
 	{
-		
+
 		boolean finChaine = false;
 		String chaineActuelle;
 		chaineActuelle = kEl.getOBSERVATION_VUE_ELEVE();
 		int maxCharLigne;
 		maxCharLigne = 42;
 		int k = 0;
-		
+
 		while (!(finChaine))
 		{
 			if (chaineActuelle.length() >= maxCharLigne)
@@ -581,44 +588,44 @@ public class Export
 			}
 			k++;
 		}
-		
+
 	}
-	
+
 	// Affiche un tableau de lecons c partir des informations de la base de
 	// donnces.
 	private void tableauLecons(int debutLecons,int finLecons,int positionTableauX,int positionTableauY,
 			PdfContentByte canvas,KDBMysql db,KEleve kEl)
 	{
-		
+
 		KListObject<KMoniteur> moniteurs = new KListObject<KMoniteur>(KMoniteur.class);
 		Phrase p;
 		PdfPCell c;
-		
+
 		PdfPTable tL = new PdfPTable(new float[] { 5, 4, 3, 7, 10 });
 		tL.setTotalWidth(530);
-		
+
 		p = new Phrase("Date", FontFactory.getFont(null, 11, Font.BOLD));
 		tL.addCell(placerCelluleCentreeTableauLecons(p));
-		
+
 		p = new Phrase("Horaire", FontFactory.getFont(null, 11, Font.BOLD));
 		tL.addCell(placerCelluleCentreeTableauLecons(p));
-		
+
 		p = new Phrase("Durce", FontFactory.getFont(null, 11, Font.BOLD));
 		tL.addCell(placerCelluleCentreeTableauLecons(p));
-		
+
 		p = new Phrase("Moniteur", FontFactory.getFont(null, 11, Font.BOLD));
 		tL.addCell(placerCelluleCentreeTableauLecons(p));
-		
+
 		p = new Phrase("Observation", FontFactory.getFont(null, 11, Font.BOLD));
 		tL.addCell(placerCelluleCentreeTableauLecons(p));
-		
+
 		for (int i = debutLecons; i <= finLecons; i++)
 		{
-			
+
 			KAssurer_lecon kLec = null;
 			KAgenda kAg = null;
 			KMoniteur kM = null;
-			
+
 			try
 			{
 				kLec = kEl.getAssurer_lecons().get(i);
@@ -628,9 +635,9 @@ public class Export
 			}
 			catch (IndexOutOfBoundsException e)
 			{
-				
+
 			}
-			
+
 			try
 			{
 				if ((i + 1) < 10) p = new Phrase((i + 1) + "     " + kAg.getDATE_AGENDA(), FontFactory.getFont(null,
@@ -649,7 +656,7 @@ public class Export
 			c = new PdfPCell(p);
 			c = positionnerCellule(c, 1.2f, 1, 1, 0, 3);
 			tL.addCell(c);
-			
+
 			try
 			{
 				p = new Phrase(kAg.getHEURE_AGENDA() + "", FontFactory.getFont(null, 10, Font.NORMAL));
@@ -663,7 +670,7 @@ public class Export
 				p = new Phrase(" ", FontFactory.getFont(null, 10, Font.NORMAL));
 			}
 			tL.addCell(placerCelluleCentreeTableauLecons(p));
-			
+
 			try
 			{
 				p = new Phrase(compterHeure(kLec.getDUREE_LECON()), FontFactory.getFont(null, 10, Font.NORMAL));
@@ -677,7 +684,7 @@ public class Export
 				p = new Phrase(" ", FontFactory.getFont(null, 10, Font.NORMAL));
 			}
 			tL.addCell(placerCelluleCentreeTableauLecons(p));
-			
+
 			try
 			{
 				moniteurs.loadFromDb(db, "SELECT * FROM moniteur WHERE id=" + kLec.getIdMONITEUR());
@@ -695,7 +702,7 @@ public class Export
 				p = new Phrase(" ", FontFactory.getFont(null, 10, Font.NORMAL));
 			}
 			tL.addCell(placerCelluleCentreeTableauLecons(p));
-			
+
 			try
 			{
 				p = new Phrase(kLec.getOBSERVATION_LECON(), FontFactory.getFont(null, 10, Font.NORMAL));
@@ -709,33 +716,33 @@ public class Export
 				p = new Phrase(" ", FontFactory.getFont(null, 10, Font.NORMAL));
 			}
 			tL.addCell(placerCelluleCentreeTableauLecons(p));
-			
+
 		}
-		
+
 		tL.writeSelectedRows(0, -1, positionTableauX, positionTableauY, canvas);
-		
+
 	}
-	
+
 	// Affiche une ctape c partir des informations de la base de donnces.
 	private void affichageEtape(int numEtape,int xBaseGroupe,int yBaseGroupe,Document doc,PdfWriter writer,
 			PdfContentByte canvas,BaseFont bf,KDBMysql db,KEleve kEl,KMoniteur kM,int index,FenetrePrincipale fenetre)
 			throws DocumentException,IOException
 	{
-		
+
 		// Initialisation d'une variable qui va servir comme ordonnce
 		// temporaire.
 		int yTMP = 0;
-		
+
 		// Ouverture d'une nouvelle page.
 		doc.newPage();
-		
+
 		// Affichage du titre de la page.
 		Paragraph titreE = new Paragraph("ETAPE " + numEtape, FontFactory.getFont(FontFactory.HELVETICA, 20, Font.BOLD));
 		doc.add(titreE);
-		
+
 		// Affichage du tableau de l'ctape "numEtape".
 		tableauObjectifsEtape(numEtape, doc, canvas, db, index);
-		
+
 		// Affichage du titre de la partie des questions posces c l'cvaluation
 		// de synthcse de l'ctape "numEtape".
 		bf = BaseFont.createFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
@@ -744,7 +751,7 @@ public class Export
 		else if (numEtape == 3) absText("FICHE D'cVALUATION DE SYNTHcSE DE LA TROISIcME cTAPE", 38, 438, writer, bf, 16);
 		else if (numEtape == 4) absText("FICHE D'cVALUATION DE SYNTHcSE DE LA QUATRIcME cTAPE", 38, 334, writer, bf, 16);
 		bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-		
+
 		// Affichage des questions posces c l'cvaluation de synthcse de l'ctape
 		// "numEtape".
 		if (numEtape == 1)
@@ -768,7 +775,7 @@ public class Export
 			yBaseGroupe = 308;
 		}
 		questionsReponsesSynthese(numEtape, xBaseGroupe, yBaseGroupe, doc, writer, bf, db, index);
-		
+
 		// Affichage du titre de la partie des rcsultats de l'cvaluation de
 		// synthcse de l'ctape "numEtape".
 		if (numEtape == 1) yTMP = 190;
@@ -778,7 +785,7 @@ public class Export
 		bf = BaseFont.createFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
 		absText("RcSULTATS DE L'cVALUATION DE SYNTHcSE", 38, yTMP, writer, bf, 16);
 		bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-		
+
 		// Affichage des rcsultats de l'cvaluation de synthcse de l'ctape
 		// "numEtape".
 		if (numEtape == 1) yTMP = 86;
@@ -786,25 +793,25 @@ public class Export
 		else if (numEtape == 3) yTMP = 120;
 		else if (numEtape == 4) yTMP = 28;
 		resultatsSynthese(numEtape, yTMP, writer, canvas, bf, db, kEl, kM, index, fenetre);
-		
+
 	}
-	
+
 	// Affiche le tableau des objectifs d'une ctape c partir des informations de
 	// la base de donnces.
 	private void tableauObjectifsEtape(int numEtape,Document doc,PdfContentByte canvas,KDBMysql db,int index)
 			throws DocumentException
 	{
-		
+
 		KListObject<KObjectif> objectifsE = new KListObject<KObjectif>(KObjectif.class);
 		objectifsE.loadFromDb(db, "SELECT * FROM objectif WHERE idETAPE=" + numEtape);
 		KListObject<KRealiser> realiserE = new KListObject<KRealiser>(KRealiser.class);
-		
+
 		Phrase p;
 		PdfPCell c;
-		
+
 		PdfPTable tOE = new PdfPTable(new float[] { 3, 1, 5 });
 		tOE.setTotalWidth(540);
-		
+
 		p = new Phrase("Objectif gcncral : Connactre les situations prcsentant des difficultcs particulicres.",
 				FontFactory.getFont(null, 12, Font.BOLD));
 		c = new PdfPCell(p);
@@ -812,22 +819,22 @@ public class Export
 		c.setHorizontalAlignment(Element.ALIGN_CENTER);
 		c = positionnerCellule(c, 1.2f, 5, 5, 2, 7);
 		tOE.addCell(c);
-		
+
 		p = new Phrase("Objectifs :", FontFactory.getFont(null, 12, Font.BOLD));
 		tOE.addCell(placerCelluleCentreeTableauObjectifsEtape(p));
-		
+
 		p = new Phrase(" ");
 		tOE.addCell(placerCelluleNonCentreeTableauObjectifsEtape(p));
-		
+
 		p = new Phrase("Observations", FontFactory.getFont(null, 12, Font.BOLD));
 		tOE.addCell(placerCelluleCentreeTableauObjectifsEtape(p));
-		
+
 		for (int i = 0; i < objectifsE.count(); i++)
 		{
-			
+
 			p = new Phrase(objectifsE.get(i).getLIBELLE_OBJECTIF(), FontFactory.getFont(null, 10, Font.NORMAL));
 			tOE.addCell(placerCelluleNonCentreeTableauObjectifsEtape(p));
-			
+
 			realiserE.loadFromDb(db, "SELECT * FROM realiser WHERE idELEVE=" + (index + 1) + " AND idOBJECTIF="
 					+ objectifsE.get(i).getId());
 			try
@@ -844,7 +851,7 @@ public class Export
 				p = new Phrase(" ", FontFactory.getFont(null, 10, Font.NORMAL));
 			}
 			tOE.addCell(placerCelluleNonCentreeTableauObjectifsEtape(p));
-			
+
 			try
 			{
 				p = new Phrase(realiserE.get(0).getOBSERVATION_OBJECTIF(), FontFactory.getFont(null, 10, Font.NORMAL));
@@ -854,24 +861,24 @@ public class Export
 				p = new Phrase(" ", FontFactory.getFont(null, 10, Font.NORMAL));
 			}
 			tOE.addCell(placerCelluleNonCentreeTableauObjectifsEtape(p));
-			
+
 			realiserE.clear();
-			
+
 		}
-		
+
 		tOE.writeSelectedRows(0, -1, 28, 756, canvas);
-		
+
 	}
-	
+
 	// Affiche les questions des synthcses et les rcponses donnces aux synthcses
 	// (cases) c partir des informations de la base de donnces.
 	private void questionsReponsesSynthese(int numEtape,int x,int y,Document doc,PdfWriter writer,BaseFont bf,
 			KDBMysql db,int index) throws DocumentException,IOException
 	{
-		
+
 		questionsSynthese(numEtape, x, y, doc, writer, bf, db, index);
 		reponsesSynthese(numEtape, x + 228, y, writer, db, index);
-		
+
 		/*
 		 * TODO : Remplacer code en dur et automatiser.
 		 * KListObject<KCategorie_questions_synthese> categoriesQS = new
@@ -945,25 +952,25 @@ public class Export
 		 * 
 		 * }
 		 */
-		
+
 	}
-	
+
 	// Affiche les questions des synthcses c partir des informations de la base
 	// de donnces.
 	private void questionsSynthese(int numEtape,int x,int y,Document doc,PdfWriter writer,BaseFont bf,KDBMysql db,
 			int index) throws DocumentException,IOException
 	{
-		
+
 		int x2 = x + 282;
 		KListObject<KSynthese> syntheses = new KListObject<KSynthese>(KSynthese.class);
 		syntheses.loadFromDb(db, "SELECT id FROM synthese WHERE idETAPE=" + numEtape);
 		KListObject<KQuestions_synthese> questionsSynthese = new KListObject<KQuestions_synthese>(
 				KQuestions_synthese.class);
 		questionsSynthese.loadFromDb(db);
-		
+
 		if (numEtape == 1)
 		{
-			
+
 			absText("L'cLcVE VA MONTER EN VOITURE :", x, y, writer, bf, 10);
 			absText("- il regarde si aucun pneu n'est dcgonflc. .............", x, y - 12, writer, bf, 10);
 			absText("IL S'INSTALLE AU POSTE DE CONDUITE :", x, y - 24, writer, bf, 10);
@@ -984,7 +991,7 @@ public class Export
 					bf, 10);
 			absText("- au moment convenable, ......................................", x, y - 168, writer, bf, 10);
 			absText("- sans regarder le levier. ........................................", x, y - 180, writer, bf, 10);
-			
+
 			absText("IL ROULE EN LIGNE DROITE :", x2, y, writer, bf, 10);
 			absText("- sans dcviation notable. .................................", x2, y - 12, writer, bf, 10);
 			absText("IL TOURNE :", x2, y - 24, writer, bf, 10);
@@ -1000,11 +1007,11 @@ public class Export
 			absText("IL S'ARRcTE :", x2, y - 144, writer, bf, 10);
 			absText("- sans erreur, ...................................................", x2, y - 156, writer, bf, 10);
 			absText("- c l'endroit indiquc. .........................................", x2, y - 168, writer, bf, 10);
-			
+
 		}
 		else if (numEtape == 2)
 		{
-			
+
 			absText("L'cLcVE CONDUIT :", x, y, writer, bf, 10);
 			absText("- il a automatisc la manipulation", x, y - 12, writer, bf, 10);
 			absText("  des commandes, .................................................", x, y - 24, writer, bf, 10);
@@ -1016,7 +1023,7 @@ public class Export
 			absText("- il tient compte de la signalisation, ........................", x, y - 96, writer, bf, 10);
 			absText("- il choisit la voie convenable", x, y - 108, writer, bf, 10);
 			absText("  avant de tourner. .................................................", x, y - 120, writer, bf, 10);
-			
+
 			absText("IL FRANCHIT LES INTERSECTIONS :", x2, y, writer, bf, 10);
 			absText("- oc il n'a pas c ccder le passage, ..................", x2, y - 12, writer, bf, 10);
 			absText("- oc il doit ccder le passage c droite, ..............", x2, y - 24, writer, bf, 10);
@@ -1025,13 +1032,13 @@ public class Export
 			absText("- oc il doit marquer un temps d'arrct", x2, y - 60, writer, bf, 10);
 			absText("  et ccder le passage (stop), ...........................", x2, y - 72, writer, bf, 10);
 			absText("- avec feux tricolores. .....................................", x2, y - 84, writer, bf, 10);
-			
+
 			absText("(Cochez les intersections rencontrces.)", x2, y - 108, writer, bf, 10);
-			
+
 		}
 		else if (numEtape == 3)
 		{
-			
+
 			absText("L'cLcVE CHOISIT SON ITINcRAIRE :", x, y, writer, bf, 10);
 			absText("- il sait lire une carte routicre. ................................", x, y - 12, writer, bf, 10);
 			absText("L'cLcVE CONDUIT :", x, y - 24, writer, bf, 10);
@@ -1046,7 +1053,7 @@ public class Export
 			absText("- il revient c droite correctement. ...........................", x, y - 132, writer, bf, 10);
 			absText("L'cLcVE SE RANGE DANS UN CRcNEAU :", x, y - 144, writer, bf, 10);
 			absText("- il rcussit la manoeuvre. .......................................", x, y - 156, writer, bf, 10);
-			
+
 			absText("L'cLcVE RcPOND AUX QUESTIONS DE L'OBJECTIF", x2, y, writer, bf, 10);
 			absText("ALCOOL (i) :", x2, y - 12, writer, bf, 10);
 			absText("i1) - qu'appelle-t-on alcoolcmie ? ...................", x2, y - 24, writer, bf, 10);
@@ -1060,11 +1067,11 @@ public class Export
 			absText("i5) - pourquoi les effets de l'alcool sont-ils", x2, y - 120, writer, bf, 10);
 			absText("      particulicrement importants ches les", x2, y - 132, writer, bf, 10);
 			absText("      conducteurs dcbutants ? ..........................", x2, y - 144, writer, bf, 10);
-			
+
 		}
 		else if (numEtape == 4)
 		{
-			
+
 			absText("L'cLcVE S'INScRE CORRECTEMENT", x, y, writer, bf, 10);
 			absText("DANS LA CIRCULATION :", x, y - 12, writer, bf, 10);
 			absText("- en sortant d'un immeuble, ...................................", x, y - 24, writer, bf, 10);
@@ -1076,7 +1083,7 @@ public class Export
 			absText("- il maintient les distances de sccuritc, ..................", x, y - 96, writer, bf, 10);
 			absText("- il tient compte de la prcsence", x, y - 108, writer, bf, 10);
 			absText("  des pictons et des cyclistes. ................................", x, y - 120, writer, bf, 10);
-			
+
 			absText("L'cLcVE CONDUIT DANS UNE FILE DE VcHICULES :", x2, y, writer, bf, 10);
 			absText("- il choisit la file convenable, ...........................", x2, y - 12, writer, bf, 10);
 			absText("- il roule au centre de la voie, ..........................", x2, y - 24, writer, bf, 10);
@@ -1090,22 +1097,22 @@ public class Export
 			absText("- en cas d'accident, .........................................", x2, y - 120, writer, bf, 10);
 			absText("- entretien, dcpannage, ..................................", x2, y - 132, writer, bf, 10);
 			absText("- situations d'urgence. ....................................", x2, y - 144, writer, bf, 10);
-			
+
 		}
-		
+
 	}
-	
+
 	// Affiche les rcponses donnces aux synthcses (cases) c partir des
 	// informations de la base de donnces.
 	private void reponsesSynthese(int numEtape,int x,int y,PdfWriter writer,KDBMysql db,int index)
 			throws MalformedURLException,IndexOutOfBoundsException,NullPointerException,DocumentException,IOException
 	{
-		
+
 		int x2 = x + 264;
-		
+
 		if (numEtape == 1)
 		{
-			
+
 			reponseSynthese(1, 1, x, y - 12, writer, db, index);
 			reponseSynthese(1, 2, x, y - 36, writer, db, index);
 			reponseSynthese(1, 3, x, y - 48, writer, db, index);
@@ -1116,7 +1123,7 @@ public class Export
 			reponseSynthese(1, 8, x, y - 156, writer, db, index);
 			reponseSynthese(1, 9, x, y - 168, writer, db, index);
 			reponseSynthese(1, 10, x, y - 180, writer, db, index);
-			
+
 			reponseSynthese(1, 11, x2, y - 12, writer, db, index);
 			reponseSynthese(1, 12, x2, y - 36, writer, db, index);
 			reponseSynthese(1, 13, x2, y - 72, writer, db, index);
@@ -1125,11 +1132,11 @@ public class Export
 			reponseSynthese(1, 16, x2, y - 132, writer, db, index);
 			reponseSynthese(1, 17, x2, y - 156, writer, db, index);
 			reponseSynthese(1, 18, x2, y - 168, writer, db, index);
-			
+
 		}
 		else if (numEtape == 2)
 		{
-			
+
 			reponseSynthese(2, 1, x, y - 24, writer, db, index);
 			reponseSynthese(2, 2, x, y - 36, writer, db, index);
 			reponseSynthese(2, 3, x, y - 48, writer, db, index);
@@ -1137,17 +1144,17 @@ public class Export
 			reponseSynthese(2, 5, x, y - 84, writer, db, index);
 			reponseSynthese(2, 6, x, y - 96, writer, db, index);
 			reponseSynthese(2, 7, x, y - 120, writer, db, index);
-			
+
 			reponseSynthese(2, 8, x2, y - 12, writer, db, index);
 			reponseSynthese(2, 9, x2, y - 24, writer, db, index);
 			reponseSynthese(2, 10, x2, y - 48, writer, db, index);
 			reponseSynthese(2, 11, x2, y - 72, writer, db, index);
 			reponseSynthese(2, 12, x2, y - 84, writer, db, index);
-			
+
 		}
 		else if (numEtape == 3)
 		{
-			
+
 			reponseSynthese(3, 1, x, y - 12, writer, db, index);
 			reponseSynthese(3, 2, x, y - 36, writer, db, index);
 			reponseSynthese(3, 3, x, y - 48, writer, db, index);
@@ -1156,17 +1163,17 @@ public class Export
 			reponseSynthese(3, 6, x, y - 120, writer, db, index);
 			reponseSynthese(3, 7, x, y - 132, writer, db, index);
 			reponseSynthese(3, 8, x, y - 156, writer, db, index);
-			
+
 			reponseSynthese(3, 9, x2, y - 24, writer, db, index);
 			reponseSynthese(3, 10, x2, y - 36, writer, db, index);
 			reponseSynthese(3, 11, x2, y - 72, writer, db, index);
 			reponseSynthese(3, 12, x2, y - 108, writer, db, index);
 			reponseSynthese(3, 13, x2, y - 144, writer, db, index);
-			
+
 		}
 		else if (numEtape == 4)
 		{
-			
+
 			reponseSynthese(4, 1, x, y - 24, writer, db, index);
 			reponseSynthese(4, 2, x, y - 36, writer, db, index);
 			reponseSynthese(4, 3, x, y - 48, writer, db, index);
@@ -1174,7 +1181,7 @@ public class Export
 			reponseSynthese(4, 5, x, y - 84, writer, db, index);
 			reponseSynthese(4, 6, x, y - 96, writer, db, index);
 			reponseSynthese(4, 7, x, y - 120, writer, db, index);
-			
+
 			reponseSynthese(4, 8, x2, y - 12, writer, db, index);
 			reponseSynthese(4, 9, x2, y - 24, writer, db, index);
 			reponseSynthese(4, 10, x2, y - 36, writer, db, index);
@@ -1186,21 +1193,21 @@ public class Export
 			reponseSynthese(4, 16, x2, y - 120, writer, db, index);
 			reponseSynthese(4, 17, x2, y - 132, writer, db, index);
 			reponseSynthese(4, 18, x2, y - 144, writer, db, index);
-			
+
 		}
-		
+
 	}
-	
+
 	// Affiche une rcponse donnce c une synthcses (case) c partir des
 	// informations de la base de donnces.
 	private void reponseSynthese(int numEtape,int question,int abscissePremiereCase,int ordonnee,PdfWriter writer,
 			KDBMysql db,int index) throws DocumentException,MalformedURLException,IOException,
 			IndexOutOfBoundsException,NullPointerException
 	{
-		
+
 		KListObject<KSynthese> syntheses = new KListObject<KSynthese>(KSynthese.class);
 		KSynthese kSy = null;
-		
+
 		try
 		{
 			syntheses.loadFromDb(db, "SELECT * FROM synthese WHERE idETAPE=" + numEtape);
@@ -1214,11 +1221,11 @@ public class Export
 		{
 			deuxCasesVides(abscissePremiereCase, ordonnee, writer);
 		}
-		
+
 		KListObject<KQuestions_synthese> questionsSyntheseE = new KListObject<KQuestions_synthese>(
 				KQuestions_synthese.class);
 		KQuestions_synthese kQS = null;
-		
+
 		try
 		{
 			questionsSyntheseE.loadFromDb(db, "SELECT * FROM questions_synthese WHERE idSYNTHESE=" + kSy.getId());
@@ -1232,10 +1239,10 @@ public class Export
 		{
 			deuxCasesVides(abscissePremiereCase, ordonnee, writer);
 		}
-		
+
 		KListObject<KReponse> reponses = new KListObject<KReponse>(KReponse.class);
 		KReponse kRep = null;
-		
+
 		try
 		{
 			reponses.loadFromDb(db, "SELECT * FROM reponse WHERE idELEVE=" + (index + 1) + " AND idQUESTIONS_SYNTHESE="
@@ -1250,7 +1257,7 @@ public class Export
 		{
 			deuxCasesVides(abscissePremiereCase, ordonnee, writer);
 		}
-		
+
 		try
 		{
 			if (kRep.getETAT_REPONSE_1() == 1)
@@ -1266,7 +1273,7 @@ public class Export
 		{
 			caseVide(abscissePremiereCase, ordonnee, writer);
 		}
-		
+
 		try
 		{
 			if (kRep.getETAT_REPONSE_2() == 1)
@@ -1282,19 +1289,19 @@ public class Export
 		{
 			caseVide(abscissePremiereCase + 20, ordonnee, writer);
 		}
-		
+
 	}
-	
+
 	// Affiche les rcsultats de l'cvaluation de synthcse d'une ctape c partir
 	// des informations de la base de donnces.
 	private void resultatsSynthese(int numEtape,int ordonneeDebut,PdfWriter writer,PdfContentByte canvas,BaseFont bf,
 			KDBMysql db,KEleve kEl,KMoniteur kM,int index,FenetrePrincipale fenetre) throws DocumentException,
 			IOException
 	{
-		
+
 		KListObject<KSynthese> synthesesE = new KListObject<KSynthese>(KSynthese.class);
 		synthesesE.loadFromDb(db, "SELECT * FROM synthese WHERE idETAPE=" + numEtape);
-		
+
 		KListObject<KPasser> PE1 = new KListObject<KPasser>(KPasser.class);
 		try
 		{
@@ -1303,9 +1310,9 @@ public class Export
 		}
 		catch (IndexOutOfBoundsException e)
 		{
-			
+
 		}
-		
+
 		KListObject<KPasser> PE2 = new KListObject<KPasser>(KPasser.class);
 		try
 		{
@@ -1314,9 +1321,9 @@ public class Export
 		}
 		catch (IndexOutOfBoundsException e)
 		{
-			
+
 		}
-		
+
 		KListObject<KPasser> PE3 = new KListObject<KPasser>(KPasser.class);
 		try
 		{
@@ -1325,24 +1332,24 @@ public class Export
 		}
 		catch (IndexOutOfBoundsException e)
 		{
-			
+
 		}
-		
+
 		// FIXME : Problcme du nombres d'heures par rapport c la date
 		KListObject<KAssurer_lecon> lecons = kEl.getAssurer_lecons();
 		String nbHeuresLecons = compterHeure(lecons);
-		
+
 		canvas.setLineWidth(1);
 		canvas.setRGBColorStroke(0x70, 0x93, 0xDB);
 		canvas.rectangle(13, ordonneeDebut, 182, 86);
 		canvas.rectangle(205, ordonneeDebut, 184, 86);
 		canvas.rectangle(399, ordonneeDebut, 182, 86);
 		canvas.stroke();
-		
+
 		absText("Premicre cvaluation de synthcse faite", 19, ordonneeDebut + 70, writer, bf, 10);
 		Chunk c1S1;
 		Chunk c2S1;
-		
+
 		try
 		{
 			c1S1 = new Chunk("le " + PE1.get(0).getDATE_PASSAGE_SYNTHESE() + " ");
@@ -1351,7 +1358,7 @@ public class Export
 		{
 			c1S1 = new Chunk("le                  ");
 		}
-		
+
 		try
 		{
 			c2S1 = new Chunk("aprcs " + PE1.get(0).getNB_H_TH() + " heure(s)");
@@ -1360,10 +1367,10 @@ public class Export
 		{
 			c2S1 = new Chunk("aprcs            heure(s)");
 		}
-		
+
 		absText(c1S1 + "" + c2S1, 19, ordonneeDebut + 55, writer, bf, 10);
 		absText("d'enseignement thcorique et", 19, ordonneeDebut + 40, writer, bf, 10);
-		
+
 		try
 		{
 			absText(nbHeuresLecons + "d'enseignement pratique.", 19, ordonneeDebut + 25, writer, bf, 10);
@@ -1372,9 +1379,9 @@ public class Export
 		{
 			absText("           d'enseignement pratique.", 19, ordonneeDebut + 25, writer, bf, 10);
 		}
-		
+
 		bf = BaseFont.createFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-		
+
 		try
 		{
 			absText("RcSULTAT : " + PE1.get(0).getRESULTAT(), 19, ordonneeDebut + 10, writer, bf, 10);
@@ -1384,11 +1391,11 @@ public class Export
 			absText("RcSULTAT :", 19, ordonneeDebut + 10, writer, bf, 10);
 		}
 		bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-		
+
 		absText("Deuxicme cvaluation de synthcse faite", 211, ordonneeDebut + 70, writer, bf, 10);
 		Chunk c1S2;
 		Chunk c2S2;
-		
+
 		try
 		{
 			c1S2 = new Chunk("le " + PE2.get(0).getDATE_PASSAGE_SYNTHESE() + " ");
@@ -1397,7 +1404,7 @@ public class Export
 		{
 			c1S2 = new Chunk("le                  ");
 		}
-		
+
 		try
 		{
 			c2S2 = new Chunk("aprcs " + PE2.get(0).getNB_H_TH() + " heure(s)");
@@ -1406,10 +1413,10 @@ public class Export
 		{
 			c2S2 = new Chunk("aprcs            heure(s)");
 		}
-		
+
 		absText(c1S2 + "" + c2S2, 211, ordonneeDebut + 55, writer, bf, 10);
 		absText("d'enseignement thcorique et", 211, ordonneeDebut + 40, writer, bf, 10);
-		
+
 		try
 		{
 			absText(nbHeuresLecons + "d'enseignement pratique.", 211, ordonneeDebut + 25, writer, bf, 10);
@@ -1419,7 +1426,7 @@ public class Export
 			absText("           d'enseignement pratique.", 211, ordonneeDebut + 25, writer, bf, 10);
 		}
 		bf = BaseFont.createFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-		
+
 		try
 		{
 			absText("RcSULTAT : " + PE2.get(0).getRESULTAT(), 211, ordonneeDebut + 10, writer, bf, 10);
@@ -1429,7 +1436,7 @@ public class Export
 			absText("RcSULTAT :", 211, ordonneeDebut + 10, writer, bf, 10);
 		}
 		bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-		
+
 		absText("cvaluation de contrcle faite", 405, ordonneeDebut + 70, writer, bf, 10);
 		try
 		{
@@ -1439,7 +1446,7 @@ public class Export
 		{
 			absText("le", 405, ordonneeDebut + 55, writer, bf, 10);
 		}
-		
+
 		try
 		{
 			if (PE3.get(0).getDATE_PASSAGE_SYNTHESE() != null) absText(
@@ -1450,7 +1457,7 @@ public class Export
 		{
 			absText("par", 405, ordonneeDebut + 40, writer, bf, 10);
 		}
-		
+
 		bf = BaseFont.createFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
 		try
 		{
@@ -1461,35 +1468,35 @@ public class Export
 			absText("RcSULTAT :", 405, ordonneeDebut + 10, writer, bf, 10);
 		}
 		bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-		
+
 	}
-	
+
 	// Affiche les questions de l'interrogation orale et les rcponses donnces c
 	// l'interrogation orale (cases) c partir des informations de la base de
 	// donnces.
 	private void questionsReponsesInterrogationOrale(int x,int y,Document doc,PdfWriter writer,BaseFont bf,KDBMysql db,
 			int index) throws DocumentException,IOException
 	{
-		
+
 		KListObject<KCategorie_i_o> categoriesIO = new KListObject<KCategorie_i_o>(KCategorie_i_o.class);
 		KListObject<KObjectif> objectifsIO = new KListObject<KObjectif>(KObjectif.class);
 		KListObject<KCategorie_i_o> categoriesIOtotal = new KListObject<KCategorie_i_o>(KCategorie_i_o.class);
 		categoriesIOtotal.loadFromDb(db, "SELECT * FROM categorie_i_o");
-		
+
 		int maxCharLigne = 56;
 		int k = 1;
 		boolean finChaine = false;
 		String chaineActuelle;
-		
+
 		// Boucle sur le numcro de la catcgorie de l'interrogation orale.
 		for (int i = 1; i < categoriesIOtotal.count() + 1; i++)
 		{
-			
+
 			// Chargement des donnces de la base de donnces pour la catcgorie
 			// "i" et les objectifs assocics.
 			categoriesIO.loadFromDb(db, "SELECT * FROM categorie_i_o WHERE id=" + i);
 			objectifsIO.loadFromDb(db, "SELECT * FROM objectif WHERE idETAPE=5 AND idCATEGORIE_I_O=" + i);
-			
+
 			// Changement d'ordonnce de dcpart pour la catcgorie "i" de
 			// l'interrogation orale.
 			if (i == 2) y = y - 210;
@@ -1498,75 +1505,75 @@ public class Export
 			else if (i == 5) y = y - 200;
 			else if (i == 6) y = y - 280;
 			else if (i == 7) y = y - 120;
-			
+
 			// Affichage du titre de la catcgorie "i" de l'interrogation orale.
 			bf = BaseFont.createFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
 			absText(categoriesIO.get(0).getLIBELLE_CATEGORIE().toUpperCase(), x - 5, y, writer, bf, 11);
 			bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-			
+
 			// Boucle sur le numcro de l'objectif.
 			for (int j = 0; j < objectifsIO.count(); j++)
 			{
-				
+
 				// Passe c la partie droite de la page.
 				if ((objectifsIO.get(j).getIdCATEGORIE_I_O() == 4) && (j == 2))
 				{
 					x = x + 280;
 					y = y + 728;
 				}
-				
+
 				reponseInterrogationOrale(x - 15, y - 2 - k * 11, j, doc, writer, bf, db, objectifsIO, index);
-				
+
 				// Le libellc du prochain objectif c ctre affichc.
 				chaineActuelle = objectifsIO.get(j).getLIBELLE_OBJECTIF();
-				
+
 				// Tant que l'objectif n'a pas ctc affichc jusqu'au bout.
 				while (!(finChaine))
 				{
-					
+
 					if (chaineActuelle.length() >= maxCharLigne)
 					{
-						
+
 						absText(chaineActuelle.substring(0, chaineActuelle.substring(0, maxCharLigne).lastIndexOf(" ")),
 								x, y - k * 11, writer, bf, 10);
 						chaineActuelle = chaineActuelle.substring(chaineActuelle.substring(0, maxCharLigne)
 								.lastIndexOf(" ") + 1);
-						
+
 					}
 					else
 					{
-						
+
 						absText(chaineActuelle.substring(0), x, y - k * 11, writer, bf, 10);
 						finChaine = true;
-						
+
 					}
-					
+
 					k++;
-					
+
 				}
-				
+
 				finChaine = false;
-				
+
 			}
-			
+
 			categoriesIO.clear();
 			objectifsIO.clear();
 			k = 1;
-			
+
 		}
-		
+
 	}
-	
+
 	// Affiche une rcponse donnce c l'interrogation orale (case) c partir des
 	// informations de la base de donnces.
 	private void reponseInterrogationOrale(int x,int y,int j,Document doc,PdfWriter writer,BaseFont bf,KDBMysql db,
 			KListObject<KObjectif> objectifsIO,int index) throws MalformedURLException,IOException,DocumentException
 	{
-		
+
 		KListObject<KRealiser> realiserIO = new KListObject<KRealiser>(KRealiser.class);
 		realiserIO.loadFromDb(db, "SELECT * FROM realiser WHERE idELEVE=" + (index + 1) + " AND idOBJECTIF="
 				+ objectifsIO.get(j).getId());
-		
+
 		try
 		{
 			if (realiserIO.get(0).getETAT_OBJECTIF() == 1)
@@ -1586,15 +1593,15 @@ public class Export
 		{
 			caseVide(x, y, writer);
 		}
-		
+
 		realiserIO.clear();
-		
+
 	}
-	
+
 	// ----------------------------------------- //
 	// ------------------DIVERS----------------- //
 	// ----------------------------------------- //
-	
+
 	// Place du texte sur le document PDF, grcce aux coordonnces en position
 	// absolue.
 	private void absText(String text,int x,int y,PdfWriter writer,BaseFont bf,int size) throws DocumentException,
@@ -1609,7 +1616,7 @@ public class Export
 		cb.endText();
 		cb.restoreState();
 	}
-	
+
 	// Positionne le contenu d'une cellule de tableau, laissant un espace entre
 	// les bords et le texte de la cellule.
 	private PdfPCell positionnerCellule(PdfPCell c,float lead,int padL,int padR,int padT,int padB)
@@ -1621,7 +1628,7 @@ public class Export
 		c.setPaddingBottom(padB);
 		return c;
 	}
-	
+
 	// Place une cellule dont le contenu est centrc horizontalement, dans le
 	// tableau des lecons.
 	private PdfPCell placerCelluleCentreeTableauLecons(Phrase p)
@@ -1631,7 +1638,7 @@ public class Export
 		c = positionnerCellule(c, 1.2f, 1, 1, 0, 3);
 		return c;
 	}
-	
+
 	// Place une cellule dont le contenu est centrc horizontalement, dans le
 	// tableau des objectifs d'une ctape.
 	private PdfPCell placerCelluleCentreeTableauObjectifsEtape(Phrase p)
@@ -1641,7 +1648,7 @@ public class Export
 		c = positionnerCellule(c, 1.2f, 5, 5, 2, 7);
 		return c;
 	}
-	
+
 	// Place une cellule dont le contenu n'est pas centrc horizontalement, dans
 	// le tableau des objectifs d'une ctape.
 	private PdfPCell placerCelluleNonCentreeTableauObjectifsEtape(Phrase p)
@@ -1650,7 +1657,7 @@ public class Export
 		c = positionnerCellule(c, 1.2f, 5, 5, 2, 7);
 		return c;
 	}
-	
+
 	// Affiche deux cases vides positionnces sur la mcme ordonnce mais un peu
 	// espacces au niveau de l'abscisse.
 	// Sert pour les rcponses des synthcses des ctapes.
@@ -1660,7 +1667,7 @@ public class Export
 		caseVide(abscissePremiereCase, ordonnee, writer);
 		caseVide(abscissePremiereCase + 20, ordonnee, writer);
 	}
-	
+
 	// Affiche une case vide c l'abscisse et c l'ordonnce spccifices.
 	private void caseVide(int abscisse,int ordonnee,PdfWriter writer) throws MalformedURLException,IOException,
 			DocumentException
@@ -1672,7 +1679,7 @@ public class Export
 		checkboxUnchecked.setAbsolutePosition(abscisse, ordonnee);
 		writer.getDirectContent().addImage(checkboxUnchecked, true);
 	}
-	
+
 	// Affiche une case pleine (cochce) c l'abscisse et c l'ordonnce spccifices.
 	private void casePleine(int abscisse,int ordonnee,PdfWriter writer) throws MalformedURLException,IOException,
 			DocumentException
@@ -1684,12 +1691,12 @@ public class Export
 		checkboxChecked.setAbsolutePosition(abscisse, ordonnee);
 		writer.getDirectContent().addImage(checkboxChecked, true);
 	}
-	
+
 	// Compte le nombre d'heures pratiques et renvoie une chacne formatce en
 	// fonction.
 	private String compterHeure(KListObject<KAssurer_lecon> lecons)
 	{
-		
+
 		String somme;
 		int minutes = 0;
 		int heures = 0;
@@ -1697,37 +1704,37 @@ public class Export
 		int minutesDivise = 0;
 		int sommeHeure = 0;
 		int sommeMinute = 0;
-		
+
 		for (int i = 0; i < lecons.count(); i++)
 		{
-			
+
 			// Parser en integer.
 			heures = Integer.parseInt(String.valueOf(lecons.get(i).getDUREE_LECON()).substring(0, 1));
 			minutes = Integer.parseInt(String.valueOf(lecons.get(i).getDUREE_LECON()).substring(1, 3));
-			
+
 			minutesModulo = minutes % 60;
 			minutesDivise = minutes / 60;
-			
+
 			sommeMinute = sommeMinute + minutesModulo;
 			sommeHeure = sommeHeure + heures + minutesDivise;
-			
+
 		}
-		
+
 		sommeHeure = sommeHeure + sommeMinute / 60;
 		sommeMinute = sommeMinute % 60;
-		
+
 		if (sommeMinute != 0) somme = String.valueOf(sommeHeure) + " heure(s) " + String.valueOf(sommeMinute) + " ";
 		else somme = String.valueOf(sommeHeure) + " heure(s) ";
-		
+
 		return somme;
-		
+
 	}
-	
+
 	// Compte le nombre d'heures pratiques et renvoie une chacne formatce en
 	// fonction.
 	private String compterHeure(int duree)
 	{
-		
+
 		String somme;
 		int minutes = 0;
 		int heures = 0;
@@ -1735,25 +1742,25 @@ public class Export
 		int minutesDivise = 0;
 		int sommeHeure = 0;
 		int sommeMinute = 0;
-		
+
 		// Parser en integer.
 		heures = Integer.parseInt(String.valueOf(duree).substring(0, 1));
 		minutes = Integer.parseInt(String.valueOf(duree).substring(1, 3));
-		
+
 		minutesModulo = minutes % 60;
 		minutesDivise = minutes / 60;
-		
+
 		sommeMinute = sommeMinute + minutesModulo;
 		sommeHeure = sommeHeure + heures + minutesDivise;
-		
+
 		sommeHeure = sommeHeure + sommeMinute / 60;
 		sommeMinute = sommeMinute % 60;
-		
+
 		if (sommeMinute != 0) somme = String.valueOf(sommeHeure) + "h" + String.valueOf(sommeMinute) + " ";
 		else somme = String.valueOf(sommeHeure) + "h00";
-		
+
 		return somme;
-		
+
 	}
-	
+
 }

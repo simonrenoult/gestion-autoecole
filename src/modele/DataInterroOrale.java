@@ -15,7 +15,7 @@ public class DataInterroOrale
 	// ----------------ATTRIBUTS---------------- //
 	// ----------------------------------------- //
 	
-	private KDBMysql					db	= bdd.connexion();
+	private KDBMysql					db	= bdd.db;
 	private KListObject<KCategorie_i_o>	listCategories;
 	KListObject<KObjectif>				listObjectifs[];
 	
@@ -80,7 +80,7 @@ public class DataInterroOrale
 		if (obj.count() == 0) return false;
 		int objectif = Integer.parseInt(obj.get(numobj).getId().toString());
 		
-		// On regarde si l'eleve a deja une réponse.
+		// On regarde si l'eleve a deja une rï¿½ponse.
 		KListObject<KRealiser> last = new KListObject<KRealiser>(KRealiser.class);
 		last.loadFromDb(db, "select * from realiser where idELEVE=" + idEleve + " and idOBJECTIF=" + objectif);
 		
