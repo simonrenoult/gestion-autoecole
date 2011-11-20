@@ -2,6 +2,7 @@
 package vue.etape;
 
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import KClass.KQuestions_synthese;
@@ -31,6 +32,9 @@ public class VueSynthese extends JPanel
 	private static Dimension					TAILLE_CONTENU_COL_G	= new Dimension(270 , 240);
 	private static Dimension					TAILLE_CONTENU_COL_D	= new Dimension(270 , 240);
 	
+	private	JPanel	colonneG;
+	private	JPanel	colonneD;
+	
 	// ----------------------------------------- //
 	// --------------CONSTRUCTEURS-------------- //
 	// ----------------------------------------- //
@@ -40,6 +44,7 @@ public class VueSynthese extends JPanel
 		buildTitre(numEtape);
 		
 		buildQtsSyntheses();
+		buildEvalCtl();
 	}
 	
 	// ----------------------------------------- //
@@ -57,7 +62,7 @@ public class VueSynthese extends JPanel
 	// --------Q_SYNTHESES-------- //
 	private void buildQtsSyntheses()
 	{
-		
+		colonneG = new JPanel(new FlowLayout());
 	}
 	
 	// --------EVAL_CTL-------- //
@@ -65,9 +70,7 @@ public class VueSynthese extends JPanel
 	{
 		
 	}
-	
-	// --------var-------- //
-	
+		
 	// ----------------------------------------- //
 	// ---------------ACCESSEURS---------------- //
 	// ----------------------------------------- //

@@ -19,7 +19,7 @@ public class bdd
 	
 	public static KDBMysql connexion()
 	{
-		db = new KDBMysql("localhost" , "admin" , "admin" , "autoecole.0.2");
+		db = new KDBMysql("localhost" , "admin" , "admin" , "autoecole");
 		
 		try
 		{
