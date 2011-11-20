@@ -7,7 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.sql.SQLException;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import modele.bdd;
@@ -62,7 +61,7 @@ public class Export
 		 * 
 		 * TODO : Rcsumc de ce qu'il reste c faire :
 		 * 
-		 * Peut-ctre terminc, mais c discuter avec les autres membres du groupe
+		 * Peut-être terminc, mais c discuter avec les autres membres du groupe
 		 * : - O Mettre un message d'erreur si un document est ouvert pendant
 		 * qu'un autre l'est aussi. - O Ouverture directe du fichier aprcs avoir
 		 * ctc gcncrc. - O Export multiple : laisser le choix de sclection d'un
@@ -97,7 +96,6 @@ public class Export
 	// le logiciel pour l'clcve sclectionnc.
 	private void exportPDF(int index,FenetrePrincipale fenetre)
 	{
-
 		if (index != -1)
 		{
 			Document doc = new Document();
@@ -175,21 +173,6 @@ public class Export
 	// saisies dans le logiciel pour tous les clcves.
 	private void exportPDFs(FenetrePrincipale fenetre)
 	{
-
-		KDBMysql db = new KDBMysql("localhost", "admin", "admin", "autoecole4");
-		try
-		{
-			db.connect();
-		}
-		catch (ClassNotFoundException e1)
-		{
-			e1.printStackTrace();
-		}
-		catch (SQLException e2)
-		{
-			e2.printStackTrace();
-		}
-
 		KListObject<KEleve> eleves = new KListObject<KEleve>(KEleve.class);
 		eleves.loadFromDb(db);
 
@@ -335,21 +318,6 @@ public class Export
 		// livret.
 		doc.open();
 
-		// Connexion c la base de donnces.
-		/*KDBMysql db = new KDBMysql("localhost", "admin", "admin", "autoecole4");
-		try
-		{
-			db.connect();
-		}
-		catch (ClassNotFoundException e1)
-		{
-			e1.printStackTrace();
-		}
-		catch (SQLException e2)
-		{
-			e2.printStackTrace();
-		}*/
-
 		// Importation des diffcrentes donnces nccessaires pour le livret, c
 		// partir de la base de donnces.
 		KListObject<KEleve> eleves = new KListObject<KEleve>(KEleve.class);
@@ -366,9 +334,9 @@ public class Export
 		Paragraph sautLigne = new Paragraph(" ");
 		PdfContentByte canvas = writer.getDirectContent();
 
-		// -------------------
-		// --- FICHE cLcVE ---
-		// -------------------
+		// ----------------------------------------- //
+		// ---------------FICHE_ELEVE--------------- //
+		// ----------------------------------------- //
 
 		// Affichage de la fiche clcve c partir des informations de la base de
 		// donnces.
@@ -379,9 +347,9 @@ public class Export
 		doc.add(sautLigne);
 		doc.add(sautLigne);
 
-		// --------------------------
-		// --- TABLEAU DES LEcONS ---
-		// --------------------------
+		// ----------------------------------------- //
+		// -------------TABLEAU_LECONS-------------- //
+		// ----------------------------------------- //
 
 		// Affichage du titre du tableau des lecons.
 		bf = BaseFont.createFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
@@ -390,26 +358,26 @@ public class Export
 
 		// Affichage du tableau des lecons, dccomposc en deux parties, c partir
 		// des informations de la base de donnces.
-		tableauLecons(0, 17, 32, 365, canvas, db, kEl);
+		tableauLecons(0, 17, 32, 365, canvas, kEl);
 		doc.newPage();
-		tableauLecons(18, 53, 32, 700, canvas, db, kEl);
+		tableauLecons(18, 53, 32, 700, canvas, kEl);
 		// tableauLecons(18, 35, 32, 700, canvas, db, kEl);
 		// tableauLecons(36, 53, 32, 350, canvas, db, kEl);
 
-		// ----------------
-		// --- 4 ETAPES ---
-		// ----------------
+		// ----------------------------------------- //
+		// ----------------4 LECONS----------------- //
+		// ----------------------------------------- //
 
 		// Affichage de chacun des quatre ctapes (objectifs et synthcses) c
 		// partir des informations de la base de donnces.
 		for (int i = 1; i <= 4; i++)
 		{
-			affichageEtape(i, xBaseGroupe, yBaseGroupe, doc, writer, canvas, bf, db, kEl, kM, index, fenetre);
+			affichageEtape(i, xBaseGroupe, yBaseGroupe, doc, writer, canvas, bf, kEl, kM, index, fenetre);
 		}
 
-		// ---------------------------
-		// --- INTERROGATION ORALE ---
-		// ---------------------------
+		// ----------------------------------------- //
+		// --------------INTERRO_ORALE-------------- //
+		// ----------------------------------------- //
 
 		// Ouverture d'une nouvelle page.
 		doc.newPage();
@@ -426,11 +394,11 @@ public class Export
 		// oc commencent les questions sur la page.
 		xBaseGroupe = 45;
 		yBaseGroupe = 740;
-		questionsReponsesInterrogationOrale(xBaseGroupe, yBaseGroupe, doc, writer, bf, db, index);
+		questionsReponsesInterrogationOrale(xBaseGroupe, yBaseGroupe, doc, writer, bf, index);
 
-		// --------------------
-		// --- EXAMEN BLANC ---
-		// --------------------
+		// ----------------------------------------- //
+		// ----------------EXAM BLANC--------------- //
+		// ----------------------------------------- //
 
 		// TODO : A faire.
 
@@ -594,7 +562,7 @@ public class Export
 	// Affiche un tableau de lecons c partir des informations de la base de
 	// donnces.
 	private void tableauLecons(int debutLecons,int finLecons,int positionTableauX,int positionTableauY,
-			PdfContentByte canvas,KDBMysql db,KEleve kEl)
+			PdfContentByte canvas,KEleve kEl)
 	{
 
 		KListObject<KMoniteur> moniteurs = new KListObject<KMoniteur>(KMoniteur.class);
@@ -725,7 +693,7 @@ public class Export
 
 	// Affiche une ctape c partir des informations de la base de donnces.
 	private void affichageEtape(int numEtape,int xBaseGroupe,int yBaseGroupe,Document doc,PdfWriter writer,
-			PdfContentByte canvas,BaseFont bf,KDBMysql db,KEleve kEl,KMoniteur kM,int index,FenetrePrincipale fenetre)
+			PdfContentByte canvas,BaseFont bf,KEleve kEl,KMoniteur kM,int index,FenetrePrincipale fenetre)
 			throws DocumentException,IOException
 	{
 
@@ -741,7 +709,7 @@ public class Export
 		doc.add(titreE);
 
 		// Affichage du tableau de l'ctape "numEtape".
-		tableauObjectifsEtape(numEtape, doc, canvas, db, index);
+		tableauObjectifsEtape(numEtape, doc, canvas, index);
 
 		// Affichage du titre de la partie des questions posces c l'cvaluation
 		// de synthcse de l'ctape "numEtape".
@@ -774,7 +742,7 @@ public class Export
 			xBaseGroupe = 38;
 			yBaseGroupe = 308;
 		}
-		questionsReponsesSynthese(numEtape, xBaseGroupe, yBaseGroupe, doc, writer, bf, db, index);
+		questionsReponsesSynthese(numEtape, xBaseGroupe, yBaseGroupe, doc, writer, bf, index);
 
 		// Affichage du titre de la partie des rcsultats de l'cvaluation de
 		// synthcse de l'ctape "numEtape".
@@ -792,13 +760,13 @@ public class Export
 		else if (numEtape == 2) yTMP = 178;
 		else if (numEtape == 3) yTMP = 120;
 		else if (numEtape == 4) yTMP = 28;
-		resultatsSynthese(numEtape, yTMP, writer, canvas, bf, db, kEl, kM, index, fenetre);
+		resultatsSynthese(numEtape, yTMP, writer, canvas, bf, kEl, kM, index, fenetre);
 
 	}
 
 	// Affiche le tableau des objectifs d'une ctape c partir des informations de
 	// la base de donnces.
-	private void tableauObjectifsEtape(int numEtape,Document doc,PdfContentByte canvas,KDBMysql db,int index)
+	private void tableauObjectifsEtape(int numEtape,Document doc,PdfContentByte canvas,int index)
 			throws DocumentException
 	{
 
@@ -873,11 +841,11 @@ public class Export
 	// Affiche les questions des synthcses et les rcponses donnces aux synthcses
 	// (cases) c partir des informations de la base de donnces.
 	private void questionsReponsesSynthese(int numEtape,int x,int y,Document doc,PdfWriter writer,BaseFont bf,
-			KDBMysql db,int index) throws DocumentException,IOException
+			int index) throws DocumentException,IOException
 	{
 
-		questionsSynthese(numEtape, x, y, doc, writer, bf, db, index);
-		reponsesSynthese(numEtape, x + 228, y, writer, db, index);
+		questionsSynthese(numEtape, x, y, doc, writer, bf,index);
+		reponsesSynthese(numEtape, x + 228, y, writer, index);
 
 		/*
 		 * TODO : Remplacer code en dur et automatiser.
@@ -957,7 +925,7 @@ public class Export
 
 	// Affiche les questions des synthcses c partir des informations de la base
 	// de donnces.
-	private void questionsSynthese(int numEtape,int x,int y,Document doc,PdfWriter writer,BaseFont bf,KDBMysql db,
+	private void questionsSynthese(int numEtape,int x,int y,Document doc,PdfWriter writer,BaseFont bf,
 			int index) throws DocumentException,IOException
 	{
 
@@ -1104,7 +1072,7 @@ public class Export
 
 	// Affiche les rcponses donnces aux synthcses (cases) c partir des
 	// informations de la base de donnces.
-	private void reponsesSynthese(int numEtape,int x,int y,PdfWriter writer,KDBMysql db,int index)
+	private void reponsesSynthese(int numEtape,int x,int y,PdfWriter writer,int index)
 			throws MalformedURLException,IndexOutOfBoundsException,NullPointerException,DocumentException,IOException
 	{
 
@@ -1113,86 +1081,86 @@ public class Export
 		if (numEtape == 1)
 		{
 
-			reponseSynthese(1, 1, x, y - 12, writer, db, index);
-			reponseSynthese(1, 2, x, y - 36, writer, db, index);
-			reponseSynthese(1, 3, x, y - 48, writer, db, index);
-			reponseSynthese(1, 4, x, y - 60, writer, db, index);
-			reponseSynthese(1, 5, x, y - 96, writer, db, index);
-			reponseSynthese(1, 6, x, y - 120, writer, db, index);
-			reponseSynthese(1, 7, x, y - 132, writer, db, index);
-			reponseSynthese(1, 8, x, y - 156, writer, db, index);
-			reponseSynthese(1, 9, x, y - 168, writer, db, index);
-			reponseSynthese(1, 10, x, y - 180, writer, db, index);
+			reponseSynthese(1, 1, x, y - 12, writer, index);
+			reponseSynthese(1, 2, x, y - 36, writer, index);
+			reponseSynthese(1, 3, x, y - 48, writer, index);
+			reponseSynthese(1, 4, x, y - 60, writer, index);
+			reponseSynthese(1, 5, x, y - 96, writer, index);
+			reponseSynthese(1, 6, x, y - 120, writer, index);
+			reponseSynthese(1, 7, x, y - 132, writer, index);
+			reponseSynthese(1, 8, x, y - 156, writer, index);
+			reponseSynthese(1, 9, x, y - 168, writer, index);
+			reponseSynthese(1, 10, x, y - 180, writer, index);
 
-			reponseSynthese(1, 11, x2, y - 12, writer, db, index);
-			reponseSynthese(1, 12, x2, y - 36, writer, db, index);
-			reponseSynthese(1, 13, x2, y - 72, writer, db, index);
-			reponseSynthese(1, 14, x2, y - 96, writer, db, index);
-			reponseSynthese(1, 15, x2, y - 120, writer, db, index);
-			reponseSynthese(1, 16, x2, y - 132, writer, db, index);
-			reponseSynthese(1, 17, x2, y - 156, writer, db, index);
-			reponseSynthese(1, 18, x2, y - 168, writer, db, index);
+			reponseSynthese(1, 11, x2, y - 12, writer, index);
+			reponseSynthese(1, 12, x2, y - 36, writer, index);
+			reponseSynthese(1, 13, x2, y - 72, writer, index);
+			reponseSynthese(1, 14, x2, y - 96, writer, index);
+			reponseSynthese(1, 15, x2, y - 120, writer, index);
+			reponseSynthese(1, 16, x2, y - 132, writer, index);
+			reponseSynthese(1, 17, x2, y - 156, writer, index);
+			reponseSynthese(1, 18, x2, y - 168, writer, index);
 
 		}
 		else if (numEtape == 2)
 		{
 
-			reponseSynthese(2, 1, x, y - 24, writer, db, index);
-			reponseSynthese(2, 2, x, y - 36, writer, db, index);
-			reponseSynthese(2, 3, x, y - 48, writer, db, index);
-			reponseSynthese(2, 4, x, y - 72, writer, db, index);
-			reponseSynthese(2, 5, x, y - 84, writer, db, index);
-			reponseSynthese(2, 6, x, y - 96, writer, db, index);
-			reponseSynthese(2, 7, x, y - 120, writer, db, index);
+			reponseSynthese(2, 1, x, y - 24, writer, index);
+			reponseSynthese(2, 2, x, y - 36, writer, index);
+			reponseSynthese(2, 3, x, y - 48, writer, index);
+			reponseSynthese(2, 4, x, y - 72, writer, index);
+			reponseSynthese(2, 5, x, y - 84, writer, index);
+			reponseSynthese(2, 6, x, y - 96, writer, index);
+			reponseSynthese(2, 7, x, y - 120, writer, index);
 
-			reponseSynthese(2, 8, x2, y - 12, writer, db, index);
-			reponseSynthese(2, 9, x2, y - 24, writer, db, index);
-			reponseSynthese(2, 10, x2, y - 48, writer, db, index);
-			reponseSynthese(2, 11, x2, y - 72, writer, db, index);
-			reponseSynthese(2, 12, x2, y - 84, writer, db, index);
+			reponseSynthese(2, 8, x2, y - 12, writer, index);
+			reponseSynthese(2, 9, x2, y - 24, writer, index);
+			reponseSynthese(2, 10, x2, y - 48, writer, index);
+			reponseSynthese(2, 11, x2, y - 72, writer, index);
+			reponseSynthese(2, 12, x2, y - 84, writer, index);
 
 		}
 		else if (numEtape == 3)
 		{
 
-			reponseSynthese(3, 1, x, y - 12, writer, db, index);
-			reponseSynthese(3, 2, x, y - 36, writer, db, index);
-			reponseSynthese(3, 3, x, y - 48, writer, db, index);
-			reponseSynthese(3, 4, x, y - 72, writer, db, index);
-			reponseSynthese(3, 5, x, y - 84, writer, db, index);
-			reponseSynthese(3, 6, x, y - 120, writer, db, index);
-			reponseSynthese(3, 7, x, y - 132, writer, db, index);
-			reponseSynthese(3, 8, x, y - 156, writer, db, index);
+			reponseSynthese(3, 1, x, y - 12, writer, index);
+			reponseSynthese(3, 2, x, y - 36, writer, index);
+			reponseSynthese(3, 3, x, y - 48, writer, index);
+			reponseSynthese(3, 4, x, y - 72, writer, index);
+			reponseSynthese(3, 5, x, y - 84, writer, index);
+			reponseSynthese(3, 6, x, y - 120, writer, index);
+			reponseSynthese(3, 7, x, y - 132, writer, index);
+			reponseSynthese(3, 8, x, y - 156, writer, index);
 
-			reponseSynthese(3, 9, x2, y - 24, writer, db, index);
-			reponseSynthese(3, 10, x2, y - 36, writer, db, index);
-			reponseSynthese(3, 11, x2, y - 72, writer, db, index);
-			reponseSynthese(3, 12, x2, y - 108, writer, db, index);
-			reponseSynthese(3, 13, x2, y - 144, writer, db, index);
+			reponseSynthese(3, 9, x2, y - 24, writer, index);
+			reponseSynthese(3, 10, x2, y - 36, writer, index);
+			reponseSynthese(3, 11, x2, y - 72, writer, index);
+			reponseSynthese(3, 12, x2, y - 108, writer, index);
+			reponseSynthese(3, 13, x2, y - 144, writer, index);
 
 		}
 		else if (numEtape == 4)
 		{
 
-			reponseSynthese(4, 1, x, y - 24, writer, db, index);
-			reponseSynthese(4, 2, x, y - 36, writer, db, index);
-			reponseSynthese(4, 3, x, y - 48, writer, db, index);
-			reponseSynthese(4, 4, x, y - 72, writer, db, index);
-			reponseSynthese(4, 5, x, y - 84, writer, db, index);
-			reponseSynthese(4, 6, x, y - 96, writer, db, index);
-			reponseSynthese(4, 7, x, y - 120, writer, db, index);
+			reponseSynthese(4, 1, x, y - 24, writer, index);
+			reponseSynthese(4, 2, x, y - 36, writer, index);
+			reponseSynthese(4, 3, x, y - 48, writer, index);
+			reponseSynthese(4, 4, x, y - 72, writer, index);
+			reponseSynthese(4, 5, x, y - 84, writer, index);
+			reponseSynthese(4, 6, x, y - 96, writer, index);
+			reponseSynthese(4, 7, x, y - 120, writer, index);
 
-			reponseSynthese(4, 8, x2, y - 12, writer, db, index);
-			reponseSynthese(4, 9, x2, y - 24, writer, db, index);
-			reponseSynthese(4, 10, x2, y - 36, writer, db, index);
-			reponseSynthese(4, 11, x2, y - 48, writer, db, index);
-			reponseSynthese(4, 12, x2, y - 72, writer, db, index);
-			reponseSynthese(4, 13, x2, y - 84, writer, db, index);
-			reponseSynthese(4, 14, x2, y - 96, writer, db, index);
-			reponseSynthese(4, 15, x2, y - 108, writer, db, index);
-			reponseSynthese(4, 16, x2, y - 120, writer, db, index);
-			reponseSynthese(4, 17, x2, y - 132, writer, db, index);
-			reponseSynthese(4, 18, x2, y - 144, writer, db, index);
+			reponseSynthese(4, 8, x2, y - 12, writer, index);
+			reponseSynthese(4, 9, x2, y - 24, writer, index);
+			reponseSynthese(4, 10, x2, y - 36, writer, index);
+			reponseSynthese(4, 11, x2, y - 48, writer, index);
+			reponseSynthese(4, 12, x2, y - 72, writer, index);
+			reponseSynthese(4, 13, x2, y - 84, writer, index);
+			reponseSynthese(4, 14, x2, y - 96, writer, index);
+			reponseSynthese(4, 15, x2, y - 108, writer, index);
+			reponseSynthese(4, 16, x2, y - 120, writer, index);
+			reponseSynthese(4, 17, x2, y - 132, writer, index);
+			reponseSynthese(4, 18, x2, y - 144, writer, index);
 
 		}
 
@@ -1201,7 +1169,7 @@ public class Export
 	// Affiche une rcponse donnce c une synthcses (case) c partir des
 	// informations de la base de donnces.
 	private void reponseSynthese(int numEtape,int question,int abscissePremiereCase,int ordonnee,PdfWriter writer,
-			KDBMysql db,int index) throws DocumentException,MalformedURLException,IOException,
+			int index) throws DocumentException,MalformedURLException,IOException,
 			IndexOutOfBoundsException,NullPointerException
 	{
 
@@ -1295,7 +1263,7 @@ public class Export
 	// Affiche les rcsultats de l'cvaluation de synthcse d'une ctape c partir
 	// des informations de la base de donnces.
 	private void resultatsSynthese(int numEtape,int ordonneeDebut,PdfWriter writer,PdfContentByte canvas,BaseFont bf,
-			KDBMysql db,KEleve kEl,KMoniteur kM,int index,FenetrePrincipale fenetre) throws DocumentException,
+			KEleve kEl,KMoniteur kM,int index,FenetrePrincipale fenetre) throws DocumentException,
 			IOException
 	{
 
@@ -1474,7 +1442,7 @@ public class Export
 	// Affiche les questions de l'interrogation orale et les rcponses donnces c
 	// l'interrogation orale (cases) c partir des informations de la base de
 	// donnces.
-	private void questionsReponsesInterrogationOrale(int x,int y,Document doc,PdfWriter writer,BaseFont bf,KDBMysql db,
+	private void questionsReponsesInterrogationOrale(int x,int y,Document doc,PdfWriter writer,BaseFont bf,
 			int index) throws DocumentException,IOException
 	{
 
@@ -1522,7 +1490,7 @@ public class Export
 					y = y + 728;
 				}
 
-				reponseInterrogationOrale(x - 15, y - 2 - k * 11, j, doc, writer, bf, db, objectifsIO, index);
+				reponseInterrogationOrale(x - 15, y - 2 - k * 11, j, doc, writer, bf, objectifsIO, index);
 
 				// Le libellc du prochain objectif c ctre affichc.
 				chaineActuelle = objectifsIO.get(j).getLIBELLE_OBJECTIF();
@@ -1566,7 +1534,7 @@ public class Export
 
 	// Affiche une rcponse donnce c l'interrogation orale (case) c partir des
 	// informations de la base de donnces.
-	private void reponseInterrogationOrale(int x,int y,int j,Document doc,PdfWriter writer,BaseFont bf,KDBMysql db,
+	private void reponseInterrogationOrale(int x,int y,int j,Document doc,PdfWriter writer,BaseFont bf,
 			KListObject<KObjectif> objectifsIO,int index) throws MalformedURLException,IOException,DocumentException
 	{
 

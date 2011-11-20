@@ -12,6 +12,7 @@ public class DataFicheEleve
 	// ----------------ATTRIBUTS---------------- //
 	// ----------------------------------------- //
 	
+	//TODO dÃ©placer la connexion Ã  la base de donnÃ©es.
 	private KDBMysql	db						= bdd.connexion();
 	private Boolean []	TableauChampSaisieOk	= null;
 	
@@ -21,8 +22,8 @@ public class DataFicheEleve
 	
 	public DataFicheEleve()
 	{
-		// On définit un tableau de boolean où chaque case vérifie si le champ
-		// graphique contient une donnée correcte.
+		// On dÃ©finit un tableau de boolean Ã  chaque case vÃ©rifie si le champ
+		// graphique contient une donnÃ©e correcte.
 		TableauChampSaisieOk = new Boolean [11];
 		for (int i = 0; i < TableauChampSaisieOk.length; i++)
 		{
@@ -35,7 +36,7 @@ public class DataFicheEleve
 	// ----------------------------------------- //
 	
 	/*
-	 * Recupere la liste brut d'eleve en BDD trié par oredre alphabétique
+	 * Recupere la liste brut d'eleve en BDD triï¿½ par oredre alphabï¿½tique
 	 */
 	public KListObject<KEleve> recupererListe()
 	{
@@ -45,7 +46,7 @@ public class DataFicheEleve
 	}
 	
 	/*
-	 * Recupere une objet KEleve à partir de son id en BDD
+	 * Recupere une objet KEleve ï¿½ partir de son id en BDD
 	 */
 	public KEleve recupererProfil(int id)
 	{
@@ -98,42 +99,42 @@ public class DataFicheEleve
 	}
 	
 	/*
-	 * fonction retournant tous les messages d'erreurs et de succès possible.
+	 * fonction retournant tous les messages d'erreurs et de succï¿½s possible.
 	 */
 	public String messageRenvoyeeUI(int num)
 	{
 		switch (num)
 		{
 			case 5:
-				return "-Echec de l'opération : mise à jour d'un élève dans base de donnée\n";
+				return "-Echec de l'opï¿½ration : mise ï¿½ jour d'un ï¿½lï¿½ve dans base de donnï¿½e\n";
 				
 			case 4:
-				return "-Succès de l'opération : mise à jour d'un élève dans la base de donnée\n";
+				return "-Succï¿½s de l'opï¿½ration : mise ï¿½ jour d'un ï¿½lï¿½ve dans la base de donnï¿½e\n";
 				
 			case 3:
-				return "-Echec de l'opération : ajout d'un élève en base de donnée\n";
+				return "-Echec de l'opï¿½ration : ajout d'un ï¿½lï¿½ve en base de donnï¿½e\n";
 				
 			case 2:
-				return "-Succès de l'opération : ajout d'un élève en base de donnée\n";
+				return "-Succï¿½s de l'opï¿½ration : ajout d'un ï¿½lï¿½ve en base de donnï¿½e\n";
 				
 			case 1:
 				return "";
 				
 			case -1:
-				return "-La date de naissance et d'inscription sont incohérente."
-						+ "L'élève doit avoir au minimum 16 ans, âge légal pour participer à cette formation\n";
+				return "-La date de naissance et d'inscription sont incohï¿½rente."
+						+ "L'ï¿½lï¿½ve doit avoir au minimum 16 ans, ï¿½ge lï¿½gal pour participer ï¿½ cette formation\n";
 				
 			case -2:
-				return "-La date d'inscription de l'élève doit précédée la date de son enregistrement\n";
+				return "-La date d'inscription de l'ï¿½lï¿½ve doit prï¿½cï¿½dï¿½e la date de son enregistrement\n";
 				
 			case -3:
-				return "-La date d'enregistrement de l'élève doit précédée la date de son évaluation\n";
+				return "-La date d'enregistrement de l'ï¿½lï¿½ve doit prï¿½cï¿½dï¿½e la date de son ï¿½valuation\n";
 				
 			case -4:
-				return "-Le volume de formation théorique ne peut pas être inférireur au volume de formation pratique\n";
+				return "-Le volume de formation thï¿½orique ne peut pas ï¿½tre infï¿½rireur au volume de formation pratique\n";
 				
 			case -5:
-				return "-Tous les champs n'ont pas été rempli correctement. Tous les champs symbolisé par * doivent être rempli\n";
+				return "-Tous les champs n'ont pas ï¿½tï¿½ rempli correctement. Tous les champs symbolisï¿½ par * doivent ï¿½tre rempli\n";
 		}
 		// ajouter message validation, etc....
 		return "";
@@ -156,18 +157,18 @@ public class DataFicheEleve
 				}
 				else
 				{
-					return -3;// "La date d'enregistrement de l'élève doit précédée la date de son évaluation";
+					return -3;// "La date d'enregistrement de l'ï¿½lï¿½ve doit prï¿½cï¿½dï¿½e la date de son ï¿½valuation";
 				}
 			}
 			else
 			{
-				return -2; // "La date d'inscription de l'élève doit précédée la date de son enregistrement";
+				return -2; // "La date d'inscription de l'ï¿½lï¿½ve doit prï¿½cï¿½dï¿½e la date de son enregistrement";
 			}
 		}
 		else
 		{
-			return -1;// "La date de naissance et d'inscription sont incohérente."
-						// +"L'élève doit avoir au minimum 16 ans, âge légal pour participer à cette formation";
+			return -1;// "La date de naissance et d'inscription sont incohï¿½rente."
+						// +"L'ï¿½lï¿½ve doit avoir au minimum 16 ans, ï¿½ge lï¿½gal pour participer ï¿½ cette formation";
 		}
 		
 		return 1;
@@ -183,8 +184,8 @@ public class DataFicheEleve
 	}
 	
 	/*
-	 * Retourne vrai si Tous les éléments sont cohérents avec les contraintes
-	 * passées.
+	 * Retourne vrai si Tous les ï¿½lï¿½ments sont cohï¿½rents avec les contraintes
+	 * passï¿½es.
 	 */
 	public boolean tableauChampSaisieTrue()
 	{
