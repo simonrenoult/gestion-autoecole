@@ -1,8 +1,6 @@
 
 package modele.etape;
 
-import java.util.LinkedList;
-import com.sun.swing.internal.plaf.synth.resources.synth;
 import net.ko.kobject.KListObject;
 import net.ko.ksql.KDBMysql;
 import KClass.KQuestions_synthese;

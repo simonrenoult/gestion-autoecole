@@ -12,8 +12,7 @@ public class DataFicheEleve
 	// ----------------ATTRIBUTS---------------- //
 	// ----------------------------------------- //
 	
-	//TODO déplacer la connexion à la base de données.
-	private KDBMysql	db						= bdd.connexion();
+	private KDBMysql	db						= bdd.db;
 	private Boolean []	TableauChampSaisieOk	= null;
 	
 	// ----------------------------------------- //

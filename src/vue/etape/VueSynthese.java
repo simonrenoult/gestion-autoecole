@@ -10,7 +10,6 @@ import KClass.KSynthese;
 import net.ko.kobject.KListObject;
 import net.ko.ksql.KDBMysql;
 import modele.bdd;
-import modele.etape.DataEtape;
 import modele.etape.DataSynthese;
 
 @SuppressWarnings("serial")
@@ -52,7 +51,7 @@ public class VueSynthese extends JPanel
 		
 		buildTitre(numEtape);
 		
-		//initDonneesSyn();
+		initDonneesSyn();
 		
 		buildQtsSyntheses();
 		buildEvalCtl();
@@ -65,8 +64,6 @@ public class VueSynthese extends JPanel
 	private void initDonneesSyn()
 	{
 		listeSyntheses = donneesSyntheses.getSyntheses();
-		listeQtsSyntheses = donneesSyntheses.getQtsSynthese();
-		listeQtsSyntheses = donneesSyntheses.getQtsSynthese();
 	}
 	
 	// ----------------------------------------- //
