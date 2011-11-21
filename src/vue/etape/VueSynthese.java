@@ -52,7 +52,7 @@ public class VueSynthese extends JPanel
 		
 		buildTitre(numEtape);
 		
-		initDonneesSyn();
+		//initDonneesSyn();
 		
 		buildQtsSyntheses();
 		buildEvalCtl();
@@ -64,7 +64,6 @@ public class VueSynthese extends JPanel
 	
 	private void initDonneesSyn()
 	{
-		donneesSyntheses = new DataSynthese(connexion , numEtape);
 		listeSyntheses = donneesSyntheses.getSyntheses();
 		listeQtsSyntheses = donneesSyntheses.getQtsSynthese();
 		listeQtsSyntheses = donneesSyntheses.getQtsSynthese();
@@ -94,12 +93,103 @@ public class VueSynthese extends JPanel
 	{
 		
 	}
-	
+
 	// ----------------------------------------- //
 	// ---------------ACCESSEURS---------------- //
 	// ----------------------------------------- //
 	
+	public Integer getNumEtape()
+	{
+		return numEtape;
+	}
+
+	public Integer getNumEleve()
+	{
+		return numEleve;
+	}
+
+	public DataSynthese getDonneesSyntheses()
+	{
+		return donneesSyntheses;
+	}
+
+	public JLabel getTitre()
+	{
+		return titre;
+	}
+
+	public KListObject<KSynthese> getListeSyntheses()
+	{
+		return listeSyntheses;
+	}
+
+	public Object [] getListeThemesSyntheses()
+	{
+		return listeThemesSyntheses;
+	}
+
+	public KListObject<KQuestions_synthese> getListeQtsSyntheses()
+	{
+		return listeQtsSyntheses;
+	}
+
+	public JPanel getColonneG()
+	{
+		return colonneG;
+	}
+
+	public JPanel getColonneD()
+	{
+		return colonneD;
+	}
+	
 	// ----------------------------------------- //
 	// ----------------MUTATEURS---------------- //
 	// ----------------------------------------- //
+
+	public void setNumEtape(Integer numEtape)
+	{
+		this.numEtape = numEtape;
+	}
+
+	public void setNumEleve(Integer numEleve)
+	{
+		this.numEleve = numEleve;
+	}
+
+	public void setDonneesSyntheses(DataSynthese donneesSyntheses)
+	{
+		this.donneesSyntheses = donneesSyntheses;
+	}
+
+	public void setTitre(JLabel titre)
+	{
+		this.titre = titre;
+	}
+
+	public void setListeSyntheses(KListObject<KSynthese> listeSyntheses)
+	{
+		this.listeSyntheses = listeSyntheses;
+	}
+
+	public void setListeThemesSyntheses(Object [] listeThemesSyntheses)
+	{
+		this.listeThemesSyntheses = listeThemesSyntheses;
+	}
+
+	public void setListeQtsSyntheses(KListObject<KQuestions_synthese> listeQtsSyntheses)
+	{
+		this.listeQtsSyntheses = listeQtsSyntheses;
+	}
+
+	public void setColonneG(JPanel colonneG)
+	{
+		this.colonneG = colonneG;
+	}
+
+	public void setColonneD(JPanel colonneD)
+	{
+		this.colonneD = colonneD;
+	}
+	
 }
