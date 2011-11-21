@@ -5,21 +5,26 @@ import java.sql.SQLException;
 import net.ko.creator.KernelCreator;
 import net.ko.ksql.KDBMysql;
 
-public class bdd
+public class BDD
 {
 	// ----------------------------------------- //
 	// ----------------ATTRIBUTS---------------- //
 	// ----------------------------------------- //
 	
 	public static KDBMysql	db;
-
+	
+	private static String	host	= "localhost";
+	private static String	login	= "admin";
+	private static String	mdp		= "admin";
+	private static String	bdd		= "autoecole";
+	
 	// ----------------------------------------- //
 	// -----------------METHODES---------------- //
 	// ----------------------------------------- //
 	
 	public static KDBMysql connexion()
 	{
-		db = new KDBMysql("localhost" , "admin" , "admin" , "autoecole");
+		db = new KDBMysql(host , login , mdp , bdd);
 		
 		try
 		{
@@ -29,9 +34,9 @@ public class bdd
 		{
 			System.out.println("Erreur lors de l'etablisement de la connexion a la base de donnees.");
 			System.out.println("Pensez a verifier que :");
-			System.out.println('\t'+"1 - Votre serveur est bien allume ;");
-			System.out.println('\t'+"2 - Les identifiants de connexion sont exacts ;");
-			System.out.println('\t'+"3 - Le nom de la base de donnee est le bon ;");
+			System.out.println('\t' + "1 - Votre serveur est bien allume ;");
+			System.out.println('\t' + "2 - Les identifiants de connexion sont exacts ;");
+			System.out.println('\t' + "3 - Le nom de la base de donnee est le bon ;");
 		}
 		
 		return db;
@@ -54,30 +59,70 @@ public class bdd
 		catch (ClassNotFoundException e1)
 		{
 			e1.printStackTrace();
-			System.out.println("�a marche pas");
+			System.out.println("Ne fonctionne pas.");
 		}
 		catch (SQLException e1)
 		{
 			e1.printStackTrace();
-			System.out.println("�a marche pas");
+			System.out.println("Ne fonctionne pas.");
 		}
 	}
 	
 	// ----------------------------------------- //
 	// ---------------ACCESSEURS---------------- //
 	// ----------------------------------------- //
-
+	
 	public static KDBMysql getDb()
 	{
 		return db;
 	}
-
+	
+	public static String getHost()
+	{
+		return host;
+	}
+	
+	public static String getLogin()
+	{
+		return login;
+	}
+	
+	public static String getMdp()
+	{
+		return mdp;
+	}
+	
+	public static String getBdd()
+	{
+		return bdd;
+	}
+	
 	// ----------------------------------------- //
 	// ----------------MUTATEURS---------------- //
 	// ----------------------------------------- //
 	
 	public static void setDb(KDBMysql db)
 	{
-		bdd.db = db;
+		BDD.db = db;
+	}
+	
+	public static void setHost(String host)
+	{
+		BDD.host = host;
+	}
+	
+	public static void setLogin(String login)
+	{
+		BDD.login = login;
+	}
+	
+	public static void setMdp(String mdp)
+	{
+		BDD.mdp = mdp;
+	}
+	
+	public static void setBdd(String bdd)
+	{
+		BDD.bdd = bdd;
 	}
 }

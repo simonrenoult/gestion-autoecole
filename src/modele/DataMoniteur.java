@@ -37,7 +37,7 @@ public class DataMoniteur
 	public KListObject<KMoniteur> recupererListe()
 	{
 		KListObject<KMoniteur> Kliste = new KListObject<KMoniteur>(KMoniteur.class);
-		Kliste.loadFromDb(bdd.db , "Select * from moniteur order by nom_moniteur asc");
+		Kliste.loadFromDb(BDD.db , "Select * from moniteur order by nom_moniteur asc");
 		
 		return Kliste;		
 	}
@@ -51,7 +51,7 @@ public class DataMoniteur
 		moniteur.setId(id);
 		try
 		{
-			moniteur.loadOne(bdd.db);
+			moniteur.loadOne(BDD.db);
 		}
 		catch (SecurityException e)
 		{
@@ -83,7 +83,7 @@ public class DataMoniteur
 	{
 		
 		moniteur.setId(id);
-		return moniteur.add(bdd.db);
+		return moniteur.add(BDD.db);
 	}
 	
 	/*
@@ -97,7 +97,7 @@ public class DataMoniteur
 		
 		try
 		{
-			moniteur.loadOne(bdd.db);
+			moniteur.loadOne(BDD.db);
 		}
 		catch (SecurityException e)
 		{
@@ -120,7 +120,7 @@ public class DataMoniteur
 			e.printStackTrace();
 		}
 		
-		moniteur.delete(bdd.db);		
+		moniteur.delete(BDD.db);		
 	}
 	
 	/*
@@ -128,7 +128,7 @@ public class DataMoniteur
 	 */
 	public boolean majMoniteur(KMoniteur moniteur)
 	{
-		return moniteur.update(bdd.db);	
+		return moniteur.update(BDD.db);	
 	}
 	
 	/*
@@ -150,29 +150,29 @@ public class DataMoniteur
 	}
 	
 	/*
-	 * Message renvoyée lors d'une erreur
+	 * Message renvoyï¿½e lors d'une erreur
 	 */
 	public Object messageRenvoyeeUI(int num)
 	{
 		switch (num)
 		{
 			case 5:
-				return "-Echec de l'opération : mise à jour d'un moniteur dans base de donnée\n";
+				return "-Echec de l'opï¿½ration : mise ï¿½ jour d'un moniteur dans base de donnï¿½e\n";
 				
 			case 4:
-				return "-Succès de l'opération : mise à jour d'un moniteur dans la base de donnée\n";
+				return "-Succï¿½s de l'opï¿½ration : mise ï¿½ jour d'un moniteur dans la base de donnï¿½e\n";
 				
 			case 3:
-				return "-Echec de l'opération : ajout d'un moniteur en base de donnée\n";
+				return "-Echec de l'opï¿½ration : ajout d'un moniteur en base de donnï¿½e\n";
 				
 			case 2:
-				return "-Succès de l'opération : ajout d'un moniteur en base de donnée\n";
+				return "-Succï¿½s de l'opï¿½ration : ajout d'un moniteur en base de donnï¿½e\n";
 				
 			case 1:
 				return "";
 				
 			case -5:
-				return "-Tous les champs n'ont pas été rempli correctement. Tous les champs symbolisé par * doivent être rempli\n";
+				return "-Tous les champs n'ont pas ï¿½tï¿½ rempli correctement. Tous les champs symbolisï¿½ par * doivent ï¿½tre rempli\n";
 		}
 		
 		return "";

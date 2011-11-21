@@ -4,14 +4,14 @@ package vue;
 import controleur.*;
 import javax.swing.*;
 import vue.etape.VueEtape;
-import modele.bdd;
+import modele.BDD;
 import java.awt.*;
 
 public class FenetrePrincipale extends JFrame {
 
 	
 	private static final long serialVersionUID = 1L;
-	bdd bdd = new bdd();
+	BDD bdd = new BDD();
 	//Classes
 	
 	private FicheEleve ficheEleve = new FicheEleve();
@@ -28,7 +28,7 @@ public class FenetrePrincipale extends JFrame {
 	private JMenuItem exporterLivret = new JMenuItem(
 			"Exporter le livret actuel");
 	private JMenuItem exporterLivrets = new JMenuItem(
-	"Exporter les livrets de tous les élèves");
+	"Exporter les livrets de tous les ï¿½lï¿½ves");
 	private JMenuItem imprimerLivret = new JMenuItem(
 			"Imprimer le livret actuel");
 	private JMenuItem quitter = new JMenuItem("Quitter");
@@ -63,7 +63,7 @@ public class FenetrePrincipale extends JFrame {
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		//Creation des étapes.
+		//Creation des ï¿½tapes.
 		for (int i = 0; i < 4; i++) {
 			etape[i] = new VueEtape(i);
 		}
@@ -87,7 +87,7 @@ public class FenetrePrincipale extends JFrame {
 ////////////////////////////////////////////////////////METHODES
 	
 	/*
-	 * Permet d'écouter les objets à la classe EcouteurPrincipale 
+	 * Permet d'ï¿½couter les objets ï¿½ la classe EcouteurPrincipale 
 	 */
 	public void ajouterActionListener() {
 		ecouteurPrincipale = new EcouteurPrincipale(this);
@@ -136,7 +136,7 @@ public class FenetrePrincipale extends JFrame {
 	}
 
 	/*
-	 * création du panel comportant les différents panel (etape, fiche eleve, etc.)
+	 * crï¿½ation du panel comportant les diffï¿½rents panel (etape, fiche eleve, etc.)
 	 */
 	public JPanel CreationPanelDroite() {
 		JPanel panel = new JPanel();
@@ -160,7 +160,7 @@ public class FenetrePrincipale extends JFrame {
 	}
 	
 	/*
-	 *création du panel comportant les différents boutons (etape, fiche eleve, etc.)
+	 *crï¿½ation du panel comportant les diffï¿½rents boutons (etape, fiche eleve, etc.)
 	 */
 	public JPanel CreationPanelGauche() {
 		
@@ -189,7 +189,7 @@ public class FenetrePrincipale extends JFrame {
 		rechercheE.setPreferredSize(new Dimension(196, 20));
 		boutonAjouterEleve.setPreferredSize(new Dimension(90, 20));
 		
-		//Creation du scroll lié à la Jlist
+		//Creation du scroll liï¿½ ï¿½ la Jlist
 		JScrollPane scrollListeE = new JScrollPane(JlisteEleves);
 		scrollListeE.setPreferredSize(new Dimension(196, 295));
 		
@@ -201,7 +201,7 @@ public class FenetrePrincipale extends JFrame {
 		containerListeEleves.add(rechercheE);
 		containerListeEleves.add(scrollListeE);
 		
-		//creation du panel final contenant les 2 panels créés dessus
+		//creation du panel final contenant les 2 panels crï¿½ï¿½s dessus
 		JPanel panel = new JPanel();
 		panel.setPreferredSize(new Dimension(200, 640));
 		panel.add(containerListeEleves);

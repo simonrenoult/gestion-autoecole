@@ -1,12 +1,12 @@
 
 /*
- * Cette classe permet de d'extraire les données de la JTable (conversion d'un
- * tableau d'objet [][] en Liste KAssurerLecon). Cette liste va être ensuite
- * comparée à la liste de référence KlisteRDVRef afin de voir ci des RDV ont été
- * modifié. La table Agenda admet un id numérique et non plus une date, donc les
+ * Cette classe permet de d'extraire les donnï¿½es de la JTable (conversion d'un
+ * tableau d'objet [][] en Liste KAssurerLecon). Cette liste va ï¿½tre ensuite
+ * comparï¿½e ï¿½ la liste de rï¿½fï¿½rence KlisteRDVRef afin de voir ci des RDV ont ï¿½tï¿½
+ * modifiï¿½. La table Agenda admet un id numï¿½rique et non plus une date, donc les
  * on compare aussi les dates et heures de RDV entre ceux de la Jtable
- * KlisteAgendaGraphique et la liste de reference KlisteAgendaRef (par rapport à
- * un élève). Cette necessité de ces listes provient du fait qu'on ne renseigne
+ * KlisteAgendaGraphique et la liste de reference KlisteAgendaRef (par rapport ï¿½
+ * un ï¿½lï¿½ve). Cette necessitï¿½ de ces listes provient du fait qu'on ne renseigne
  * pas de dates, ni d'heure dans la liste KlisteRDVRef.
  * 
  * Exemple :
@@ -19,11 +19,11 @@
  * 
  * 17 2011-08-24 15:30:00 similaire celle de la BDD, update en BDD 18 2011-08-25
  * 15:30:00 n'existe pas en BDD, Insert -1 1899-12-31 00:00:00 erreur de format
- * dans le champ grahique du 3eme RDV (3eme ligne de la Jtable), génère un
+ * dans le champ grahique du 3eme RDV (3eme ligne de la Jtable), gï¿½nï¿½re un
  * message d'erreur.
  * 
- * TableauChampSaisieOk est un tableau de booléen où chaque champ détermine si
- * le format des données est valide en BDD.
+ * TableauChampSaisieOk est un tableau de boolï¿½en oï¿½ chaque champ dï¿½termine si
+ * le format des donnï¿½es est valide en BDD.
  */
 
 package modele;
@@ -76,7 +76,7 @@ public class TableauLecon
 	// --------AGENDA-------- //
 	
 	/*
-	 * Permet d'insérer un objet KAgenda à la table Agenda.
+	 * Permet d'insï¿½rer un objet KAgenda ï¿½ la table Agenda.
 	 */
 	public int AjoutAgenda(KAgenda agenda, int idMoniteur)
 	{
@@ -112,25 +112,25 @@ public class TableauLecon
 	{
 		for (int i = 0; i < Kliste.count(); i++)
 		{
-			Kliste.get(i).add(bdd.db);
+			Kliste.get(i).add(BDD.db);
 		}
 		return true;
 	}
 	
 	/*
-	 * recupere la liste des dates et horaire des leçons d'un élève.
+	 * recupere la liste des dates et horaire des leï¿½ons d'un ï¿½lï¿½ve.
 	 */
 	public KListObject<KAgenda> recupererAgendaRDV(int id)
 	{
 		KListObject<KAgenda> Kliste = new KListObject<KAgenda>(KAgenda.class);
-		Kliste.loadFromDb(bdd.db ,
+		Kliste.loadFromDb(BDD.db ,
 				"select * from agenda where id in (select idAgenda from assurer_lecon where idEleve = " + id + ")");
 		KlisteAgendaRef = Kliste;
 		return Kliste;
 	}
 	
 	/*
-	 * Creer la liste contenant toutes les cles primaires de Agenda non présente
+	 * Creer la liste contenant toutes les cles primaires de Agenda non prï¿½sente
 	 * dans la BDD
 	 */
 	public KListObject<KAgenda> creerClePrimaireTableAgendaEtInsertionRDVnouveau(KListObject<KAssurer_lecon> RDV)
@@ -172,7 +172,7 @@ public class TableauLecon
 		System.out.println("avant requete, idmoniteur vaut : " + idMoniteur);
 		KListObject<KAssurer_lecon> agenda = new KListObject<KAssurer_lecon>(KAssurer_lecon.class);
 		
-		agenda.loadFromDb(bdd.db , "select * from assurer_lecon where idmoniteur = " + idMoniteur
+		agenda.loadFromDb(BDD.db , "select * from assurer_lecon where idmoniteur = " + idMoniteur
 				+ " order by idAgenda asc");
 		
 		System.out.println("Liste des RDV : ");
@@ -195,7 +195,7 @@ public class TableauLecon
 		KAgenda agenda = new KAgenda();
 		try
 		{
-			agenda.loadOneById(bdd.db , id);
+			agenda.loadOneById(BDD.db , id);
 		}
 		catch (SecurityException e)
 		{
@@ -229,7 +229,7 @@ public class TableauLecon
 		KAgenda agenda = new KAgenda();
 		try
 		{
-			agenda.loadOneById(bdd.db , id);
+			agenda.loadOneById(BDD.db , id);
 		}
 		catch (SecurityException e)
 		{
@@ -264,7 +264,7 @@ public class TableauLecon
 	{
 		System.out.println("Suppression TABLE ASSURERLECON");
 		System.out.println("delete : " + RDV);
-		RDV.delete(bdd.db);
+		RDV.delete(BDD.db);
 		// KlisteRef = chargerListeRDVEleve(id);
 		// REMETRE A JOUR LA LISTE DE REFERENCE POUR LELEVE !!!!!
 		return true;
@@ -279,7 +279,7 @@ public class TableauLecon
 		System.out.println(RDV);
 		for (int i = 0; i < RDV.count(); i++)
 		{
-			RDV.get(i).update(bdd.db);
+			RDV.get(i).update(BDD.db);
 		}
 		
 		return true;
@@ -293,7 +293,7 @@ public class TableauLecon
 		System.out.println("insertion TABLE ASSURERLECON");
 		System.out.println(RDV);
 		
-		RDV.add(bdd.db);
+		RDV.add(BDD.db);
 		
 		return true;
 	}
@@ -305,10 +305,10 @@ public class TableauLecon
 	{
 		
 		KListObject<KAssurer_lecon> Kliste = new KListObject<KAssurer_lecon>(KAssurer_lecon.class);
-		Kliste.loadFromDb(bdd.db , "select * from assurer_lecon where idELEVE = " + id);
+		Kliste.loadFromDb(BDD.db , "select * from assurer_lecon where idELEVE = " + id);
 		
 		KListObject<KAgenda> Kliste1 = new KListObject<KAgenda>(KAgenda.class);
-		Kliste1.loadFromDb(bdd.db ,
+		Kliste1.loadFromDb(BDD.db ,
 				"select * from agenda where id in (select idAgenda from assurer_lecon where ideleve =" + id + ") "
 						+ "order by date_agenda asc, heure_agenda asc");
 		
@@ -330,8 +330,8 @@ public class TableauLecon
 	
 	/*
 	 * Recupere une liste de lecon nouvelle d'un eleve en comparant avec celle
-	 * existant dans la BDD pour ce meme eleve. le point de départ est donc
-	 * KlisteRDVRef.count() pour recuperer juste les nouvelles leçons.
+	 * existant dans la BDD pour ce meme eleve. le point de dï¿½part est donc
+	 * KlisteRDVRef.count() pour recuperer juste les nouvelles leï¿½ons.
 	 */
 	public KListObject<KAssurer_lecon> recupererNouvelleLecon(KListObject<KAssurer_lecon> KlisteEntiere)
 	{
@@ -346,7 +346,7 @@ public class TableauLecon
 	
 	/*
 	 * Recupere la liste des RDV d'un eleve pour lequel il y a un equivalent en
-	 * BDD. Tout est alors stocké dans KlisteRDVRef.
+	 * BDD. Tout est alors stockï¿½ dans KlisteRDVRef.
 	 */
 	public KListObject<KAssurer_lecon> recupererLeconExistante(KListObject<KAssurer_lecon> KlisteEntiere)
 	{
@@ -392,18 +392,18 @@ public class TableauLecon
 	}
 	
 	/*
-	 * Efface un RDV posterieur à la dateActuelle
+	 * Efface un RDV posterieur ï¿½ la dateActuelle
 	 */
 	public boolean effacerRDVListe(KListObject<KAssurer_lecon> KlisteGraphique)
 	{
 		
 		/*
-		 * KlisteRef a été initialisé des le double clic sur un eleve. On va
-		 * donc supprimer en BDD les RDV supprimé graphiquement si la date est
-		 * postérieur à la date actuelle (éviter la magouille).
+		 * KlisteRef a ï¿½tï¿½ initialisï¿½ des le double clic sur un eleve. On va
+		 * donc supprimer en BDD les RDV supprimï¿½ graphiquement si la date est
+		 * postï¿½rieur ï¿½ la date actuelle (ï¿½viter la magouille).
 		 */
 		int index = 0; // le RDV de KlisteRef n'est pas present dans
-						// KlisteGraphique : il a été supprimé.
+						// KlisteGraphique : il a ï¿½tï¿½ supprimï¿½.
 		int i;
 		int j;
 		int cpt = 0;
@@ -439,7 +439,7 @@ public class TableauLecon
 	
 	/*
 	 * teste l'ensemble de la liste "graphique" pour tester les formats de
-	 * données, cohérence de données.
+	 * donnï¿½es, cohï¿½rence de donnï¿½es.
 	 */
 	@SuppressWarnings("deprecation")
 	public int gererRDVvide(KListObject<KAssurer_lecon> klisteGraphique)
@@ -512,13 +512,13 @@ public class TableauLecon
 				return "-\n";
 				
 			case 2:
-				return "-L'ensemble des RDV ont été enregistrés en base de données\n";
+				return "-L'ensemble des RDV ont ï¿½tï¿½ enregistrï¿½s en base de donnï¿½es\n";
 				
 			case 1:
 				return "";
 				
 			case -1:
-				return "-La date de RDV fixée ne peut pas être antérieur à la date actuelle\n";
+				return "-La date de RDV fixï¿½e ne peut pas ï¿½tre antï¿½rieur ï¿½ la date actuelle\n";
 				
 			case -2:
 				return "-L'horaire saisie est invalide : les heures sont compris entre 08h et 19h\n";
@@ -527,19 +527,19 @@ public class TableauLecon
 				return "-L'horaire saisie est invalide : les minutes sont compris entre 0 et 59.\n";
 				
 			case -4:
-				return "-Les dates de RDV ne correpondent pas à un ordre chronologique.\n";
+				return "-Les dates de RDV ne correpondent pas ï¿½ un ordre chronologique.\n";
 				
 			case -5:
-				return "-Une durée de leçon est invalide (expression absente ou format invalide).\n";
+				return "-Une durï¿½e de leï¿½on est invalide (expression absente ou format invalide).\n";
 				
 			case -6:
-				return "-Un moniteur doit être selectionné pour chaque RDV.\n";
+				return "-Un moniteur doit ï¿½tre selectionnï¿½ pour chaque RDV.\n";
 				
 			case -7:
-				return "-Une date de RDV a été modifié de façon invalide.\n";
+				return "-Une date de RDV a ï¿½tï¿½ modifiï¿½ de faï¿½on invalide.\n";
 				
 			case -8:
-				return "-Un horaire de leçon est invalide (expression absente ou format invalide).\n";
+				return "-Un horaire de leï¿½on est invalide (expression absente ou format invalide).\n";
 				
 		}
 		
@@ -613,7 +613,7 @@ public class TableauLecon
 	}
 	
 	/*
-	 * Creation d'un objet java.sql.TimeStamp à partir de java.sql.Date et
+	 * Creation d'un objet java.sql.TimeStamp ï¿½ partir de java.sql.Date et
 	 * java.sql.Ime
 	 */
 	@SuppressWarnings("deprecation")
@@ -654,7 +654,7 @@ public class TableauLecon
 	}
 	
 	/*
-	 * Creer un temp au format SQL à partir d'un type String
+	 * Creer un temp au format SQL ï¿½ partir d'un type String
 	 */
 	@SuppressWarnings("deprecation")
 	public java.sql.Time creerHoraire(String chaine)
@@ -741,7 +741,7 @@ public class TableauLecon
 	}
 	
 	/*
-	 * recuperation de l'id du moniteur à partir du tableau d'objet (pas moyen
+	 * recuperation de l'id du moniteur ï¿½ partir du tableau d'objet (pas moyen
 	 * de trouver comment renvoyer la valeur de la Jcombobox de la Jtable
 	 */
 	public int recupererIdMoniteur(String chaine)
@@ -759,12 +759,12 @@ public class TableauLecon
 			}
 		}
 		
-		return -1;// pour les tests, soit c'est bon, soit ça plante.
+		return -1;// pour les tests, soit c'est bon, soit ï¿½a plante.
 		
 	}
 	
 	/*
-	 * retourne le nombre de séance pratique de conduite
+	 * retourne le nombre de sï¿½ance pratique de conduite
 	 */
 	public int compterSeance()
 	{
@@ -773,7 +773,7 @@ public class TableauLecon
 	}
 	
 	/*
-	 * retourne le nombre d'heure passé à l'autoécole.
+	 * retourne le nombre d'heure passï¿½ ï¿½ l'autoï¿½cole.
 	 */
 	public String compterHeure()
 	{
@@ -878,7 +878,7 @@ public class TableauLecon
 			heureDebut = recupererHoraireAgenda(KlisteGraphique.get(i).getIdAGENDA());
 			heureFin = creerHeureFin(KlisteGraphique.get(i).getDUREE_LECON() , heureDebut);
 			
-			Kliste.loadFromDb(bdd.db , "select * from assurer_lecon where idAgenda in (select id from agenda where"
+			Kliste.loadFromDb(BDD.db , "select * from assurer_lecon where idAgenda in (select id from agenda where"
 					+ "date_agenda = '" + date + "' and heure_agenda between '" + heureDebut + "' and '" + heureFin
 					+ "')" + " idMoniteur = " + KlisteGraphique.get(i).getIdMONITEUR());
 			if (Kliste.count() != 0)
@@ -888,8 +888,8 @@ public class TableauLecon
 			}
 		}
 		
-		return new KAssurer_lecon();// On retourne un RDV vide, temoin que ça
-									// s'est bien passé.
+		return new KAssurer_lecon();// On retourne un RDV vide, temoin que ï¿½a
+									// s'est bien passï¿½.
 		
 		// OU ON RENVOIE UN STRING CONTENANT LA PHRASE POUR LE MESSAGE DERREUR.
 	}
@@ -935,20 +935,20 @@ public class TableauLecon
 			// agenda where date_agenda = '2011-11-15' and heure_agenda between
 			// '08:00:00' and '09:00:00') and idEleve = 5
 			
-			Kliste.loadFromDb(bdd.db , "select * from assurer_lecon where idAgenda in (select id from agenda where"
+			Kliste.loadFromDb(BDD.db , "select * from assurer_lecon where idAgenda in (select id from agenda where"
 					+ " date_agenda = '" + date + "' and heure_agenda between '" + heureDebut + "' and '" + heureFin
 					+ "')" + " and idEleve = " + KlisteGraphique.get(i).getIdELEVE());
 			System.out.println("on compte donc : " + Kliste.count());
 			if (Kliste.count() != 0)
 			{
 				System.out.println("");
-				return KlisteAgendaRef.count() + i;// numero de ligne où ça
+				return KlisteAgendaRef.count() + i;// numero de ligne oï¿½ ï¿½a
 													// cloche.
 			}
 			
 		}
 		
-		return -1; // L'eleve est disponible par rapport à tous ses RDV.
+		return -1; // L'eleve est disponible par rapport ï¿½ tous ses RDV.
 		
 	}
 	

@@ -15,7 +15,7 @@ public class DataInterroOrale
 	// ----------------ATTRIBUTS---------------- //
 	// ----------------------------------------- //
 	
-	private KDBMysql					db	= bdd.db;
+	private KDBMysql					db	= BDD.db;
 	private KListObject<KCategorie_i_o>	listCategories;
 	KListObject<KObjectif>				listObjectifs[];
 	

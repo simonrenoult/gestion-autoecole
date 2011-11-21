@@ -12,7 +12,7 @@ public class DataFicheEleve
 	// ----------------ATTRIBUTS---------------- //
 	// ----------------------------------------- //
 	
-	private KDBMysql	db						= bdd.db;
+	private KDBMysql	db						= BDD.db;
 	private Boolean []	TableauChampSaisieOk	= null;
 	
 	// ----------------------------------------- //
@@ -40,7 +40,7 @@ public class DataFicheEleve
 	public KListObject<KEleve> recupererListe()
 	{
 		KListObject<KEleve> Kliste = new KListObject<KEleve>(KEleve.class);
-		Kliste.loadFromDb(bdd.db , "Select * from eleve order by nom_eleve asc");
+		Kliste.loadFromDb(BDD.db , "Select * from eleve order by nom_eleve asc");
 		return Kliste;
 	}
 	

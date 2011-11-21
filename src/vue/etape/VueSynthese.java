@@ -9,7 +9,7 @@ import KClass.KQuestions_synthese;
 import KClass.KSynthese;
 import net.ko.kobject.KListObject;
 import net.ko.ksql.KDBMysql;
-import modele.bdd;
+import modele.BDD;
 import modele.etape.DataSynthese;
 
 @SuppressWarnings("serial")
@@ -45,7 +45,7 @@ public class VueSynthese extends JPanel
 	
 	public VueSynthese(Integer numEtape, DataSynthese donnees_syn)
 	{
-		this.connexion = bdd.db;
+		this.connexion = BDD.db;
 		this.numEtape = numEtape;
 		this.donneesSyntheses = donnees_syn;
 		

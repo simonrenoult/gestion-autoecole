@@ -14,7 +14,7 @@ import javax.swing.JTable;
 import javax.swing.table.TableColumn;
 import controleur.EcouteurPrincipale;
 import KClass.*;
-import modele.bdd;
+import modele.BDD;
 import modele.etape.DataObjectifs;
 import net.ko.kobject.KListObject;
 import net.ko.ksql.KDBMysql;
@@ -58,7 +58,7 @@ public class VueObjectifs extends JPanel
 	
 	public VueObjectifs(int numEtape, DataObjectifs donnees_objectifs)
 	{
-		this.connexion = bdd.db;
+		this.connexion = BDD.db;
 		this.numEtape = numEtape;
 		this.donneesObjectifs = donnees_objectifs;
 		

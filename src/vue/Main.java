@@ -3,20 +3,16 @@ package vue;
 
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import modele.bdd;
-import net.ko.ksql.KDBMysql;
+import modele.BDD;
 
 class Main
 {
 	public static void main(String [] args)
 	{
-		
-		@SuppressWarnings("unused")
-		KDBMysql db = bdd.connexion();
+		BDD.connexion();
 		
 		try
 		{
-			
 			// UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
 			// UIManager.setLookAndFeel("com.sun.java.swing.plaf.metal.MetalLookAndFeel");
 			// UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");

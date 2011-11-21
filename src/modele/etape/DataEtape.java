@@ -1,7 +1,7 @@
 
 package modele.etape;
 
-import modele.bdd;
+import modele.BDD;
 import net.ko.ksql.KDBMysql;
 
 public class DataEtape
@@ -10,7 +10,7 @@ public class DataEtape
 	// ----------------ATTRIBUTS---------------- //
 	// ----------------------------------------- //
 	
-	private KDBMysql		db	= bdd.db;
+	private KDBMysql		db	= BDD.db;
 	
 	private Integer			numEtape;
 	

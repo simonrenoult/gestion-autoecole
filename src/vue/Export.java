@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import modele.bdd;
+import modele.BDD;
 import net.ko.kobject.KListObject;
 import net.ko.ksql.KDBMysql;
 import KClass.KAgenda;
@@ -48,7 +48,7 @@ public class Export
 	// ----------------ATTRIBUTS---------------- //
 	// ----------------------------------------- //
 	
-	private KDBMysql db = bdd.db;
+	private KDBMysql db = BDD.db;
 
 	// ----------------------------------------- //
 	// --------------CONSTRUCTEURS-------------- //
