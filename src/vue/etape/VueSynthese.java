@@ -19,7 +19,7 @@ public class VueSynthese extends JPanel
 	// ----------------ATTRIBUTS---------------- //
 	// ----------------------------------------- //
 	
-	private KDBMysql							connexion;
+	private KDBMysql							connexion = BDD.db;
 	
 	private Integer								numEtape;
 	private Integer								numEleve;
