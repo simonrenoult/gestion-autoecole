@@ -12,7 +12,7 @@ public class DataEtape
 	
 	private KDBMysql		db	= bdd.db;
 	
-	private Integer numEtape;
+	private Integer			numEtape;
 	
 	private DataObjectifs	donneesObjectifs;
 	private DataSynthese	donneesSynthese;

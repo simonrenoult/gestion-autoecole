@@ -1,6 +1,8 @@
 
 package modele.etape;
 
+import java.util.LinkedList;
+import com.sun.swing.internal.plaf.synth.resources.synth;
 import net.ko.kobject.KListObject;
 import net.ko.ksql.KDBMysql;
 import KClass.KQuestions_synthese;
@@ -16,8 +18,6 @@ public class DataSynthese
 	private KDBMysql							db;
 	
 	private KListObject<KSynthese>				syntheses;
-	private KListObject<KQuestions_synthese>	questionsSyn;
-	private KListObject<KThemes_synthese>		themesSyn;
 	
 	// ----------------------------------------- //
 	// --------------CONSTRUCTEURS-------------- //
@@ -26,14 +26,26 @@ public class DataSynthese
 	public DataSynthese(KDBMysql connexion, Integer numEtape)
 	{
 		this.db = connexion;
-		this.syntheses = chargerSynthese(numEtape);
-		//this.themesSyn = chargerThemeSynthese(numSynthese);
-		//this.questionsSyn = chargerQuestionsSynthese(numThemeSynthese);
+		
+		initSyntheses(numEtape);
 	}
 	
 	// ----------------------------------------- //
 	// -------------INITIALISEURS--------------- //
 	// ----------------------------------------- //
+	
+	private void initSyntheses(Integer numEtape)
+	{
+		this.syntheses = chargerSynthese(numEtape);
+		
+		for (KSynthese ks : syntheses)
+		{
+			ks.setThemes_syntheses(chargerThemesSynthese(Integer.parseInt(ks.getId().toString())));
+			
+			for (KThemes_synthese kts : ks.getThemes_syntheses())
+				kts.setQuestions_syntheses(chargerQuestionsSynthese(Integer.parseInt(kts.getId().toString())));
+		}		
+	}
 	
 	// ----------------------------------------- //
 	// -----------------METHODES---------------- //
@@ -47,10 +59,10 @@ public class DataSynthese
 		return tmp;
 	}
 	
-	public KListObject<KThemes_synthese> chargerThemeSynthese(int numSynthese)
+	public KListObject<KThemes_synthese> chargerThemesSynthese(int numSynthese)
 	{
 		KListObject<KThemes_synthese> tmp = new KListObject<KThemes_synthese>(KThemes_synthese.class);
-		tmp.loadFromDb(db , "select * from theme_synthese where idSYNTHESE = '" + numSynthese + "'");
+		tmp.loadFromDb(db , "select * from themes_synthese where idSYNTHESE = '" + numSynthese + "'");
 		
 		return tmp;
 	}
@@ -72,14 +84,14 @@ public class DataSynthese
 		return syntheses;
 	}
 	
-	public KListObject<KQuestions_synthese> getQtsSynthese()
+	public KListObject<KThemes_synthese> getThemesSynthese(Integer idSynthese)
 	{
-		return questionsSyn;
+		return 	syntheses.get(idSynthese).getThemes_syntheses();
 	}
 	
-	public KListObject<KThemes_synthese> getThemesSyn()
+	public KListObject<KQuestions_synthese> getQtsSynthese(Integer idSynthese, Integer idThemeSynthese)
 	{
-		return themesSyn;
+		return 	syntheses.get(idSynthese).getThemes_syntheses().get(idThemeSynthese).getQuestions_syntheses();
 	}
 	
 	// ----------------------------------------- //
@@ -91,13 +103,13 @@ public class DataSynthese
 		this.syntheses = syntheses;
 	}
 	
-	public void setQuestionsSyn(KListObject<KQuestions_synthese> questionsSyn)
+	public void setQuestionsSyn(Integer idSynthese, KListObject<KThemes_synthese> questionsSyn)
 	{
-		this.questionsSyn = questionsSyn;
+		syntheses.get(idSynthese).setThemes_syntheses(questionsSyn);
 	}
 	
-	public void setThemesSyn(KListObject<KThemes_synthese> themesSyn)
+	public void setThemesSyn(Integer idSynthese, Integer idThemeSynthese, KListObject<KQuestions_synthese> qtsSynthese)
 	{
-		this.themesSyn = themesSyn;
+		syntheses.get(idSynthese).getThemes_syntheses().get(idThemeSynthese).setQuestions_syntheses(qtsSynthese);
 	}
 }
