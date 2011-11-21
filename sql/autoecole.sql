@@ -19,8 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Base de données: `autoecole`
 --
-CREATE DATABASE `autoecole` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `autoecole`;
+CREATE DATABASE `autoecole2` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `autoecole2`;
 
 -- --------------------------------------------------------
 
@@ -372,10 +372,10 @@ CREATE TABLE IF NOT EXISTS `passer` (
 
 CREATE TABLE IF NOT EXISTS `questions_synthese` (
   `id` int(2) NOT NULL AUTO_INCREMENT,
-  `idSYNTHESE` bigint(4) NOT NULL,
+  `idTHEME_SYNTHESE` int(3) NOT NULL,
   `LIBELLE_QUESTION_SYNTHESE` char(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `I_FK_QUESTIONS_SYNTHESE_SYNTHESE` (`idSYNTHESE`)
+  KEY `I_FK_QUESTIONS_SYNTHESE_THEME_SYNTHESE` (`idTHEME_SYNTHESE`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -510,7 +510,7 @@ ALTER TABLE `passer`
 -- Contraintes pour la table `questions_synthese`
 --
 ALTER TABLE `questions_synthese`
-  ADD CONSTRAINT `questions_synthese_ibfk_1` FOREIGN KEY (`idSYNTHESE`) REFERENCES `synthese` (`id`);
+  ADD CONSTRAINT `questions_synthese_ibfk_1` FOREIGN KEY (`idTHEME_SYNTHESE`) REFERENCES `themes_synthese` (`id`);
 
 --
 -- Contraintes pour la table `realiser`

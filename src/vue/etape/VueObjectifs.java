@@ -64,7 +64,7 @@ public class VueObjectifs extends JPanel
 		
 		buildTitre();
 		
-		initDonneesObj(donnees_objectifs);
+		initDonneesObj();
 		
 		buildTabDonneesBrutes();
 		donneesBrutesVersDonnesFormatees();
@@ -74,8 +74,16 @@ public class VueObjectifs extends JPanel
 	}
 	
 	// ----------------------------------------- //
-	// -----------------LISTENER---------------- //
+	// --------------INITIALISEURS-------------- //
 	// ----------------------------------------- //
+	
+	// --------LISTE_OBJ-------- //
+	
+	private void initDonneesObj()
+	{
+		donneesObjectifs = new DataObjectifs(connexion , numEtape);
+		liste_objectifs = donneesObjectifs.getObjectifs();
+	}
 	
 	// ----------------------------------------- //
 	// -----------------METHODES---------------- //
@@ -90,13 +98,7 @@ public class VueObjectifs extends JPanel
 		this.add(titre);
 	}
 	
-	// --------LISTE_OBJ-------- //
 	
-	private void initDonneesObj(DataObjectifs donnees_objectifs)
-	{
-		donnees_objectifs = new DataObjectifs(connexion , numEtape);
-		liste_objectifs = donnees_objectifs.getObjectifs();
-	}
 	
 	// --------DONNEES_BRUTES--------//
 	

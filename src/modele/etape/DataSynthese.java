@@ -26,6 +26,9 @@ public class DataSynthese
 	public DataSynthese(KDBMysql connexion, Integer numEtape)
 	{
 		this.db = connexion;
+		this.syntheses = chargerSynthese(numEtape);
+		//this.themesSyn = chargerThemeSynthese(numSynthese);
+		//this.questionsSyn = chargerQuestionsSynthese(numThemeSynthese);
 	}
 	
 	// ----------------------------------------- //
@@ -69,7 +72,7 @@ public class DataSynthese
 		return syntheses;
 	}
 	
-	public KListObject<KQuestions_synthese> getQuestionsSyn()
+	public KListObject<KQuestions_synthese> getQtsSynthese()
 	{
 		return questionsSyn;
 	}

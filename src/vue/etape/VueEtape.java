@@ -13,19 +13,19 @@ public class VueEtape extends JPanel
 	// ----------------ATTRIBUTS---------------- //
 	// ----------------------------------------- //
 	
-	private static Dimension	TAILLE_ETAPE	= new Dimension(900, 670);
-	private static Dimension	TAILLE_ONGLET	= new Dimension(880, 610);
+	private static Dimension	TAILLE_ETAPE	= new Dimension(900 , 670);
+	private static Dimension	TAILLE_ONGLET	= new Dimension(880 , 610);
 	
 	private Integer				numEtape;
 	
 	private JTabbedPane			onglets;
 	private DataEtape			donnees_etape;
 	
-	private VueObjectifs			objectifs;
+	private VueObjectifs		objectifs;
 	private static String		TITRE_OBJECTIFS	= "Objectifs";
 	
 	private VueSynthese			syntheses;
-	private static String		TITRE_SYNTHESES	= "Synteses";
+	private static String		TITRE_SYNTHESES	= "Syntheses";
 	
 	// ----------------------------------------- //
 	// --------------CONSTRUCTEURS-------------- //
@@ -51,16 +51,16 @@ public class VueEtape extends JPanel
 	
 	private void buildObjectifs()
 	{
-		objectifs = new VueObjectifs(this.numEtape, donnees_etape.getDonneesObjectifs());
+		objectifs = new VueObjectifs(this.numEtape , donnees_etape.getDonneesObjectifs());
 		objectifs.setPreferredSize(TAILLE_ONGLET);
-		onglets.add(objectifs, TITRE_OBJECTIFS);
+		onglets.add(objectifs , TITRE_OBJECTIFS);
 	}
 	
 	private void buildSyntheses()
 	{
-		syntheses = new VueSynthese(this.numEtape, donnees_etape);
+		syntheses = new VueSynthese(this.numEtape , donnees_etape.getDonneesSynthese());
 		syntheses.setPreferredSize(TAILLE_ONGLET);
-		onglets.add(syntheses, TITRE_SYNTHESES);
+		onglets.add(syntheses , TITRE_SYNTHESES);
 	}
 	
 	// ----------------------------------------- //
@@ -72,16 +72,13 @@ public class VueEtape extends JPanel
 	// ----------------------------------------- //
 	
 	/*
-	public static void main(String[] args)
-	{
-		new Etape(1);
-	}
-	*/
-
+	 * public static void main(String[] args) { new Etape(1); }
+	 */
+	
 	// ----------------------------------------- //
 	// ---------------ACCESSEURS---------------- //
 	// ----------------------------------------- //
-
+	
 	public DataEtape getDonnees_etape()
 	{
 		return donnees_etape;

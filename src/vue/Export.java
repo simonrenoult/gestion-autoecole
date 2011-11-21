@@ -59,20 +59,20 @@ public class Export
 	{
 		/*
 		 * 
-		 * TODO : Rcsumc de ce qu'il reste c faire :
+		 * TODO : Résumé de ce qu'il reste c faire :
 		 * 
-		 * Peut-être terminc, mais c discuter avec les autres membres du groupe
+		 * Peut-être terminé, mais c discuter avec les autres membres du groupe
 		 * : - O Mettre un message d'erreur si un document est ouvert pendant
-		 * qu'un autre l'est aussi. - O Ouverture directe du fichier aprcs avoir
-		 * ctc gcncrc. - O Export multiple : laisser le choix de sclection d'un
+		 * qu'un autre l'est aussi. - O Ouverture directe du fichier aprés avoir
+		 * été généré. - O Export multiple : laisser le choix de sélection d'un
 		 * dossier ? - LMI Graphique : cases c cocher.
 		 * 
 		 * - Le plus important : - Code des synthcses en dur : c remplacer par
-		 * les importations de la base de donnces. - Nombre d'heures pratiques :
+		 * les importations de la base de données. - Nombre d'heures pratiques :
 		 * faire pour chaque synthcse en fonction de la date. - Faire
 		 * l'impression directe.
 		 * 
-		 * - Le moins important : - Nettoyer le code (rcpctitions des synthcses
+		 * - Le moins important : - Nettoyer le code (répétitions des synthcses
 		 * et des cases, fonction "passageALaLigneAutomatique"...). - Commenter.
 		 */
 
@@ -82,7 +82,7 @@ public class Export
 	// -----------------METHODES---------------- //
 	// ----------------------------------------- //
 
-	// Sclectionne si l'action choisie est un export ou une impression.
+	// Sélectionne si l'action choisie est un export ou une impression.
 	public void exportOuImpression(int index,FenetrePrincipale fenetre,int action)
 	{
 
@@ -92,8 +92,8 @@ public class Export
 
 	}
 
-	// Crce et stocke un document PDF contenant toutes les donnces saisies dans
-	// le logiciel pour l'clcve sclectionnc.
+	// Crée et stocke un document PDF contenant toutes les données saisies dans
+	// le logiciel pour l'élcve sélectionné.
 	private void exportPDF(int index,FenetrePrincipale fenetre)
 	{
 		if (index != -1)
@@ -122,10 +122,10 @@ public class Export
 						JOptionPane
 								.showMessageDialog(
 										null,
-										"Ce fichier est actuellement ouvert dans un dossier quelconque.\nPour gcncrer un nouveau fichier portant le mcme nom dans le dossier du logiciel, veuillez d'abord le fermer.",
+										"Ce fichier est actuellement ouvert dans un dossier quelconque.\nPour générer un nouveau fichier portant le mcme nom dans le dossier du logiciel, veuillez d'abord le fermer.",
 										"Fichier ouvert", JOptionPane.WARNING_MESSAGE);
 						// JOptionPane.showMessageDialog(null,
-						// "Ce fichier est actuellement ouvert.\nPour l'ccraser par un nouveau fichier portant le mcme nom dans le mcme dossier, veuillez d'abord le fermer.",
+						// "Ce fichier est actuellement ouvert.\nPour l'écraser par un nouveau fichier portant le mcme nom dans le mcme dossier, veuillez d'abord le fermer.",
 						// "Fichier ouvert", JOptionPane.WARNING_MESSAGE);
 					}
 				}
@@ -163,14 +163,14 @@ public class Export
 		}
 		else
 		{
-			JOptionPane.showMessageDialog(null, "Sans clcve sclectionnc, l'export est impossible.",
+			JOptionPane.showMessageDialog(null, "Sans élcve sélectionné, l'export est impossible.",
 					"Export impossible", JOptionPane.WARNING_MESSAGE);
 		}
 
 	}
 
-	// Crce et stocke plusieurs documents PDF contenant toutes les donnces
-	// saisies dans le logiciel pour tous les clcves.
+	// Crée et stocke plusieurs documents PDF contenant toutes les données
+	// saisies dans le logiciel pour tous les élcves.
 	private void exportPDFs(FenetrePrincipale fenetre)
 	{
 		KListObject<KEleve> eleves = new KListObject<KEleve>(KEleve.class);
@@ -199,7 +199,7 @@ public class Export
 					JOptionPane
 							.showMessageDialog(
 									null,
-									"Ce fichier est actuellement ouvert dans un dossier quelconque.\nPour gcncrer un nouveau fichier portant le mcme nom dans le dossier du logiciel, veuillez d'abord le fermer.",
+									"Ce fichier est actuellement ouvert dans un dossier quelconque.\nPour générer un nouveau fichier portant le mcme nom dans le dossier du logiciel, veuillez d'abord le fermer.",
 									"Fichier ouvert", JOptionPane.WARNING_MESSAGE);
 				}
 			}
@@ -231,8 +231,8 @@ public class Export
 
 	}
 
-	// Imprime un document PDF contenant toutes les donnces saisies dans le
-	// logiciel pour l'clcve sclectionnc.
+	// Imprime un document PDF contenant toutes les données saisies dans le
+	// logiciel pour l'élcve sélectionné.
 	private void impressionPDF(int index,FenetrePrincipale fenetre)
 	{
 
@@ -1660,7 +1660,7 @@ public class Export
 		writer.getDirectContent().addImage(checkboxChecked, true);
 	}
 
-	// Compte le nombre d'heures pratiques et renvoie une chacne formatce en
+	// Compte le nombre d'heures pratiques et renvoie une chacne formatée en
 	// fonction.
 	private String compterHeure(KListObject<KAssurer_lecon> lecons)
 	{
@@ -1698,7 +1698,7 @@ public class Export
 
 	}
 
-	// Compte le nombre d'heures pratiques et renvoie une chacne formatce en
+	// Compte le nombre d'heures pratiques et renvoie une chaîne formatée en
 	// fonction.
 	private String compterHeure(int duree)
 	{

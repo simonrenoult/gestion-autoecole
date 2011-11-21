@@ -24,7 +24,7 @@ public class DataObjectifs
 	public DataObjectifs(KDBMysql connexion, Integer numEtape)
 	{
 		this.db = connexion;
-		this.objectifs = chargerIntitulesObjectifs(numEtape);
+		this.objectifs = chargerObjectifs(numEtape);
 	}
 	
 	// ----------------------------------------- //
@@ -35,7 +35,7 @@ public class DataObjectifs
 	// -----------------METHODES---------------- //
 	// ----------------------------------------- //
 	
-	private KListObject<KObjectif> chargerIntitulesObjectifs(int numEtape)
+	private KListObject<KObjectif> chargerObjectifs(int numEtape)
 	{
 		KListObject<KObjectif> tmp = new KListObject<KObjectif>(KObjectif.class);
 		tmp.loadFromDb(db , "select * from objectif where idETAPE = '" + numEtape + "'");

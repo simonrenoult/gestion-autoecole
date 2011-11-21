@@ -8,7 +8,10 @@ import javax.swing.JPanel;
 import KClass.KQuestions_synthese;
 import KClass.KSynthese;
 import net.ko.kobject.KListObject;
+import net.ko.ksql.KDBMysql;
+import modele.bdd;
 import modele.etape.DataEtape;
+import modele.etape.DataSynthese;
 
 @SuppressWarnings("serial")
 public class VueSynthese extends JPanel
@@ -17,9 +20,11 @@ public class VueSynthese extends JPanel
 	// ----------------ATTRIBUTS---------------- //
 	// ----------------------------------------- //
 	
+	private KDBMysql							connexion;
+	
 	private Integer								numEtape;
 	private Integer								numEleve;
-	private DataEtape							donneesEtape;
+	private DataSynthese						donneesSyntheses;
 	
 	private JLabel								titre;
 	private static String						CONTENU_TITRE			= "Fiche d'evaluation de la synthese ";
@@ -32,19 +37,37 @@ public class VueSynthese extends JPanel
 	private static Dimension					TAILLE_CONTENU_COL_G	= new Dimension(270 , 240);
 	private static Dimension					TAILLE_CONTENU_COL_D	= new Dimension(270 , 240);
 	
-	private	JPanel	colonneG;
-	private	JPanel	colonneD;
+	private JPanel								colonneG;
+	private JPanel								colonneD;
 	
 	// ----------------------------------------- //
 	// --------------CONSTRUCTEURS-------------- //
 	// ----------------------------------------- //
 	
-	public VueSynthese(Integer numEtape, DataEtape donnees_etape)
+	public VueSynthese(Integer numEtape, DataSynthese donnees_syn)
 	{
+		this.connexion = bdd.db;
+		this.numEtape = numEtape;
+		this.donneesSyntheses = donnees_syn;
+		
 		buildTitre(numEtape);
+		
+		initDonneesSyn();
 		
 		buildQtsSyntheses();
 		buildEvalCtl();
+	}
+	
+	// ----------------------------------------- //
+	// --------------INITIALISEURS-------------- //
+	// ----------------------------------------- //
+	
+	private void initDonneesSyn()
+	{
+		donneesSyntheses = new DataSynthese(connexion , numEtape);
+		listeSyntheses = donneesSyntheses.getSyntheses();
+		listeQtsSyntheses = donneesSyntheses.getQtsSynthese();
+		listeQtsSyntheses = donneesSyntheses.getQtsSynthese();
 	}
 	
 	// ----------------------------------------- //
@@ -63,6 +86,7 @@ public class VueSynthese extends JPanel
 	private void buildQtsSyntheses()
 	{
 		colonneG = new JPanel(new FlowLayout());
+		
 	}
 	
 	// --------EVAL_CTL-------- //
@@ -70,7 +94,7 @@ public class VueSynthese extends JPanel
 	{
 		
 	}
-		
+	
 	// ----------------------------------------- //
 	// ---------------ACCESSEURS---------------- //
 	// ----------------------------------------- //
