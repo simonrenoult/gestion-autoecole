@@ -26,7 +26,7 @@ public class VueObjectifs extends JPanel
 	// --------------ATTRIBUTES-------------//
 	// -------------------------------------//
 	
-	private KDBMysql				connexion;
+	private KDBMysql				connexion = BDD.db;
 	
 	private Integer					numEtape;
 	private Integer					numEleve;
@@ -47,7 +47,9 @@ public class VueObjectifs extends JPanel
 	private static Integer			LARG_DONNEES_FORMATEES_1_3	= 300;
 	private static Integer			LARG_DONNEES_FORMATEES_2	= 1;
 	private static Integer			HAUTEUR_LIGNE				= 50;
-	private static String []		ETATS_OBJ					= { "", "Aborde", "Traite", "Assimile" };
+	
+	private JComboBox				etatsObj;
+	private static String []		CONTENU_ETATS_OBJ			= { "", "Aborde", "Traite", "Assimile" };
 	
 	private JScrollPane				scroll_tab;
 	private static Dimension		TAILLE_SCROLL				= new Dimension(850 , 519);
@@ -58,7 +60,6 @@ public class VueObjectifs extends JPanel
 	
 	public VueObjectifs(int numEtape, DataObjectifs donnees_objectifs)
 	{
-		this.connexion = BDD.db;
 		this.numEtape = numEtape;
 		this.donneesObjectifs = donnees_objectifs;
 		
@@ -98,8 +99,6 @@ public class VueObjectifs extends JPanel
 		this.add(titre);
 	}
 	
-	
-	
 	// --------DONNEES_BRUTES--------//
 	
 	private void buildTabDonneesBrutes()
@@ -131,8 +130,8 @@ public class VueObjectifs extends JPanel
 	
 	private void initColStatus()
 	{
-		JComboBox statut_obj = new JComboBox(ETATS_OBJ);
-		donneesFormatees.getColumn("Etats").setCellEditor(new DefaultCellEditor(statut_obj));
+		etatsObj = new JComboBox(CONTENU_ETATS_OBJ);
+		donneesFormatees.getColumn("Etats").setCellEditor(new DefaultCellEditor(etatsObj));
 	}
 	
 	// ----Colonnes---- //
@@ -151,7 +150,6 @@ public class VueObjectifs extends JPanel
 		col = donneesFormatees.getColumnModel().getColumn(0);
 		col.setPreferredWidth(LARG_DONNEES_FORMATEES_1_3);
 		col.setCellRenderer(new CellRenderAera());
-		// col.setCellEditor(new CellEditorAera());
 	}
 	
 	private void format_col_etats(TableColumn col)
@@ -207,11 +205,11 @@ public class VueObjectifs extends JPanel
 	private String transcrireIndexVersEtat(KListObject<KRealiser> tmp, int index)
 	{
 		if (tmp.get(index).getETAT_OBJECTIF() == KRealiser.ABORDE)
-			return ETATS_OBJ[1];
+			return (String) etatsObj.getItemAt(1);
 		else if (tmp.get(index).getETAT_OBJECTIF() == KRealiser.TRAITE)
-			return ETATS_OBJ[2];
+			return (String) etatsObj.getItemAt(2);
 		else if (tmp.get(index).getETAT_OBJECTIF() == KRealiser.ASSIMILE)
-			return ETATS_OBJ[3];
+			return (String) etatsObj.getItemAt(3);
 		
 		return null;
 	}
@@ -302,5 +300,15 @@ public class VueObjectifs extends JPanel
 	public void setModele(TableModel modele)
 	{
 		this.modele = modele;
+	}
+
+	public JComboBox getEtatObj()
+	{
+		return etatsObj;
+	}
+
+	public void setEtatObj(JComboBox etatObj)
+	{
+		this.etatsObj = etatObj;
 	}
 }

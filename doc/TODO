@@ -9,6 +9,8 @@ Fiche Eleve (Alexis)
     
 Fiches Etapes (Simon)
     =>  Synthèses
+		--> BDD : Deux synthèses diff d'une même étape = 2 Questions diff
+		--> Réalité : Deux synthèses diff d'une même étape = 1 seule qt
     =>  Contraintes d'intégrité
     
 Examen Blanc (Louis-Axel)

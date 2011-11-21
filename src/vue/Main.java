@@ -23,11 +23,11 @@ class Main
 		}
 		catch (UnsupportedLookAndFeelException e)
 		{
-			// handle exception
+			System.out.println("LookAndFeel non supporté.");
 		}
 		catch (ClassNotFoundException e)
 		{
-			// handle exception
+			System.out.println("Classe LookAndFeel non trouvée.");
 		}
 		catch (InstantiationException e)
 		{

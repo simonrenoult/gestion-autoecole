@@ -83,6 +83,7 @@ public class VueSynthese extends JPanel
 	{
 		colonneG = new JPanel(new FlowLayout());
 		
+		
 	}
 	
 	// --------EVAL_CTL-------- //
