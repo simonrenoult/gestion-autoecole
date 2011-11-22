@@ -82,7 +82,7 @@ public class VueObjectifs extends JPanel
 	
 	private void initDonneesObj()
 	{
-		donneesObjectifs = new DataObjectifs(connexion , numEtape);
+		donneesObjectifs = new DataObjectifs(numEtape);
 		liste_objectifs = donneesObjectifs.getObjectifs();
 	}
 	

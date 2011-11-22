@@ -24,8 +24,8 @@ public class DataEtape
 	public DataEtape(Integer numeroEtape)
 	{
 		this.numEtape = numeroEtape;
-		donneesObjectifs = new DataObjectifs(this.db , numEtape);
-		donneesSynthese = new DataSynthese(this.db , numEtape);
+		donneesObjectifs = new DataObjectifs(numEtape);
+		donneesSynthese = new DataSynthese(numEtape);
 	}
 	
 	// ----------------------------------------- //

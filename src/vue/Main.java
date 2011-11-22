@@ -7,6 +7,10 @@ import modele.BDD;
 
 class Main
 {
+	// ----------------------------------------- //
+	// ------------------ MAIN ----------------- //
+	// ----------------------------------------- //
+	
 	public static void main(String [] args)
 	{
 		BDD.connexion();
