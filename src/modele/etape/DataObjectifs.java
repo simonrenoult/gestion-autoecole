@@ -43,7 +43,7 @@ public class DataObjectifs
 		return tmp;
 	}
 
-	public KListObject<KRealiser> chargerObsEtEtat(int numEleve)
+	public KListObject<KRealiser> chargerObsEtEtat(Integer numEleve)
 	{
 		KListObject<KRealiser> tmp = new KListObject<KRealiser>(KRealiser.class);
 		tmp.loadFromDb(db, "SELECT * FROM realiser WHERE idELEVE = '" + numEleve + "' ");
@@ -51,6 +51,12 @@ public class DataObjectifs
 		return tmp;
 	}
 
+	public String toString()
+	{
+		return "Objectifs : "+this.objectifs+'\n'+
+				"Observations et etats : "+this.obsEtEtats;
+	}
+	
 	// ----------------------------------------- //
 	// ---------------ACCESSEURS---------------- //
 	// ----------------------------------------- //

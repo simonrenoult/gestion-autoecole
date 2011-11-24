@@ -10,12 +10,20 @@ import net.ko.kobject.KObject;
 @SuppressWarnings("serial")
 public class KObjectif extends KObject
 {
+	// ----------------------------------------- //
+	// --------------- ATTRIBUTS --------------- //
+	// ----------------------------------------- //
+	
 	private KEtape					etape;
 	private KListObject<KRealiser>	realisers;
 	private int						idCATEGORIE_I_O;
 	private KCategorie_i_o			categorie_i_o;
 	private int						idETAPE;
 	private String					LIBELLE_OBJECTIF;
+	
+	// ----------------------------------------- //
+	// ------------- CONSTRUCTEURS ------------- //
+	// ----------------------------------------- //
 	
 	public KObjectif()
 	{
@@ -25,8 +33,11 @@ public class KObjectif extends KObject
 		hasMany(KRealiser.class);
 		belongsTo(KEtape.class);
 		belongsTo(KCategorie_i_o.class);
-		
 	}
+	
+	// ----------------------------------------- //
+	// -------------- ACCESSEURS --------------- //
+	// ----------------------------------------- //
 	
 	public KEtape getEtape()
 	{

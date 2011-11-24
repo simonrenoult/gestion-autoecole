@@ -8,6 +8,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.TableColumn;
 
+import modele.etape.ModeleTableObjectifs;
+
 import KClass.KCategorie_i_o;
 import KClass.KObjectif;
 
@@ -32,7 +34,7 @@ public class InterroOraleOnglet extends JPanel {
 		
 		JComboBox combo = new JComboBox(comboData);
 		
-		TableModel zModel = new TableModel(data1, title);
+		ModeleTableObjectifs zModel = new ModeleTableObjectifs(data1, title);
 		
 		tableau = new JTable(zModel);
 		tableau.getColumn("Reponse :").setCellEditor(new DefaultCellEditor(combo));

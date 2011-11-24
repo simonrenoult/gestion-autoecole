@@ -10,6 +10,7 @@ public class DataEtape
 	// ----------------ATTRIBUTS---------------- //
 	// ----------------------------------------- //
 	
+	@SuppressWarnings("unused")
 	private KDBMysql		db	= BDD.db;
 	
 	private Integer			numEtape;

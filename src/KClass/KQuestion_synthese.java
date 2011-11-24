@@ -29,7 +29,9 @@ public class KQuestion_synthese extends KObject
 		super();
 		keyFields = "id";
 		tableName = "question_synthese";
-		// belongsTo(KTheme_synthese.class);hasMany(KReponse.class);belongsTo(KEtape.class);
+		belongsTo(KTheme_synthese.class);
+		hasMany(KReponse.class);
+		belongsTo(KEtape.class);
 
 	}
 	

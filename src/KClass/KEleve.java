@@ -10,6 +10,10 @@ import net.ko.kobject.KObject;
 @SuppressWarnings("serial")
 public class KEleve extends KObject
 {
+	// ----------------------------------------- //
+	// --------------- ATTRIBUTS --------------- //
+	// ----------------------------------------- //
+	
 	private KListObject<KPasser>		passers;
 	private KListObject<KRealiser>		realisers;
 	private KListObject<KSuperviser>	supervisers;
@@ -39,6 +43,10 @@ public class KEleve extends KObject
 	private String						LIVRET_NEPH_ELEVE;
 	private java.sql.Date				DATE_DE_NAISS_ELEVE;
 	
+	// ----------------------------------------- //
+	// ------------- CONSTRUCTEURS ------------- //
+	// ----------------------------------------- //
+	
 	public KEleve()
 	{
 		super();
@@ -53,6 +61,10 @@ public class KEleve extends KObject
 		hasMany(KAssurer_lecon.class);
 		
 	}
+	
+	// ----------------------------------------- //
+	// -------------- ACCESSEURS --------------- //
+	// ----------------------------------------- //
 	
 	public KListObject<KPasser> getPassers()
 	{
@@ -222,6 +234,10 @@ public class KEleve extends KObject
 		return this.DATE_DE_NAISS_ELEVE;
 	}
 	
+	// ----------------------------------------- //
+	// --------------- MUTATEURS --------------- //
+	// ----------------------------------------- //
+	
 	public void setPassers(KListObject<KPasser> aPassers)
 	{
 		// set the value of passers
@@ -389,6 +405,10 @@ public class KEleve extends KObject
 		// set the value of DATE_DE_NAISS_ELEVE
 		this.DATE_DE_NAISS_ELEVE = aDATE_DE_NAISS_ELEVE;
 	}
+	
+	// ----------------------------------------- //
+	// ----------------- DIVERS ---------------- //
+	// ----------------------------------------- //
 	
 	@Override
 	public String toString()

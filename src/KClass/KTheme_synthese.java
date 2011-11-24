@@ -25,7 +25,7 @@ public class KTheme_synthese extends KObject
 		super();
 		keyFields = "id";
 		tableName = "theme_synthese";
-		// hasMany(KQuestion_synthese.class);
+		hasMany(KQuestion_synthese.class);
 
 	}
 

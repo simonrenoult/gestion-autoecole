@@ -1,10 +1,10 @@
 
-package vue;
+package modele.etape;
 
 import javax.swing.table.AbstractTableModel;
 
 @SuppressWarnings("serial")
-public class TableModel extends AbstractTableModel
+public class ModeleTableObjectifs extends AbstractTableModel
 {
 	
 	// ----------------------------------------- //
@@ -24,7 +24,7 @@ public class TableModel extends AbstractTableModel
 	 * @param data
 	 * @param title
 	 */
-	public TableModel(Object [][] data, String [] title)
+	public ModeleTableObjectifs(Object [][] data, String [] title)
 	{
 		this.data = data;
 		this.title = title;
@@ -71,13 +71,11 @@ public class TableModel extends AbstractTableModel
 	// ----------------------------------------- //
 	
 	/**
-	 * Defini la valeur e l'emplacement specifie
+	 * Defini la valeur a l'emplacement specifie
 	 */
 	public void setValueAt(Object value, int row, int col)
 	{
-		// On interdit la modification sur certaine colonne !
-		if (!this.getColumnName(col).equals("Age") && !this.getColumnName(col).equals("Suppression"))
-			this.data[row][col] = value;
+		this.data[row][col] = value;
 	}
 	
 	/**
