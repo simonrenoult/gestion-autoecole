@@ -1,14 +1,17 @@
 package vue.etape;
 
-import java.awt.Checkbox;
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.ScrollPane;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.TableColumn;
@@ -22,8 +25,8 @@ import net.ko.kobject.KListObject;
 import net.ko.ksql.KDBMysql;
 import modele.BDD;
 import modele.etape.DataSynthese;
-import modele.etape.ModeleTableObjectifs;
-import modele.etape.ModeleTableSyntheses;
+import modele.etape.SynJTableModele;
+import modele.etape.SynJTable;
 
 @SuppressWarnings("serial")
 public class VueSynthese extends JPanel
@@ -32,8 +35,7 @@ public class VueSynthese extends JPanel
 	// ----------------ATTRIBUTS---------------- //
 	// ----------------------------------------- //
 
-	@SuppressWarnings("unused")
-	private KDBMysql							connexion		= BDD.db;
+	private KDBMysql							connexion					= BDD.db;
 
 	private Integer								numEtape;
 	private Integer								numEleve;
@@ -42,20 +44,24 @@ public class VueSynthese extends JPanel
 	private KListObject<KTheme_synthese>		listeThemesSynthese;
 	private KListObject<KEvaluation_synthese>	listeEvaluationsSynthese;
 
-	private JLabel								titre;
-	private static String						CONTENU_TITRE	= "Fiche d'evaluation de la synthese ";
-	private static Dimension					TAILLE_TITRE	= new Dimension(800, 30);
-
 	private Object[][]							donneesBrutes;
-	private ModeleTableSyntheses				modele;
-	private JTable								donneesFormatees;
-	private String[]							titresColonnes	= { "Questions : ", "Etat 1", "Etat 2" };
+	private Boolean[]							ligneEstUnTheme;
+	private SynJTableModele						modele;
+	private SynJTable							donneesFormatees;
+	private static final String[]				TITRES_COLONNES				= { "Questions", "R1", "R2" };
+	private static final int					LARG_DONNEES_FORMATEES_1	= 300;
+	private static final int					LARG_DONNEES_FORMATEES_2_3	= 10;
+	private static final int					HAUTEUR_LIGNE				= 18;
 
-	private JScrollPane							jsp;
+	private static final int					TAILLE_PANNEAUX_X			= 850;
+	private static final int					TAILLE_PANNEAUX_Y			= 430;
 
 	private JCheckBox							etatsSyn;
-	private JPanel								colonneG;
-	private JPanel								colonneD;
+	private JPanel								panneauHG;
+	private JPanel								panneauHD;
+	private JPanel								panneauBG;
+	private JPanel								panneauBD;
+	private JScrollPane							scroll;
 
 	// ----------------------------------------- //
 	// --------------CONSTRUCTEURS-------------- //
@@ -63,17 +69,27 @@ public class VueSynthese extends JPanel
 
 	public VueSynthese(Integer numEtape, DataSynthese donnees_syn)
 	{
+		setLayout(new GridBagLayout());
+		setPreferredSize(new Dimension(TAILLE_PANNEAUX_X, TAILLE_PANNEAUX_Y));
 		this.numEtape = numEtape;
 		this.donneesSyntheses = donnees_syn;
-
-		buildTitre(numEtape);
-
 		initDonneesSyn();
 
 		buildDonneesBrutes();
 		donneesBrutesVersDonnesFormatees();
 		buildDonneesFormatees();
-		buildScrollPane();
+
+		scroll = buildScroll(scroll, donneesFormatees, (TAILLE_PANNEAUX_X / 2) - 50, (TAILLE_PANNEAUX_Y / 2) - 50);
+
+		panneauHG = new JPanel();
+		panneauHG.setBackground(Color.RED);
+		panneauHG.add(scroll);
+		add(panneauHG);
+
+		panneauHD = new JPanel();
+		panneauHD.setBackground(Color.BLUE);
+		panneauHD.add(scroll);
+		add(panneauHD);
 	}
 
 	// ----------------------------------------- //
@@ -90,14 +106,6 @@ public class VueSynthese extends JPanel
 	// -----------------METHODES---------------- //
 	// ----------------------------------------- //
 
-	// ---------TITRE--------//
-	private void buildTitre(Integer numEtape)
-	{
-		titre = new JLabel(CONTENU_TITRE + numEtape);
-		titre.setPreferredSize(TAILLE_TITRE);
-		this.add(titre);
-	}
-
 	// --------DONNEES_BRUTES-------- //
 
 	private void buildDonneesBrutes()
@@ -106,7 +114,6 @@ public class VueSynthese extends JPanel
 		donneesBrutes = new Object[size][3];
 
 		buildColThemesQts();
-		buildColCheckBox();
 	}
 
 	private Integer tailleTabDonneesBrutes()
@@ -131,53 +138,80 @@ public class VueSynthese extends JPanel
 
 	private void buildColThemesQts()
 	{
-		for (int i = 0, ligne = 0 ; ligne < donneesBrutes.length ; i++, ligne++)
+		ligneEstUnTheme = new Boolean[donneesBrutes.length];
+
+		for (int i = 0, cptLigne = 0 ; cptLigne < donneesBrutes.length ; i++)
 		{
-			donneesBrutes[ligne][0] = listeThemesSynthese.get(i).getLIBELLE_THEME_SYNTHESE();
+			donneesBrutes[cptLigne][0] = listeThemesSynthese.get(i).getLIBELLE_THEME_SYNTHESE();
+			ligneEstUnTheme[cptLigne] = true;
+			cptLigne++;
 
 			for (int j = 0 ; j < listeThemesSynthese.get(i).getQuestion_syntheses().count() ; j++)
 			{
-				ligne++;
-				donneesBrutes[ligne][0] = listeThemesSynthese.get(i).getQuestion_syntheses().get(j)
+				donneesBrutes[cptLigne][0] = listeThemesSynthese.get(i).getQuestion_syntheses().get(j)
 						.getLIBELLE_QUESTION_SYNTHESE();
+				ligneEstUnTheme[cptLigne] = false;
+				donneesBrutes[cptLigne][1] = new Boolean(false);
+				donneesBrutes[cptLigne][2] = new Boolean(false);
+				cptLigne++;
 			}
-		}
-	}
-
-	private void buildColCheckBox()
-	{
-		for (int i = 0 ; i < donneesBrutes.length ; i++)
-		{
-			donneesBrutes[i][1] = new Boolean(false);
-			donneesBrutes[i][2] = new Boolean(false);
 		}
 	}
 
 	private void donneesBrutesVersDonnesFormatees()
 	{
-		modele = new ModeleTableSyntheses(donneesBrutes, titresColonnes);
-		donneesFormatees = new JTable(modele);
+		modele = new SynJTableModele(donneesBrutes, TITRES_COLONNES, ligneEstUnTheme);
+		donneesFormatees = new SynJTable(modele);
 	}
 
 	// --------DONNEES_FORMATEES-------- //
 
 	private void buildDonneesFormatees()
 	{
-		etatsSyn = new JCheckBox();
-		donneesFormatees.getColumn("Etat 1").setCellEditor(new DefaultCellEditor(etatsSyn));
-		donneesFormatees.getColumn("Etat 2").setCellEditor(new DefaultCellEditor(etatsSyn));
+		donneesFormatees.getTableHeader().setReorderingAllowed(false);
+		donneesFormatees.getTableHeader().setResizingAllowed(false);
+
+		TableColumn col = new TableColumn();
+		formatColSyn(col);
+		formatColEtat(col, 1);
+		formatColEtat(col, 2);
+		formatLig();
 	}
 
-	private void buildScrollPane()
+	private void formatColSyn(TableColumn col)
 	{
-		jsp = new JScrollPane(donneesFormatees);
-		add(jsp);
+		col = donneesFormatees.getColumnModel().getColumn(0);
+		col.setPreferredWidth(LARG_DONNEES_FORMATEES_1);
+	}
+
+	private void formatColEtat(TableColumn col, Integer indiceColonne)
+	{
+		col = donneesFormatees.getColumnModel().getColumn(indiceColonne);
+		col.setPreferredWidth(LARG_DONNEES_FORMATEES_2_3);
+	}
+
+	private JScrollPane buildScroll(JScrollPane jscroll, SynJTable table, int posX, int posY)
+	{
+		jscroll = new JScrollPane(table);
+		jscroll.setPreferredSize(new Dimension(posX, posY));
+
+		return jscroll;
+	}
+
+	private void formatLig()
+	{
+		for (int i = 0 ; i < donneesFormatees.getRowCount() ; i++)
+			donneesFormatees.setRowHeight(i, HAUTEUR_LIGNE);
 	}
 
 	// --------EVAL_CTL-------- //
 
 	private void buildEvalCtl()
 	{
+		panneauBG = new JPanel();
+		panneauBD = new JPanel();
+		this.add(panneauBG, BorderLayout.WEST);
+		this.add(panneauBD, BorderLayout.EAST);
 	}
 
 	// ----------------------------------------- //
@@ -199,19 +233,14 @@ public class VueSynthese extends JPanel
 		return donneesSyntheses;
 	}
 
-	public JLabel getTitre()
-	{
-		return titre;
-	}
-
 	public JPanel getColonneG()
 	{
-		return colonneG;
+		return panneauHG;
 	}
 
 	public JPanel getColonneD()
 	{
-		return colonneD;
+		return panneauBD;
 	}
 
 	// ----------------------------------------- //
@@ -233,19 +262,24 @@ public class VueSynthese extends JPanel
 		this.donneesSyntheses = donneesSyntheses;
 	}
 
-	public void setTitre(JLabel titre)
-	{
-		this.titre = titre;
-	}
-
 	public void setColonneG(JPanel colonneG)
 	{
-		this.colonneG = colonneG;
+		this.panneauHG = colonneG;
 	}
 
 	public void setColonneD(JPanel colonneD)
 	{
-		this.colonneD = colonneD;
+		this.panneauBD = colonneD;
+	}
+
+	public JCheckBox getEtatsSyn()
+	{
+		return etatsSyn;
+	}
+
+	public void setEtatsSyn(JCheckBox etatsSyn)
+	{
+		this.etatsSyn = etatsSyn;
 	}
 
 }

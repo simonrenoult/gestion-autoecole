@@ -4,7 +4,7 @@ package modele.etape;
 import javax.swing.table.AbstractTableModel;
 
 @SuppressWarnings("serial")
-public class ModeleTableObjectifs extends AbstractTableModel
+public class ObjJTableModele extends AbstractTableModel
 {
 	
 	// ----------------------------------------- //
@@ -24,7 +24,7 @@ public class ModeleTableObjectifs extends AbstractTableModel
 	 * @param data
 	 * @param title
 	 */
-	public ModeleTableObjectifs(Object [][] data, String [] title)
+	public ObjJTableModele(Object [][] data, String [] title)
 	{
 		this.data = data;
 		this.title = title;

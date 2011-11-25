@@ -3,30 +3,32 @@ package modele.etape;
 import javax.swing.table.AbstractTableModel;
 
 @SuppressWarnings("serial")
-public class ModeleTableSyntheses extends AbstractTableModel
+public class SynJTableModele extends AbstractTableModel
 {
 
 	// ----------------------------------------- //
 	// ----------------ATTRIBUTS---------------- //
 	// ----------------------------------------- //
-	
-	private Object [][]	data;
-	private String []	title;
-	
+
+	private Object[][]	data;
+	private String[]	title;
+	private Boolean[]	estUnTheme;
+
 	// ----------------------------------------- //
 	// --------------CONSTRUCTEURS-------------- //
 	// ----------------------------------------- //
-	
-	public ModeleTableSyntheses(Object [][] data, String [] title)
+
+	public SynJTableModele(Object[][] data, String[] title, Boolean[] estUnTheme)
 	{
 		this.data = data;
 		this.title = title;
+		this.estUnTheme = estUnTheme;
 	}
-	
+
 	// ----------------------------------------- //
 	// ---------------ACCESSEURS---------------- //
 	// ----------------------------------------- //
-	
+
 	/**
 	 * Retourne le titre de la colonne e l'indice specife
 	 */
@@ -34,7 +36,7 @@ public class ModeleTableSyntheses extends AbstractTableModel
 	{
 		return this.title[col];
 	}
-	
+
 	/**
 	 * Retourne le nombre de colonnes
 	 */
@@ -42,7 +44,7 @@ public class ModeleTableSyntheses extends AbstractTableModel
 	{
 		return this.title.length;
 	}
-	
+
 	/**
 	 * Retourne le nombre de lignes
 	 */
@@ -50,19 +52,35 @@ public class ModeleTableSyntheses extends AbstractTableModel
 	{
 		return this.data.length;
 	}
-	
+
 	/**
 	 * Retourne la valeur e l'emplacement specifie
 	 */
 	public Object getValueAt(int row, int col)
 	{
-		return this.data[row][col];
+		if (col == 1 || col == 2)
+		{
+			if (estUnTheme[row])
+			{
+				return null;
+			}
+		}
+
+		return data[row][col];
 	}
-	
+
+	public Class<?> getColumnClass(int columnIndex)
+	{
+		if (columnIndex == 1 || columnIndex == 2)
+			return Boolean.class;
+		else
+			return String.class;
+	}
+
 	// ----------------------------------------- //
 	// ----------------MUTATEURS---------------- //
 	// ----------------------------------------- //
-	
+
 	/**
 	 * Defini la valeur a l'emplacement specifie
 	 */
@@ -70,7 +88,7 @@ public class ModeleTableSyntheses extends AbstractTableModel
 	{
 		this.data[row][col] = value;
 	}
-	
+
 	/**
 	 * Retourne la classe de la donnee de la colonne
 	 * 
@@ -79,7 +97,12 @@ public class ModeleTableSyntheses extends AbstractTableModel
 	public boolean isCellEditable(int row, int col)
 	{
 		if (col > 0)
-			return true;
+		{
+			if (estUnTheme[row])
+				return false;
+			else
+				return true;
+		}
 		return false;
 	}
 }

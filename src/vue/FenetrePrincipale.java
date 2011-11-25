@@ -7,7 +7,7 @@ import modele.BDD;
 import java.awt.*;
 
 public class FenetrePrincipale extends JFrame
-{	
+{
 	// ----------------------------------------- //
 	// --------------- ATTRIBUTS --------------- //
 	// ----------------------------------------- //
@@ -48,7 +48,7 @@ public class FenetrePrincipale extends JFrame
 	private JTextField			rechercheE			= new JTextField("Rechercher...");
 	private String				tabEleve[];
 	private JList<Object>		JlisteEleves;
-	private EcouteurPrincipale	ecouteurPrincipale	= null;
+	private EcouteurPrincipal	ecouteurPrincipale	= null;
 
 	// VUE(modele)
 	// controleur (modele,vue).
@@ -56,7 +56,7 @@ public class FenetrePrincipale extends JFrame
 	// ----------------------------------------- //
 	// ------------- CONSTRUCTEURS ------------- //
 	// ----------------------------------------- //
-	
+
 	public FenetrePrincipale()
 	{
 
@@ -66,7 +66,7 @@ public class FenetrePrincipale extends JFrame
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// Creation des etapes.
-		for (int i = 0; i < 4; i++)
+		for (int i = 0 ; i < 4 ; i++)
 		{
 			etape[i] = new VueEtape(i + 1);
 		}
@@ -90,13 +90,13 @@ public class FenetrePrincipale extends JFrame
 	// ----------------------------------------- //
 	// ---------------- METHODES --------------- //
 	// ----------------------------------------- //
-	
+
 	/*
 	 * Permet d'�couter les objets � la classe EcouteurPrincipale
 	 */
 	public void ajouterActionListener()
 	{
-		ecouteurPrincipale = new EcouteurPrincipale(this);
+		ecouteurPrincipale = new EcouteurPrincipal(this);
 		EcouteurBoutonValidationSuppression ecouteurBouton = new EcouteurBoutonValidationSuppression(this);
 		BoutonFicheE.addActionListener(ecouteurPrincipale);
 		BoutonEtape1.addActionListener(ecouteurPrincipale);
@@ -153,7 +153,7 @@ public class FenetrePrincipale extends JFrame
 
 		// ajout des sous panel le constituant (un pannel par bouton)
 		panel.add(ficheEleve, BorderLayout.NORTH);
-		for (int i = 0; i < 4; i++)
+		for (int i = 0 ; i < 4 ; i++)
 			panel.add(etape[i], BorderLayout.NORTH);
 		panel.add(intero, BorderLayout.NORTH);
 		panel.add(examB, BorderLayout.NORTH);
@@ -161,7 +161,7 @@ public class FenetrePrincipale extends JFrame
 		JPanel containerBoutonsConfirm = new JPanel();
 		containerBoutonsConfirm.setPreferredSize(new Dimension(400, 50));
 		containerBoutonsConfirm.add(BoutonValider);
-		containerBoutonsConfirm.add(BoutonSupprimer);
+		// containerBoutonsConfirm.add(BoutonSupprimer);
 
 		panel.add(containerBoutonsConfirm, BorderLayout.SOUTH);
 
@@ -169,8 +169,8 @@ public class FenetrePrincipale extends JFrame
 	}
 
 	/*
-	 * cr�ation du panel comportant les diff�rents boutons (etape, fiche
-	 * eleve, etc.)
+	 * creation du panel comportant les differents boutons (etape, fiche eleve,
+	 * etc.)
 	 */
 	public JPanel CreationPanelGauche()
 	{
@@ -339,7 +339,7 @@ public class FenetrePrincipale extends JFrame
 	/**
 	 * @return the ecouteurPrincipale
 	 */
-	public EcouteurPrincipale getEcouteurPrincipale()
+	public EcouteurPrincipal getEcouteurPrincipale()
 	{
 		return ecouteurPrincipale;
 	}
@@ -348,7 +348,7 @@ public class FenetrePrincipale extends JFrame
 	 * @param ecouteurPrincipale
 	 *            the ecouteurPrincipale to set
 	 */
-	public void setEcouteurPrincipale(EcouteurPrincipale ecouteurPrincipale)
+	public void setEcouteurPrincipale(EcouteurPrincipal ecouteurPrincipale)
 	{
 		this.ecouteurPrincipale = ecouteurPrincipale;
 	}

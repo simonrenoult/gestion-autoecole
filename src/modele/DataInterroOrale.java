@@ -1,7 +1,7 @@
 
 package modele;
 
-import controleur.EcouteurPrincipale;
+import controleur.EcouteurPrincipal;
 import KClass.KCategorie_i_o;
 import KClass.KObjectif;
 import KClass.KRealiser;
@@ -50,7 +50,7 @@ public class DataInterroOrale
 	public int[] chargerReponsesEleve(int cat)
 	{
 		KListObject<KObjectif> objectifs = getCategorie(cat).getObjectifs();
-		int idObj,idEleve = Integer.parseInt(EcouteurPrincipale.Eleve.getId().toString());
+		int idObj,idEleve = Integer.parseInt(EcouteurPrincipal.Eleve.getId().toString());
 		int reponses[] = new int[objectifs.count()];
 		
 		KListObject<KRealiser> obj = new KListObject<KRealiser>(KRealiser.class);
@@ -71,7 +71,7 @@ public class DataInterroOrale
 	public boolean insertBDD(int categorie,int numobj,int etat)
 	{
 		// On recupere l'eleve en cours
-		int idEleve = Integer.parseInt(EcouteurPrincipale.Eleve.getId().toString());
+		int idEleve = Integer.parseInt(EcouteurPrincipal.Eleve.getId().toString());
 		
 		// On recupere la liste des objectifs de la categorie
 		KListObject<KObjectif> obj = new KListObject<KObjectif>(KObjectif.class);

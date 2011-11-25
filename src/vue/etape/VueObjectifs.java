@@ -10,11 +10,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.TableColumn;
-import controleur.EcouteurPrincipale;
+import controleur.EcouteurPrincipal;
 import KClass.*;
 import modele.BDD;
 import modele.etape.DataObjectifs;
-import modele.etape.ModeleTableObjectifs;
+import modele.etape.ObjJTableModele;
 import net.ko.kobject.KListObject;
 import net.ko.ksql.KDBMysql;
 
@@ -34,14 +34,10 @@ public class VueObjectifs extends JPanel
 	private KListObject<KObjectif>	listeObjectifs;
 	private KListObject<KRealiser>	listeObservationsEtEtats;
 	
-	private JLabel					titre;
-	private static String			CONTENU_TITRE				= "Etape";
-	private static Dimension		TAILLE_TITRE				= new Dimension(800, 30);
-
 	private Object[][]				donneesBrutes;
 	private static String[]			TITRES_TAB_DONNEES			= { "Objectifs", "Etats", "Observations" };
 
-	private ModeleTableObjectifs	modele;
+	private ObjJTableModele			modele;
 	private JTable					donneesFormatees;
 	private static Integer			LARG_DONNEES_FORMATEES_1_3	= 300;
 	private static Integer			LARG_DONNEES_FORMATEES_2	= 1;
@@ -51,7 +47,7 @@ public class VueObjectifs extends JPanel
 	private static String[]			CONTENU_ETATS_OBJ			= { "", "Aborde", "Traite", "Assimile" };
 
 	private JScrollPane				scroll_tab;
-	private static Dimension		TAILLE_SCROLL				= new Dimension(850, 519);
+	private static Dimension		TAILLE_SCROLL				= new Dimension(850, 450);
 
 	// ----------------------------------------- //
 	// --------------CONSTRUCTEURS-------------- //
@@ -61,8 +57,6 @@ public class VueObjectifs extends JPanel
 	{
 		this.numEtape = numEtape;
 		this.donneesObjectifs = donnees_objectifs;
-
-		buildTitre();
 
 		initDonneesObj();
 
@@ -88,21 +82,12 @@ public class VueObjectifs extends JPanel
 	// -----------------METHODES---------------- //
 	// ----------------------------------------- //
 
-	// --------TITRE-------- //
-
-	private void buildTitre()
-	{
-		this.titre = new JLabel(CONTENU_TITRE + " " + numEtape);
-		this.titre.setPreferredSize(TAILLE_TITRE);
-		this.add(titre);
-	}
-
 	// --------DONNEES_BRUTES--------//
 
 	private void buildTabDonneesBrutes()
 	{
 		donneesBrutes = new Object[listeObjectifs.count()][3];
-		for (int i = 0; i < donneesBrutes.length; i++)
+		for (int i = 0 ; i < donneesBrutes.length ; i++)
 		{
 			donneesBrutes[i][0] = listeObjectifs.get(i).getLIBELLE_OBJECTIF();
 			donneesBrutes[i][1] = "";
@@ -112,7 +97,7 @@ public class VueObjectifs extends JPanel
 
 	private void donneesBrutesVersDonnesFormatees()
 	{
-		modele = new ModeleTableObjectifs(donneesBrutes, TITRES_TAB_DONNEES);
+		modele = new ObjJTableModele(donneesBrutes, TITRES_TAB_DONNEES);
 		donneesFormatees = new JTable(modele);
 	}
 
@@ -120,9 +105,12 @@ public class VueObjectifs extends JPanel
 
 	private void buildDonneesFormatees()
 	{
+		donneesFormatees.getTableHeader().setReorderingAllowed(false);
+		donneesFormatees.getTableHeader().setResizingAllowed(false);
+
 		initColStatus();
-		format_col();
-		format_ligne();
+		formatCol();
+		formatLig();
 	}
 
 	// ---- > Colonnes
@@ -133,15 +121,12 @@ public class VueObjectifs extends JPanel
 		donneesFormatees.getColumn("Etats").setCellEditor(new DefaultCellEditor(etatsObj));
 	}
 
-	private void format_col()
+	private void formatCol()
 	{
 		TableColumn col = new TableColumn();
 		formatColObj(col);
 		formatColEtats(col);
 		formatColObservations(col);
-
-		donneesFormatees.getTableHeader().setReorderingAllowed(false);
-		donneesFormatees.getTableHeader().setResizingAllowed(false);
 	}
 
 	private void formatColObj(TableColumn col)
@@ -161,14 +146,13 @@ public class VueObjectifs extends JPanel
 	{
 		col = donneesFormatees.getColumnModel().getColumn(2);
 		col.setPreferredWidth(LARG_DONNEES_FORMATEES_1_3);
-		col.setCellRenderer(new CellRenderAera());
 		col.setCellEditor(new CellEditorAera());
 	}
 
 	// ---- > Lignes
-	private void format_ligne()
+	private void formatLig()
 	{
-		for (int i = 0; i < donneesFormatees.getRowCount(); i++)
+		for (int i = 0 ; i < donneesFormatees.getRowCount() ; i++)
 			donneesFormatees.setRowHeight(i, HAUTEUR_LIGNE);
 	}
 
@@ -184,10 +168,10 @@ public class VueObjectifs extends JPanel
 	// --------ACCESS_BDD-------- //
 	public void chargerEtatsEtObervations()
 	{
-		this.numEleve = Integer.parseInt(EcouteurPrincipale.Eleve.getId().toString());
+		this.numEleve = Integer.parseInt(EcouteurPrincipal.Eleve.getId().toString());
 		donneesObjectifs.setObsEtEtats(donneesObjectifs.chargerObsEtEtat(this.numEleve));
 
-		for (int i = 0; i < listeObjectifs.count(); i++)
+		for (int i = 0 ; i < listeObjectifs.count() ; i++)
 		{
 			try
 			{
@@ -227,11 +211,6 @@ public class VueObjectifs extends JPanel
 		return donneesFormatees;
 	}
 
-	public JLabel getTitre()
-	{
-		return titre;
-	}
-
 	public KListObject<KObjectif> getListe_objectifs()
 	{
 		return listeObjectifs;
@@ -252,7 +231,7 @@ public class VueObjectifs extends JPanel
 		return listeObservationsEtEtats;
 	}
 
-	public ModeleTableObjectifs getModele()
+	public ObjJTableModele getModele()
 	{
 		return modele;
 	}
@@ -276,11 +255,6 @@ public class VueObjectifs extends JPanel
 		this.donneesFormatees = tab_donnees_formatees;
 	}
 
-	public void setTitre(JLabel titre)
-	{
-		this.titre = titre;
-	}
-
 	public void setListe_objectifs(KListObject<KObjectif> liste_objectifs)
 	{
 		this.listeObjectifs = liste_objectifs;
@@ -301,7 +275,7 @@ public class VueObjectifs extends JPanel
 		this.listeObservationsEtEtats = liste_observationsEtEtats;
 	}
 
-	public void setModele(ModeleTableObjectifs modele)
+	public void setModele(ObjJTableModele modele)
 	{
 		this.modele = modele;
 	}

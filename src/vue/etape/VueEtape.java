@@ -1,8 +1,12 @@
 package vue.etape;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+
 import modele.etape.DataEtape;
 
 @SuppressWarnings("serial")
@@ -12,13 +16,15 @@ public class VueEtape extends JPanel
 	// ----------------ATTRIBUTS---------------- //
 	// ----------------------------------------- //
 
-	private static Dimension	TAILLE_ETAPE	= new Dimension(900, 670);
-	private static Dimension	TAILLE_ONGLET	= new Dimension(880, 610);
-
 	private Integer				numEtape;
+	private DataEtape			donneesEtape;
 
 	private JTabbedPane			onglets;
-	private DataEtape			donneesEtape;
+
+	private JLabel				titre;
+	private static String		CONTENU_TITRE	= "Etape ";
+	private static Dimension	TAILLE_TITRE	= new Dimension(800, 75);
+	private static Font			POLICE_TITRE	= new Font("Arial", Font.BOLD, 24);
 
 	private VueObjectifs		objectifs;
 	private static String		TITRE_OBJECTIFS	= "Objectifs";
@@ -36,43 +42,46 @@ public class VueEtape extends JPanel
 		this.donneesEtape = new DataEtape(numEtape);
 		this.onglets = new JTabbedPane();
 
-		this.setPreferredSize(TAILLE_ETAPE);
+		setLayout(new BorderLayout());
+
+		ajouterTitre();
 
 		buildObjectifs();
 		buildSyntheses();
 
-		this.add(onglets);
+		ajouterOnglets();
 	}
 
 	// ----------------------------------------- //
 	// ----------------BUILDERS----------------- //
 	// ----------------------------------------- //
 
+	private void ajouterTitre()
+	{
+		titre = new JLabel(CONTENU_TITRE + numEtape);
+		titre.setPreferredSize(TAILLE_TITRE);
+		titre.setFont(POLICE_TITRE);
+
+		this.add(titre, BorderLayout.NORTH);
+	}
+
 	private void buildObjectifs()
 	{
 		objectifs = new VueObjectifs(this.numEtape, donneesEtape.getDonneesObjectifs());
-		objectifs.setPreferredSize(TAILLE_ONGLET);
-		onglets.add(objectifs, TITRE_OBJECTIFS);
 	}
 
 	private void buildSyntheses()
 	{
 		syntheses = new VueSynthese(this.numEtape, donneesEtape.getDonneesSynthese());
-		syntheses.setPreferredSize(TAILLE_ONGLET);
-		onglets.add(syntheses, TITRE_SYNTHESES);
 	}
 
-	// ----------------------------------------- //
-	// --------------INITIALISEURS-------------- //
-	// ----------------------------------------- //
+	private void ajouterOnglets()
+	{
+		onglets.add(objectifs, TITRE_OBJECTIFS);
+		onglets.add(syntheses, TITRE_SYNTHESES);
 
-	// ----------------------------------------- //
-	// ----------------METHODES----------------- //
-	// ----------------------------------------- //
-
-	/*
-	 * public static void main(String[] args) { new Etape(1); }
-	 */
+		this.add(onglets, BorderLayout.CENTER);
+	}
 
 	// ----------------------------------------- //
 	// ---------------ACCESSEURS---------------- //
