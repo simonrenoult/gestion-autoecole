@@ -37,6 +37,8 @@ public class BDD
 			System.out.println('\t' + "1 - Votre serveur est bien allume ;");
 			System.out.println('\t' + "2 - Les identifiants de connexion sont exacts ;");
 			System.out.println('\t' + "3 - Le nom de la base de donnee est le bon ;");
+		
+			System.exit(0);
 		}
 
 		return db;

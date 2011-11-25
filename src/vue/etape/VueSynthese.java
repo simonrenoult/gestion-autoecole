@@ -1,6 +1,7 @@
 package vue.etape;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import javax.swing.JCheckBox;
@@ -46,14 +47,13 @@ public class VueSynthese extends JPanel
 	private static final int					TAILLE_PANNEAUX_Y			= 430;
 
 	private JCheckBox							etatsSyn;
-	private JPanel								panneauH;
-	private JPanel								panneauHG;
-	private JPanel								panneauHD;
-	private JPanel								panneauB;
-	private JPanel								panneauBG;
-	private JPanel								panneauBM;
-	private JPanel								panneauBD;
 	private JScrollPane							scroll;
+
+	private JPanel								conteneurH;
+	private JPanel[]							panneauxH;
+
+	private JPanel								conteneurB;
+	private JPanel[]							panneauxB;
 
 	// ----------------------------------------- //
 	// --------------CONSTRUCTEURS-------------- //
@@ -62,6 +62,7 @@ public class VueSynthese extends JPanel
 	public VueSynthese(Integer numEtape, DataSynthese donnees_syn)
 	{
 		setPreferredSize(new Dimension(TAILLE_PANNEAUX_X, TAILLE_PANNEAUX_Y));
+		setLayout(new BorderLayout());
 		this.numEtape = numEtape;
 		this.donneesSyntheses = donnees_syn;
 		initDonneesSyn();
@@ -70,45 +71,8 @@ public class VueSynthese extends JPanel
 		donneesBrutesVersDonnesFormatees();
 		buildDonneesFormatees();
 
-		scroll = buildScroll(scroll, donneesFormatees, (TAILLE_PANNEAUX_X / 2) - 50, (TAILLE_PANNEAUX_Y / 2) - 50);
-
-		/* 1 - Initialisation et affectation du GridBagLayout */
-		setLayout(new BorderLayout());
-
-		/* 2 - Création des composants */
-
-		buildPanneau(panneauH, new GridLayout(1, 2), TAILLE_PANNEAUX_X, TAILLE_PANNEAUX_Y);
-		buildPanneau(panneauHG, TAILLE_PANNEAUX_X / 2, TAILLE_PANNEAUX_Y / 2);
-		buildPanneau(panneauHD, TAILLE_PANNEAUX_X / 2, TAILLE_PANNEAUX_Y / 2);
-
-		buildPanneau(panneauB, new GridLayout(1, 3), TAILLE_PANNEAUX_X, TAILLE_PANNEAUX_Y);
-		buildPanneau(panneauBG, TAILLE_PANNEAUX_X / 3, TAILLE_PANNEAUX_Y / 3);
-		buildPanneau(panneauBM, TAILLE_PANNEAUX_X / 3, TAILLE_PANNEAUX_Y / 3);
-		buildPanneau(panneauBD, TAILLE_PANNEAUX_X / 3, TAILLE_PANNEAUX_Y / 3);
-
-		panneauH.add(panneauHG);
-		panneauH.add(panneauHD);
-
-		panneauB.add(panneauBG);
-		panneauB.add(panneauBM);
-		panneauB.add(panneauBD);
-
-		add(panneauH, BorderLayout.CENTER);
-		add(panneauB, BorderLayout.SOUTH);
-
-	}
-
-	private void buildPanneau(JPanel panel, Integer tailleX, Integer tailleY)
-	{
-		panel = new JPanel();
-		panel.setPreferredSize(new Dimension(tailleX, tailleY));
-	}
-
-	private void buildPanneau(JPanel panel, GridLayout blayout, Integer tailleX, Integer tailleY)
-	{
-		panel = new JPanel();
-		panel.setPreferredSize(new Dimension(tailleX, tailleY));
-		panel.setLayout(blayout);
+		buildScroll();
+				
 	}
 
 	// ----------------------------------------- //
@@ -140,7 +104,7 @@ public class VueSynthese extends JPanel
 		// On compte les themes
 		Integer tmp = listeThemesSynthese.count();
 
-		for (int i = 0 ; i < tmp ; i++)
+		for (int i = 0; i < tmp; i++)
 		{
 			try
 			{
@@ -159,13 +123,13 @@ public class VueSynthese extends JPanel
 	{
 		ligneEstUnTheme = new Boolean[donneesBrutes.length];
 
-		for (int i = 0, cptLigne = 0 ; cptLigne < donneesBrutes.length ; i++)
+		for (int i = 0, cptLigne = 0; cptLigne < donneesBrutes.length; i++)
 		{
 			donneesBrutes[cptLigne][0] = listeThemesSynthese.get(i).getLIBELLE_THEME_SYNTHESE();
 			ligneEstUnTheme[cptLigne] = true;
 			cptLigne++;
 
-			for (int j = 0 ; j < listeThemesSynthese.get(i).getQuestion_syntheses().count() ; j++)
+			for (int j = 0; j < listeThemesSynthese.get(i).getQuestion_syntheses().count(); j++)
 			{
 				donneesBrutes[cptLigne][0] = listeThemesSynthese.get(i).getQuestion_syntheses().get(j)
 						.getLIBELLE_QUESTION_SYNTHESE();
@@ -209,29 +173,50 @@ public class VueSynthese extends JPanel
 		col.setPreferredWidth(LARG_DONNEES_FORMATEES_2_3);
 	}
 
-	private JScrollPane buildScroll(JScrollPane jscroll, SynJTable table, int posX, int posY)
+	private void buildScroll()
 	{
-		jscroll = new JScrollPane(table);
-		jscroll.setPreferredSize(new Dimension(posX, posY));
-
-		return jscroll;
+		scroll = new JScrollPane(donneesFormatees);
+		scroll.setPreferredSize(new Dimension(TAILLE_PANNEAUX_X / 2 , TAILLE_PANNEAUX_Y / 2));
 	}
 
 	private void formatLig()
 	{
-		for (int i = 0 ; i < donneesFormatees.getRowCount() ; i++)
+		for (int i = 0; i < donneesFormatees.getRowCount(); i++)
 			donneesFormatees.setRowHeight(i, HAUTEUR_LIGNE);
 	}
 
-	// --------EVAL_CTL-------- //
+	// ------- QTS_SYNTHESE ------- //
 
-	private void buildEvalCtl()
+	private void buildPanneaux()
 	{
-		panneauBG = new JPanel();
-		panneauBD = new JPanel();
-		this.add(panneauBG, BorderLayout.WEST);
-		this.add(panneauBD, BorderLayout.EAST);
+		conteneurH = new JPanel(new GridLayout(1,2));
+		panneauxH = new JPanel[2];
+		for (int i = 0; i < panneauxH.length; i++)
+		{
+			panneauxH[i] = new JPanel();
+			conteneurH.add(panneauxH[i]);
+		}
+		add(conteneurH);
+		
+		conteneurB = new JPanel(new GridLayout(1,3));
+		panneauxB = new JPanel[3];
+		for (int i = 0; i < panneauxB.length; i++)
+		{
+			panneauxB[i] = new JPanel();
+			conteneurB.add(panneauxB[i]);
+		}
+		
+		conteneurB = new JPanel(new GridLayout(1, 3));
+		panneauxB = new JPanel[3];
+		for (int i = 0; i < panneauxB.length; i++)
+		{
+			panneauxB[i] = new JPanel();
+			conteneurB.add(panneauxB[i]);
+		}
+		add(conteneurB);
 	}
+	
+	// ------- EVAL_CONTROLE ------- //
 
 	// ----------------------------------------- //
 	// ---------------ACCESSEURS---------------- //
@@ -252,16 +237,6 @@ public class VueSynthese extends JPanel
 		return donneesSyntheses;
 	}
 
-	public JPanel getColonneG()
-	{
-		return panneauHG;
-	}
-
-	public JPanel getColonneD()
-	{
-		return panneauBD;
-	}
-
 	// ----------------------------------------- //
 	// ----------------MUTATEURS---------------- //
 	// ----------------------------------------- //
@@ -279,16 +254,6 @@ public class VueSynthese extends JPanel
 	public void setDonneesSyntheses(DataSynthese donneesSyntheses)
 	{
 		this.donneesSyntheses = donneesSyntheses;
-	}
-
-	public void setColonneG(JPanel colonneG)
-	{
-		this.panneauHG = colonneG;
-	}
-
-	public void setColonneD(JPanel colonneD)
-	{
-		this.panneauBD = colonneD;
 	}
 
 	public JCheckBox getEtatsSyn()
