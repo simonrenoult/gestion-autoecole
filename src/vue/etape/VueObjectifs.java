@@ -34,7 +34,7 @@ public class VueObjectifs extends JPanel
 	private KListObject<KObjectif>	listeObjectifs;
 	private KListObject<KRealiser>	listeObservationsEtEtats;
 	
-	private Object[][]				donneesBrutes;
+	private Object[][]				donneesBrutes;P
 	private static String[]			TITRES_TAB_DONNEES			= { "Objectifs", "Etats", "Observations" };
 
 	private ObjJTableModele			modele;
