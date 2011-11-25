@@ -1,23 +1,12 @@
 package vue.etape;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.ScrollPane;
-
-import javax.swing.DefaultCellEditor;
 import javax.swing.JCheckBox;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.table.TableColumn;
-
-import vue.JTableAssurerLecon.CellEditorAera;
-import vue.JTableAssurerLecon.CellRenderAera;
 
 import KClass.KEvaluation_synthese;
 import KClass.KTheme_synthese;
@@ -57,9 +46,12 @@ public class VueSynthese extends JPanel
 	private static final int					TAILLE_PANNEAUX_Y			= 430;
 
 	private JCheckBox							etatsSyn;
+	private JPanel								panneauH;
 	private JPanel								panneauHG;
 	private JPanel								panneauHD;
+	private JPanel								panneauB;
 	private JPanel								panneauBG;
+	private JPanel								panneauBM;
 	private JPanel								panneauBD;
 	private JScrollPane							scroll;
 
@@ -69,7 +61,6 @@ public class VueSynthese extends JPanel
 
 	public VueSynthese(Integer numEtape, DataSynthese donnees_syn)
 	{
-		setLayout(new GridBagLayout());
 		setPreferredSize(new Dimension(TAILLE_PANNEAUX_X, TAILLE_PANNEAUX_Y));
 		this.numEtape = numEtape;
 		this.donneesSyntheses = donnees_syn;
@@ -81,15 +72,43 @@ public class VueSynthese extends JPanel
 
 		scroll = buildScroll(scroll, donneesFormatees, (TAILLE_PANNEAUX_X / 2) - 50, (TAILLE_PANNEAUX_Y / 2) - 50);
 
-		panneauHG = new JPanel();
-		panneauHG.setBackground(Color.RED);
-		panneauHG.add(scroll);
-		add(panneauHG);
+		/* 1 - Initialisation et affectation du GridBagLayout */
+		setLayout(new BorderLayout());
 
-		panneauHD = new JPanel();
-		panneauHD.setBackground(Color.BLUE);
-		panneauHD.add(scroll);
-		add(panneauHD);
+		/* 2 - Création des composants */
+
+		buildPanneau(panneauH, new GridLayout(1, 2), TAILLE_PANNEAUX_X, TAILLE_PANNEAUX_Y);
+		buildPanneau(panneauHG, TAILLE_PANNEAUX_X / 2, TAILLE_PANNEAUX_Y / 2);
+		buildPanneau(panneauHD, TAILLE_PANNEAUX_X / 2, TAILLE_PANNEAUX_Y / 2);
+
+		buildPanneau(panneauB, new GridLayout(1, 3), TAILLE_PANNEAUX_X, TAILLE_PANNEAUX_Y);
+		buildPanneau(panneauBG, TAILLE_PANNEAUX_X / 3, TAILLE_PANNEAUX_Y / 3);
+		buildPanneau(panneauBM, TAILLE_PANNEAUX_X / 3, TAILLE_PANNEAUX_Y / 3);
+		buildPanneau(panneauBD, TAILLE_PANNEAUX_X / 3, TAILLE_PANNEAUX_Y / 3);
+
+		panneauH.add(panneauHG);
+		panneauH.add(panneauHD);
+
+		panneauB.add(panneauBG);
+		panneauB.add(panneauBM);
+		panneauB.add(panneauBD);
+
+		add(panneauH, BorderLayout.CENTER);
+		add(panneauB, BorderLayout.SOUTH);
+
+	}
+
+	private void buildPanneau(JPanel panel, Integer tailleX, Integer tailleY)
+	{
+		panel = new JPanel();
+		panel.setPreferredSize(new Dimension(tailleX, tailleY));
+	}
+
+	private void buildPanneau(JPanel panel, GridLayout blayout, Integer tailleX, Integer tailleY)
+	{
+		panel = new JPanel();
+		panel.setPreferredSize(new Dimension(tailleX, tailleY));
+		panel.setLayout(blayout);
 	}
 
 	// ----------------------------------------- //
