@@ -15,12 +15,10 @@ public class FenetrePrincipale extends JFrame
 	private static final long	serialVersionUID	= 1L;
 	BDD							bdd					= new BDD();
 	// Classes
-
 	private FicheEleve			ficheEleve			= new FicheEleve();
 	private VueEtape[]			etape				= new VueEtape[4];
 	private InteroOrale			intero				= new InteroOrale();
 	private ExamenBlanc			examB				= new ExamenBlanc();
-
 	// Menu
 	private JMenuBar			menuBar				= new JMenuBar();
 	private JMenu				fichier				= new JMenu("PeriGest");
@@ -32,7 +30,6 @@ public class FenetrePrincipale extends JFrame
 	private JMenuItem			imprimerLivret		= new JMenuItem("Imprimer le livret actuel");
 	private JMenuItem			quitter				= new JMenuItem("Quitter");
 	private JMenuItem			gestionM			= new JMenuItem("Gestion");
-
 	// Composant Panel droite.
 	private BoutonGroupe		BoutonFicheE		= new BoutonGroupe("Fiche Eleve");
 	private BoutonGroupe		BoutonEtape1		= new BoutonGroupe("Etape 1");
@@ -47,16 +44,14 @@ public class FenetrePrincipale extends JFrame
 	private ButtonGroup			groupeBoutonTheme	= new ButtonGroup();
 	private JTextField			rechercheE			= new JTextField("Rechercher...");
 	private String				tabEleve[];
-	private JList<Object>		JlisteEleves;
+	private JList				JlisteEleves;
 	private EcouteurPrincipal	ecouteurPrincipale	= null;
 
 	// VUE(modele)
 	// controleur (modele,vue).
-
 	// ----------------------------------------- //
 	// ------------- CONSTRUCTEURS ------------- //
 	// ----------------------------------------- //
-
 	public FenetrePrincipale()
 	{
 
@@ -66,12 +61,10 @@ public class FenetrePrincipale extends JFrame
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// Creation des etapes.
-		for (int i = 0 ; i < 4 ; i++)
-		{
+		for (int i = 0; i < 4; i++)
 			etape[i] = new VueEtape(i + 1);
-		}
 
-		JlisteEleves = new JList<Object>();
+		JlisteEleves = new JList();
 		creationMenu();
 
 		// Creation du panel principal
@@ -143,8 +136,8 @@ public class FenetrePrincipale extends JFrame
 	}
 
 	/*
-	 * cr�ation du panel comportant les diff�rents panel (etape, fiche
-	 * eleve, etc.)
+	 * cr�ation du panel comportant les diff�rents panel (etape, fiche eleve,
+	 * etc.)
 	 */
 	public JPanel CreationPanelDroite()
 	{
@@ -153,7 +146,7 @@ public class FenetrePrincipale extends JFrame
 
 		// ajout des sous panel le constituant (un pannel par bouton)
 		panel.add(ficheEleve, BorderLayout.NORTH);
-		for (int i = 0 ; i < 4 ; i++)
+		for (int i = 0; i < 4; i++)
 			panel.add(etape[i], BorderLayout.NORTH);
 		panel.add(intero, BorderLayout.NORTH);
 		panel.add(examB, BorderLayout.NORTH);
@@ -223,7 +216,6 @@ public class FenetrePrincipale extends JFrame
 	}
 
 	// //////////////////////////////////////////////////////GETTERS/SETTERS
-
 	public VueEtape[] getEtape()
 	{
 		return etape;

@@ -21,277 +21,267 @@ import net.ko.ksql.KDBMysql;
 @SuppressWarnings("serial")
 public class VueObjectifs extends JPanel
 {
-	// -------------------------------------//
-	// --------------ATTRIBUTES-------------//
-	// -------------------------------------//
+    // -------------------------------------//
+    // --------------ATTRIBUTES-------------//
+    // -------------------------------------//
 
-	private KDBMysql				connexion					= BDD.db;
+    private KDBMysql connexion = BDD.db;
+    private Integer numEtape;
+    private Integer numEleve;
+    private DataObjectifs donneesObjectifs;
+    private KListObject<KObjectif> listeObjectifs;
+    private KListObject<KRealiser> listeObservationsEtEtats;
+    private Object[][] donneesBrutes;
+    private static String[] TITRES_TAB_DONNEES =
+    {
+        "Objectifs", "Etats", "Observations"
+    };
+    private ObjJTableModele modele;
+    private JTable donneesFormatees;
+    private static Integer LARG_DONNEES_FORMATEES_1_3 = 300;
+    private static Integer LARG_DONNEES_FORMATEES_2 = 1;
+    private static Integer HAUTEUR_LIGNE = 50;
+    private JComboBox etatsObj;
+    private static String[] CONTENU_ETATS_OBJ =
+    {
+        "", "Aborde", "Traite", "Assimile"
+    };
+    private JScrollPane scroll_tab;
+    private static Dimension TAILLE_SCROLL = new Dimension(850, 450);
 
-	private Integer					numEtape;
-	private Integer					numEleve;
-	private DataObjectifs			donneesObjectifs;
+    // ----------------------------------------- //
+    // --------------CONSTRUCTEURS-------------- //
+    // ----------------------------------------- //
+    public VueObjectifs(int numEtape, DataObjectifs donnees_objectifs)
+    {
+        this.numEtape = numEtape;
+        this.donneesObjectifs = donnees_objectifs;
 
-	private KListObject<KObjectif>	listeObjectifs;
-	private KListObject<KRealiser>	listeObservationsEtEtats;
-	
-	private Object[][]				donneesBrutes;P
-	private static String[]			TITRES_TAB_DONNEES			= { "Objectifs", "Etats", "Observations" };
+        initDonneesObj();
 
-	private ObjJTableModele			modele;
-	private JTable					donneesFormatees;
-	private static Integer			LARG_DONNEES_FORMATEES_1_3	= 300;
-	private static Integer			LARG_DONNEES_FORMATEES_2	= 1;
-	private static Integer			HAUTEUR_LIGNE				= 50;
+        buildTabDonneesBrutes();
+        donneesBrutesVersDonnesFormatees();
+        buildDonneesFormatees();
 
-	private JComboBox<String>		etatsObj;
-	private static String[]			CONTENU_ETATS_OBJ			= { "", "Aborde", "Traite", "Assimile" };
+        buildScrollBar();
+    }
 
-	private JScrollPane				scroll_tab;
-	private static Dimension		TAILLE_SCROLL				= new Dimension(850, 450);
+    // ----------------------------------------- //
+    // --------------INITIALISEURS-------------- //
+    // ----------------------------------------- //
+    // --------LISTE_OBJ-------- //
+    private void initDonneesObj()
+    {
+        listeObjectifs = donneesObjectifs.getObjectifs();
+    }
 
-	// ----------------------------------------- //
-	// --------------CONSTRUCTEURS-------------- //
-	// ----------------------------------------- //
+    // ----------------------------------------- //
+    // -----------------METHODES---------------- //
+    // ----------------------------------------- //
+    // --------DONNEES_BRUTES--------//
+    private void buildTabDonneesBrutes()
+    {
+        donneesBrutes = new Object[listeObjectifs.count()][3];
+        for (int i = 0; i < donneesBrutes.length; i++)
+        {
+            donneesBrutes[i][0] = listeObjectifs.get(i).getLIBELLE_OBJECTIF();
+            donneesBrutes[i][1] = "";
+            donneesBrutes[i][2] = "";
+        }
+    }
 
-	public VueObjectifs(int numEtape, DataObjectifs donnees_objectifs)
-	{
-		this.numEtape = numEtape;
-		this.donneesObjectifs = donnees_objectifs;
+    private void donneesBrutesVersDonnesFormatees()
+    {
+        modele = new ObjJTableModele(donneesBrutes, TITRES_TAB_DONNEES);
+        donneesFormatees = new JTable(modele);
+    }
 
-		initDonneesObj();
+    // -------DONNEES_FORMATEES-------//
+    private void buildDonneesFormatees()
+    {
+        donneesFormatees.getTableHeader().setReorderingAllowed(false);
+        donneesFormatees.getTableHeader().setResizingAllowed(false);
 
-		buildTabDonneesBrutes();
-		donneesBrutesVersDonnesFormatees();
-		buildDonneesFormatees();
+        initColStatus();
+        formatCol();
+        formatLig();
+    }
 
-		buildScrollBar();
-	}
+    // ---- > Colonnes
+    private void initColStatus()
+    {
+        etatsObj = new JComboBox(CONTENU_ETATS_OBJ);
+        donneesFormatees.getColumn("Etats").setCellEditor(new DefaultCellEditor(etatsObj));
+    }
 
-	// ----------------------------------------- //
-	// --------------INITIALISEURS-------------- //
-	// ----------------------------------------- //
+    private void formatCol()
+    {
+        TableColumn col = new TableColumn();
+        formatColObj(col);
+        formatColEtats(col);
+        formatColObservations(col);
+    }
 
-	// --------LISTE_OBJ-------- //
+    private void formatColObj(TableColumn col)
+    {
+        col = donneesFormatees.getColumnModel().getColumn(0);
+        col.setPreferredWidth(LARG_DONNEES_FORMATEES_1_3);
+        col.setCellRenderer(new CellRenderAera());
+    }
 
-	private void initDonneesObj()
-	{
-		listeObjectifs = donneesObjectifs.getObjectifs();
-	}
+    private void formatColEtats(TableColumn col)
+    {
+        col = donneesFormatees.getColumnModel().getColumn(1);
+        col.setPreferredWidth(LARG_DONNEES_FORMATEES_2);
+    }
 
-	// ----------------------------------------- //
-	// -----------------METHODES---------------- //
-	// ----------------------------------------- //
+    private void formatColObservations(TableColumn col)
+    {
+        col = donneesFormatees.getColumnModel().getColumn(2);
+        col.setPreferredWidth(LARG_DONNEES_FORMATEES_1_3);
+        col.setCellEditor(new CellEditorAera());
+    }
 
-	// --------DONNEES_BRUTES--------//
+    // ---- > Lignes
+    private void formatLig()
+    {
+        for (int i = 0; i < donneesFormatees.getRowCount(); i++)
+            donneesFormatees.setRowHeight(i, HAUTEUR_LIGNE);
+    }
 
-	private void buildTabDonneesBrutes()
-	{
-		donneesBrutes = new Object[listeObjectifs.count()][3];
-		for (int i = 0 ; i < donneesBrutes.length ; i++)
-		{
-			donneesBrutes[i][0] = listeObjectifs.get(i).getLIBELLE_OBJECTIF();
-			donneesBrutes[i][1] = "";
-			donneesBrutes[i][2] = "";
-		}
-	}
+    // --------SCROLLBAR--------//
+    private void buildScrollBar()
+    {
+        this.scroll_tab = new JScrollPane(donneesFormatees);
+        this.scroll_tab.setPreferredSize(TAILLE_SCROLL);
+        this.add(scroll_tab);
+    }
 
-	private void donneesBrutesVersDonnesFormatees()
-	{
-		modele = new ObjJTableModele(donneesBrutes, TITRES_TAB_DONNEES);
-		donneesFormatees = new JTable(modele);
-	}
+    // --------ACCESS_BDD-------- //
+    public void chargerEtatsEtObervations()
+    {
+        this.numEleve = Integer.parseInt(EcouteurPrincipal.Eleve.getId().toString());
+        donneesObjectifs.setObsEtEtats(donneesObjectifs.chargerObsEtEtat(this.numEleve));
 
-	// -------DONNEES_FORMATEES-------//
+        for (int i = 0; i < listeObjectifs.count(); i++)
+            try
+            {
+                donneesFormatees.setValueAt(transcrireIndexVersEtat(donneesObjectifs.getObsEtEtats(), i), i, 1);
+                donneesFormatees.setValueAt(donneesObjectifs.getObsEtEtats().get(i).getOBSERVATION_OBJECTIF(), i, 2);
+            }
+            catch (IndexOutOfBoundsException e)
+            {
+                donneesFormatees.setValueAt("", i, 2);
+            }
+    }
 
-	private void buildDonneesFormatees()
-	{
-		donneesFormatees.getTableHeader().setReorderingAllowed(false);
-		donneesFormatees.getTableHeader().setResizingAllowed(false);
+    private String transcrireIndexVersEtat(KListObject<KRealiser> tmp, int index)
+    {
+        if (tmp.get(index).getETAT_OBJECTIF() == KRealiser.ABORDE)
+            return (String) etatsObj.getItemAt(1);
+        else
+            if (tmp.get(index).getETAT_OBJECTIF() == KRealiser.TRAITE)
+                return (String) etatsObj.getItemAt(2);
+            else
+                if (tmp.get(index).getETAT_OBJECTIF() == KRealiser.ASSIMILE)
+                    return (String) etatsObj.getItemAt(3);
 
-		initColStatus();
-		formatCol();
-		formatLig();
-	}
+        return null;
+    }
 
-	// ---- > Colonnes
+    // ----------------------------------------- //
+    // ---------------ACCESSEURS---------------- //
+    // ----------------------------------------- //
+    public Object[][] getDonneesBrutes()
+    {
+        return donneesBrutes;
+    }
 
-	private void initColStatus()
-	{
-		etatsObj = new JComboBox<String>(CONTENU_ETATS_OBJ);
-		donneesFormatees.getColumn("Etats").setCellEditor(new DefaultCellEditor(etatsObj));
-	}
+    public JTable getDonneesFormatees()
+    {
+        return donneesFormatees;
+    }
 
-	private void formatCol()
-	{
-		TableColumn col = new TableColumn();
-		formatColObj(col);
-		formatColEtats(col);
-		formatColObservations(col);
-	}
+    public KListObject<KObjectif> getListe_objectifs()
+    {
+        return listeObjectifs;
+    }
 
-	private void formatColObj(TableColumn col)
-	{
-		col = donneesFormatees.getColumnModel().getColumn(0);
-		col.setPreferredWidth(LARG_DONNEES_FORMATEES_1_3);
-		col.setCellRenderer(new CellRenderAera());
-	}
+    public JScrollPane getScroll_tab()
+    {
+        return scroll_tab;
+    }
 
-	private void formatColEtats(TableColumn col)
-	{
-		col = donneesFormatees.getColumnModel().getColumn(1);
-		col.setPreferredWidth(LARG_DONNEES_FORMATEES_2);
-	}
+    public Integer getNumEleve()
+    {
+        return numEleve;
+    }
 
-	private void formatColObservations(TableColumn col)
-	{
-		col = donneesFormatees.getColumnModel().getColumn(2);
-		col.setPreferredWidth(LARG_DONNEES_FORMATEES_1_3);
-		col.setCellEditor(new CellEditorAera());
-	}
+    public KListObject<KRealiser> getListe_observationsEtEtats()
+    {
+        return listeObservationsEtEtats;
+    }
 
-	// ---- > Lignes
-	private void formatLig()
-	{
-		for (int i = 0 ; i < donneesFormatees.getRowCount() ; i++)
-			donneesFormatees.setRowHeight(i, HAUTEUR_LIGNE);
-	}
+    public ObjJTableModele getModele()
+    {
+        return modele;
+    }
 
-	// --------SCROLLBAR--------//
+    public JComboBox getEtatObj()
+    {
+        return etatsObj;
+    }
 
-	private void buildScrollBar()
-	{
-		this.scroll_tab = new JScrollPane(donneesFormatees);
-		this.scroll_tab.setPreferredSize(TAILLE_SCROLL);
-		this.add(scroll_tab);
-	}
+    // ----------------------------------------- //
+    // ----------------MUTATEURS---------------- //
+    // ----------------------------------------- //
+    public void setDonneesBrutes(Object[][] tab_donnees_brut)
+    {
+        this.donneesBrutes = tab_donnees_brut;
+    }
 
-	// --------ACCESS_BDD-------- //
-	public void chargerEtatsEtObervations()
-	{
-		this.numEleve = Integer.parseInt(EcouteurPrincipal.Eleve.getId().toString());
-		donneesObjectifs.setObsEtEtats(donneesObjectifs.chargerObsEtEtat(this.numEleve));
+    public void setDonneesFormatees(JTable tab_donnees_formatees)
+    {
+        this.donneesFormatees = tab_donnees_formatees;
+    }
 
-		for (int i = 0 ; i < listeObjectifs.count() ; i++)
-		{
-			try
-			{
-				donneesFormatees.setValueAt(transcrireIndexVersEtat(donneesObjectifs.getObsEtEtats(), i), i, 1);
-				donneesFormatees.setValueAt(donneesObjectifs.getObsEtEtats().get(i).getOBSERVATION_OBJECTIF(), i, 2);
-			}
-			catch (IndexOutOfBoundsException e)
-			{
-				donneesFormatees.setValueAt("", i, 2);
-			}
-		}
-	}
+    public void setListe_objectifs(KListObject<KObjectif> liste_objectifs)
+    {
+        this.listeObjectifs = liste_objectifs;
+    }
 
-	private String transcrireIndexVersEtat(KListObject<KRealiser> tmp, int index)
-	{
-		if (tmp.get(index).getETAT_OBJECTIF() == KRealiser.ABORDE)
-			return (String) etatsObj.getItemAt(1);
-		else if (tmp.get(index).getETAT_OBJECTIF() == KRealiser.TRAITE)
-			return (String) etatsObj.getItemAt(2);
-		else if (tmp.get(index).getETAT_OBJECTIF() == KRealiser.ASSIMILE)
-			return (String) etatsObj.getItemAt(3);
+    public void setScroll_tab(JScrollPane scroll_tab)
+    {
+        this.scroll_tab = scroll_tab;
+    }
 
-		return null;
-	}
+    public void setNumEleve(Integer numEleve)
+    {
+        this.numEleve = numEleve;
+    }
 
-	// ----------------------------------------- //
-	// ---------------ACCESSEURS---------------- //
-	// ----------------------------------------- //
+    public void setListe_observationsEtEtats(KListObject<KRealiser> liste_observationsEtEtats)
+    {
+        this.listeObservationsEtEtats = liste_observationsEtEtats;
+    }
 
-	public Object[][] getDonneesBrutes()
-	{
-		return donneesBrutes;
-	}
+    public void setModele(ObjJTableModele modele)
+    {
+        this.modele = modele;
+    }
 
-	public JTable getDonneesFormatees()
-	{
-		return donneesFormatees;
-	}
+    public void setEtatObj(JComboBox etatObj)
+    {
+        this.etatsObj = etatObj;
+    }
 
-	public KListObject<KObjectif> getListe_objectifs()
-	{
-		return listeObjectifs;
-	}
+    public KDBMysql getConnexion()
+    {
+        return connexion;
+    }
 
-	public JScrollPane getScroll_tab()
-	{
-		return scroll_tab;
-	}
-
-	public Integer getNumEleve()
-	{
-		return numEleve;
-	}
-
-	public KListObject<KRealiser> getListe_observationsEtEtats()
-	{
-		return listeObservationsEtEtats;
-	}
-
-	public ObjJTableModele getModele()
-	{
-		return modele;
-	}
-
-	public JComboBox<String> getEtatObj()
-	{
-		return etatsObj;
-	}
-
-	// ----------------------------------------- //
-	// ----------------MUTATEURS---------------- //
-	// ----------------------------------------- //
-
-	public void setDonneesBrutes(Object[][] tab_donnees_brut)
-	{
-		this.donneesBrutes = tab_donnees_brut;
-	}
-
-	public void setDonneesFormatees(JTable tab_donnees_formatees)
-	{
-		this.donneesFormatees = tab_donnees_formatees;
-	}
-
-	public void setListe_objectifs(KListObject<KObjectif> liste_objectifs)
-	{
-		this.listeObjectifs = liste_objectifs;
-	}
-
-	public void setScroll_tab(JScrollPane scroll_tab)
-	{
-		this.scroll_tab = scroll_tab;
-	}
-
-	public void setNumEleve(Integer numEleve)
-	{
-		this.numEleve = numEleve;
-	}
-
-	public void setListe_observationsEtEtats(KListObject<KRealiser> liste_observationsEtEtats)
-	{
-		this.listeObservationsEtEtats = liste_observationsEtEtats;
-	}
-
-	public void setModele(ObjJTableModele modele)
-	{
-		this.modele = modele;
-	}
-
-	public void setEtatObj(JComboBox<String> etatObj)
-	{
-		this.etatsObj = etatObj;
-	}
-
-	public KDBMysql getConnexion()
-	{
-		return connexion;
-	}
-
-	public void setConnexion(KDBMysql connexion)
-	{
-		this.connexion = connexion;
-	}
+    public void setConnexion(KDBMysql connexion)
+    {
+        this.connexion = connexion;
+    }
 }

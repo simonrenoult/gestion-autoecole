@@ -1,4 +1,3 @@
-
 package vue;
 
 import java.awt.Desktop;
@@ -41,12 +40,12 @@ import com.itextpdf.text.pdf.draw.LineSeparator;
 
 public class Export
 {
-	
+
 	// ----------------------------------------- //
 	// ----------------ATTRIBUTS---------------- //
 	// ----------------------------------------- //
-	
-	private KDBMysql db = BDD.db;
+
+	private KDBMysql	db	= BDD.db;
 
 	// ----------------------------------------- //
 	// --------------CONSTRUCTEURS-------------- //
@@ -81,18 +80,21 @@ public class Export
 	// ----------------------------------------- //
 
 	// Sélectionne si l'action choisie est un export ou une impression.
-	public void exportOuImpression(int index,FenetrePrincipale fenetre,int action)
+	public void exportOuImpression(int index, FenetrePrincipale fenetre, int action)
 	{
 
-		if (action == 0) exportPDF(index, fenetre);
-		if (action == 1) exportPDFs(fenetre);
-		if (action == 2) impressionPDF(index, fenetre);
+		if (action == 0)
+			exportPDF(index, fenetre);
+		if (action == 1)
+			exportPDFs(fenetre);
+		if (action == 2)
+			impressionPDF(index, fenetre);
 
 	}
 
 	// Crée et stocke un document PDF contenant toutes les données saisies dans
 	// le logiciel pour l'élcve sélectionné.
-	private void exportPDF(int index,FenetrePrincipale fenetre)
+	private void exportPDF(int index, FenetrePrincipale fenetre)
 	{
 		if (index != -1)
 		{
@@ -104,7 +106,8 @@ public class Export
 				JFileChooser chooser = null;
 
 				// Instance du fichier s'il n'existe pas.
-				if (chooser == null) chooser = new JFileChooser();
+				if (chooser == null)
+					chooser = new JFileChooser();
 				chooser.setSelectedFile(new File("Eleve nc" + (index + 1)));
 
 				// Ouverture d'une fenctre de dialogue pour choisir
@@ -185,7 +188,8 @@ public class Export
 				JFileChooser chooser = null;
 
 				// Instance du fichier s'il n'existe pas.
-				if (chooser == null) chooser = new JFileChooser();
+				if (chooser == null)
+					chooser = new JFileChooser();
 				chooser.setSelectedFile(new File("Eleve nc" + (i + 1)));
 
 				try
@@ -231,7 +235,7 @@ public class Export
 
 	// Imprime un document PDF contenant toutes les données saisies dans le
 	// logiciel pour l'élcve sélectionné.
-	private void impressionPDF(int index,FenetrePrincipale fenetre)
+	private void impressionPDF(int index, FenetrePrincipale fenetre)
 	{
 
 		Document doc = new Document();
@@ -308,8 +312,8 @@ public class Export
 
 	// Exporte les donnces saisies pour un clcve dans un livret gcncrc en PDF.
 	// Facilite l'impression.
-	private void creationPDF(PdfWriter writer,Document doc,int index,FenetrePrincipale fenetre)
-			throws FileNotFoundException,DocumentException,IOException
+	private void creationPDF(PdfWriter writer, Document doc, int index, FenetrePrincipale fenetre)
+			throws FileNotFoundException, DocumentException, IOException
 	{
 
 		// Ouverture du document PDF sur lequel on va ccrire les informations du
@@ -410,9 +414,9 @@ public class Export
 	// ----------------------------------------- //
 
 	// Affiche une fiche clcve c partir des informations de la base de donnces.
-	private void affichageFicheEleve(int xBaseGroupe,int yBaseGroupe,Paragraph sautLigne,Document doc,PdfWriter writer,
-			PdfContentByte canvas,BaseFont bf,KEleve kEl,KMoniteur kM,KFormation kFo,FenetrePrincipale fenetre)
-			throws DocumentException,IOException
+	private void affichageFicheEleve(int xBaseGroupe, int yBaseGroupe, Paragraph sautLigne, Document doc,
+			PdfWriter writer, PdfContentByte canvas, BaseFont bf, KEleve kEl, KMoniteur kM, KFormation kFo,
+			FenetrePrincipale fenetre) throws DocumentException, IOException
 	{
 
 		// Crcation des diffcrentes formes gcomctriques utilisces sur la
@@ -463,16 +467,18 @@ public class Export
 		absText("Prcnom :    " + kEl.getPRENOM_ELEVE(), xBaseGroupe, yBaseGroupe - 20, writer, bf, 12);
 		bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
 		absText("Date de naissance :    " + kEl.getDATE_DE_NAISS_ELEVE(), xBaseGroupe, yBaseGroupe - 58, writer, bf, 12);
-		if (kEl.getMAIL_ELEVE() != null) absText("Email :    " + kEl.getMAIL_ELEVE(), xBaseGroupe, yBaseGroupe - 78,
-				writer, bf, 12);
-		else absText("Email :", xBaseGroupe, yBaseGroupe - 78, writer, bf, 12);
+		if (kEl.getMAIL_ELEVE() != null)
+			absText("Email :    " + kEl.getMAIL_ELEVE(), xBaseGroupe, yBaseGroupe - 78, writer, bf, 12);
+		else
+			absText("Email :", xBaseGroupe, yBaseGroupe - 78, writer, bf, 12);
 		absText("Numcro de tclcphone :    " + kEl.getTELEPHONE_ELEVE(), xBaseGroupe, yBaseGroupe - 98, writer, bf, 12);
 		absText("Adresse :    " + kEl.getADRESSE_ELEVE(), xBaseGroupe, yBaseGroupe - 118, writer, bf, 12);
 		absText("Code postal :    " + kEl.getCODE_POSTAL_ELEVE(), xBaseGroupe, yBaseGroupe - 138, writer, bf, 12);
 		absText("Commune :    " + kEl.getCOMMUNE_ELEVE(), xBaseGroupe, yBaseGroupe - 158, writer, bf, 12);
-		if (kEl.getPROFESSION_ELEVE() != null) absText("Profession :    " + kEl.getPROFESSION_ELEVE(), xBaseGroupe,
-				yBaseGroupe - 178, writer, bf, 12);
-		else absText("Profession :", xBaseGroupe, yBaseGroupe - 178, writer, bf, 12);
+		if (kEl.getPROFESSION_ELEVE() != null)
+			absText("Profession :    " + kEl.getPROFESSION_ELEVE(), xBaseGroupe, yBaseGroupe - 178, writer, bf, 12);
+		else
+			absText("Profession :", xBaseGroupe, yBaseGroupe - 178, writer, bf, 12);
 
 		// Affichage de la photo de l'clcve.
 		try
@@ -528,7 +534,7 @@ public class Export
 
 	// Affiche l'observation de la vue de l'clcve de telle facon que le texte ne
 	// dcpasse pas du cadre le contenant.
-	private void observationVueEleve(PdfWriter writer,BaseFont bf,KEleve kEl) throws DocumentException,IOException
+	private void observationVueEleve(PdfWriter writer, BaseFont bf, KEleve kEl) throws DocumentException, IOException
 	{
 
 		boolean finChaine = false;
@@ -559,8 +565,8 @@ public class Export
 
 	// Affiche un tableau de lecons c partir des informations de la base de
 	// donnces.
-	private void tableauLecons(int debutLecons,int finLecons,int positionTableauX,int positionTableauY,
-			PdfContentByte canvas,KEleve kEl)
+	private void tableauLecons(int debutLecons, int finLecons, int positionTableauX, int positionTableauY,
+			PdfContentByte canvas, KEleve kEl)
 	{
 
 		KListObject<KMoniteur> moniteurs = new KListObject<KMoniteur>(KMoniteur.class);
@@ -606,10 +612,10 @@ public class Export
 
 			try
 			{
-				if ((i + 1) < 10) p = new Phrase((i + 1) + "     " + kAg.getDATE_AGENDA(), FontFactory.getFont(null,
-						10, Font.NORMAL));
-				else if ((i + 1) >= 10) p = new Phrase((i + 1) + "   " + kAg.getDATE_AGENDA(), FontFactory.getFont(
-						null, 10, Font.NORMAL));
+				if ((i + 1) < 10)
+					p = new Phrase((i + 1) + "     " + kAg.getDATE_AGENDA(), FontFactory.getFont(null, 10, Font.NORMAL));
+				else if ((i + 1) >= 10)
+					p = new Phrase((i + 1) + "   " + kAg.getDATE_AGENDA(), FontFactory.getFont(null, 10, Font.NORMAL));
 			}
 			catch (IndexOutOfBoundsException e)
 			{
@@ -690,9 +696,9 @@ public class Export
 	}
 
 	// Affiche une ctape c partir des informations de la base de donnces.
-	private void affichageEtape(int numEtape,int xBaseGroupe,int yBaseGroupe,Document doc,PdfWriter writer,
-			PdfContentByte canvas,BaseFont bf,KEleve kEl,KMoniteur kM,int index,FenetrePrincipale fenetre)
-			throws DocumentException,IOException
+	private void affichageEtape(int numEtape, int xBaseGroupe, int yBaseGroupe, Document doc, PdfWriter writer,
+			PdfContentByte canvas, BaseFont bf, KEleve kEl, KMoniteur kM, int index, FenetrePrincipale fenetre)
+			throws DocumentException, IOException
 	{
 
 		// Initialisation d'une variable qui va servir comme ordonnce
@@ -712,10 +718,14 @@ public class Export
 		// Affichage du titre de la partie des questions posces c l'cvaluation
 		// de synthcse de l'ctape "numEtape".
 		bf = BaseFont.createFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-		if (numEtape == 1) absText("FICHE D'cVALUATION DE SYNTHcSE DE LA PREMIcRE cTAPE", 38, 426, writer, bf, 16);
-		else if (numEtape == 2) absText("FICHE D'cVALUATION DE SYNTHcSE DE LA DEUXIcME cTAPE", 38, 460, writer, bf, 16);
-		else if (numEtape == 3) absText("FICHE D'cVALUATION DE SYNTHcSE DE LA TROISIcME cTAPE", 38, 438, writer, bf, 16);
-		else if (numEtape == 4) absText("FICHE D'cVALUATION DE SYNTHcSE DE LA QUATRIcME cTAPE", 38, 334, writer, bf, 16);
+		if (numEtape == 1)
+			absText("FICHE D'cVALUATION DE SYNTHcSE DE LA PREMIcRE cTAPE", 38, 426, writer, bf, 16);
+		else if (numEtape == 2)
+			absText("FICHE D'cVALUATION DE SYNTHcSE DE LA DEUXIcME cTAPE", 38, 460, writer, bf, 16);
+		else if (numEtape == 3)
+			absText("FICHE D'cVALUATION DE SYNTHcSE DE LA TROISIcME cTAPE", 38, 438, writer, bf, 16);
+		else if (numEtape == 4)
+			absText("FICHE D'cVALUATION DE SYNTHcSE DE LA QUATRIcME cTAPE", 38, 334, writer, bf, 16);
 		bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
 
 		// Affichage des questions posces c l'cvaluation de synthcse de l'ctape
@@ -744,27 +754,35 @@ public class Export
 
 		// Affichage du titre de la partie des rcsultats de l'cvaluation de
 		// synthcse de l'ctape "numEtape".
-		if (numEtape == 1) yTMP = 190;
-		else if (numEtape == 2) yTMP = 282;
-		else if (numEtape == 3) yTMP = 224;
-		else if (numEtape == 4) yTMP = 132;
+		if (numEtape == 1)
+			yTMP = 190;
+		else if (numEtape == 2)
+			yTMP = 282;
+		else if (numEtape == 3)
+			yTMP = 224;
+		else if (numEtape == 4)
+			yTMP = 132;
 		bf = BaseFont.createFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
 		absText("RcSULTATS DE L'cVALUATION DE SYNTHcSE", 38, yTMP, writer, bf, 16);
 		bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
 
 		// Affichage des rcsultats de l'cvaluation de synthcse de l'ctape
 		// "numEtape".
-		if (numEtape == 1) yTMP = 86;
-		else if (numEtape == 2) yTMP = 178;
-		else if (numEtape == 3) yTMP = 120;
-		else if (numEtape == 4) yTMP = 28;
+		if (numEtape == 1)
+			yTMP = 86;
+		else if (numEtape == 2)
+			yTMP = 178;
+		else if (numEtape == 3)
+			yTMP = 120;
+		else if (numEtape == 4)
+			yTMP = 28;
 		resultatsSynthese(numEtape, yTMP, writer, canvas, bf, kEl, kM, index, fenetre);
 
 	}
 
 	// Affiche le tableau des objectifs d'une ctape c partir des informations de
 	// la base de donnces.
-	private void tableauObjectifsEtape(int numEtape,Document doc,PdfContentByte canvas,int index)
+	private void tableauObjectifsEtape(int numEtape, Document doc, PdfContentByte canvas, int index)
 			throws DocumentException
 	{
 
@@ -805,12 +823,12 @@ public class Export
 					+ objectifsE.get(i).getId());
 			try
 			{
-				if (realiserE.get(0).getETAT_OBJECTIF() == 0) p = new Phrase("Abordc", FontFactory.getFont(null, 10,
-						Font.NORMAL));
-				else if (realiserE.get(0).getETAT_OBJECTIF() == 1) p = new Phrase("Traitc", FontFactory.getFont(null,
-						10, Font.NORMAL));
-				else if (realiserE.get(0).getETAT_OBJECTIF() == 2) p = new Phrase("Assimilc", FontFactory.getFont(null,
-						10, Font.NORMAL));
+				if (realiserE.get(0).getETAT_OBJECTIF() == 0)
+					p = new Phrase("Abordc", FontFactory.getFont(null, 10, Font.NORMAL));
+				else if (realiserE.get(0).getETAT_OBJECTIF() == 1)
+					p = new Phrase("Traitc", FontFactory.getFont(null, 10, Font.NORMAL));
+				else if (realiserE.get(0).getETAT_OBJECTIF() == 2)
+					p = new Phrase("Assimilc", FontFactory.getFont(null, 10, Font.NORMAL));
 			}
 			catch (IndexOutOfBoundsException e)
 			{
@@ -838,11 +856,11 @@ public class Export
 
 	// Affiche les questions des synthcses et les rcponses donnces aux synthcses
 	// (cases) c partir des informations de la base de donnces.
-	private void questionsReponsesSynthese(int numEtape,int x,int y,Document doc,PdfWriter writer,BaseFont bf,
-			int index) throws DocumentException,IOException
+	private void questionsReponsesSynthese(int numEtape, int x, int y, Document doc, PdfWriter writer, BaseFont bf,
+			int index) throws DocumentException, IOException
 	{
 
-		questionsSynthese(numEtape, x, y, doc, writer, bf,index);
+		questionsSynthese(numEtape, x, y, doc, writer, bf, index);
 		reponsesSynthese(numEtape, x + 228, y, writer, index);
 
 		/*
@@ -923,8 +941,8 @@ public class Export
 
 	// Affiche les questions des synthcses c partir des informations de la base
 	// de donnces.
-	private void questionsSynthese(int numEtape,int x,int y,Document doc,PdfWriter writer,BaseFont bf,
-			int index) throws DocumentException,IOException
+	private void questionsSynthese(int numEtape, int x, int y, Document doc, PdfWriter writer, BaseFont bf, int index)
+			throws DocumentException, IOException
 	{
 
 		int x2 = x + 282;
@@ -1070,8 +1088,9 @@ public class Export
 
 	// Affiche les rcponses donnces aux synthcses (cases) c partir des
 	// informations de la base de donnces.
-	private void reponsesSynthese(int numEtape,int x,int y,PdfWriter writer,int index)
-			throws MalformedURLException,IndexOutOfBoundsException,NullPointerException,DocumentException,IOException
+	private void reponsesSynthese(int numEtape, int x, int y, PdfWriter writer, int index)
+			throws MalformedURLException, IndexOutOfBoundsException, NullPointerException, DocumentException,
+			IOException
 	{
 
 		int x2 = x + 264;
@@ -1166,9 +1185,9 @@ public class Export
 
 	// Affiche une rcponse donnce c une synthcses (case) c partir des
 	// informations de la base de donnces.
-	private void reponseSynthese(int numEtape,int question,int abscissePremiereCase,int ordonnee,PdfWriter writer,
-			int index) throws DocumentException,MalformedURLException,IOException,
-			IndexOutOfBoundsException,NullPointerException
+	private void reponseSynthese(int numEtape, int question, int abscissePremiereCase, int ordonnee, PdfWriter writer,
+			int index) throws DocumentException, MalformedURLException, IOException, IndexOutOfBoundsException,
+			NullPointerException
 	{
 
 		KListObject<KSynthese> syntheses = new KListObject<KSynthese>(KSynthese.class);
@@ -1260,8 +1279,8 @@ public class Export
 
 	// Affiche les rcsultats de l'cvaluation de synthcse d'une ctape c partir
 	// des informations de la base de donnces.
-	private void resultatsSynthese(int numEtape,int ordonneeDebut,PdfWriter writer,PdfContentByte canvas,BaseFont bf,
-			KEleve kEl,KMoniteur kM,int index,FenetrePrincipale fenetre) throws DocumentException,
+	private void resultatsSynthese(int numEtape, int ordonneeDebut, PdfWriter writer, PdfContentByte canvas,
+			BaseFont bf, KEleve kEl, KMoniteur kM, int index, FenetrePrincipale fenetre) throws DocumentException,
 			IOException
 	{
 
@@ -1415,9 +1434,10 @@ public class Export
 
 		try
 		{
-			if (PE3.get(0).getDATE_PASSAGE_SYNTHESE() != null) absText(
-					"par " + kM.getPRENOM_MONITEUR() + " " + kM.getNOM_MONITEUR(), 405, 120, writer, bf, 10);
-			else absText("par", 405, ordonneeDebut + 40, writer, bf, 10);
+			if (PE3.get(0).getDATE_PASSAGE_SYNTHESE() != null)
+				absText("par " + kM.getPRENOM_MONITEUR() + " " + kM.getNOM_MONITEUR(), 405, 120, writer, bf, 10);
+			else
+				absText("par", 405, ordonneeDebut + 40, writer, bf, 10);
 		}
 		catch (IndexOutOfBoundsException e)
 		{
@@ -1440,8 +1460,8 @@ public class Export
 	// Affiche les questions de l'interrogation orale et les rcponses donnces c
 	// l'interrogation orale (cases) c partir des informations de la base de
 	// donnces.
-	private void questionsReponsesInterrogationOrale(int x,int y,Document doc,PdfWriter writer,BaseFont bf,
-			int index) throws DocumentException,IOException
+	private void questionsReponsesInterrogationOrale(int x, int y, Document doc, PdfWriter writer, BaseFont bf,
+			int index) throws DocumentException, IOException
 	{
 
 		KListObject<KCategorie_i_o> categoriesIO = new KListObject<KCategorie_i_o>(KCategorie_i_o.class);
@@ -1465,12 +1485,18 @@ public class Export
 
 			// Changement d'ordonnce de dcpart pour la catcgorie "i" de
 			// l'interrogation orale.
-			if (i == 2) y = y - 210;
-			else if (i == 3) y = y - 286;
-			else if (i == 4) y = y - 166;
-			else if (i == 5) y = y - 200;
-			else if (i == 6) y = y - 280;
-			else if (i == 7) y = y - 120;
+			if (i == 2)
+				y = y - 210;
+			else if (i == 3)
+				y = y - 286;
+			else if (i == 4)
+				y = y - 166;
+			else if (i == 5)
+				y = y - 200;
+			else if (i == 6)
+				y = y - 280;
+			else if (i == 7)
+				y = y - 120;
 
 			// Affichage du titre de la catcgorie "i" de l'interrogation orale.
 			bf = BaseFont.createFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
@@ -1532,8 +1558,8 @@ public class Export
 
 	// Affiche une rcponse donnce c l'interrogation orale (case) c partir des
 	// informations de la base de donnces.
-	private void reponseInterrogationOrale(int x,int y,int j,Document doc,PdfWriter writer,BaseFont bf,
-			KListObject<KObjectif> objectifsIO,int index) throws MalformedURLException,IOException,DocumentException
+	private void reponseInterrogationOrale(int x, int y, int j, Document doc, PdfWriter writer, BaseFont bf,
+			KListObject<KObjectif> objectifsIO, int index) throws MalformedURLException, IOException, DocumentException
 	{
 
 		KListObject<KRealiser> realiserIO = new KListObject<KRealiser>(KRealiser.class);
@@ -1570,7 +1596,7 @@ public class Export
 
 	// Place du texte sur le document PDF, grcce aux coordonnces en position
 	// absolue.
-	private void absText(String text,int x,int y,PdfWriter writer,BaseFont bf,int size) throws DocumentException,
+	private void absText(String text, int x, int y, PdfWriter writer, BaseFont bf, int size) throws DocumentException,
 			IOException
 	{
 		PdfContentByte cb = writer.getDirectContent();
@@ -1585,7 +1611,7 @@ public class Export
 
 	// Positionne le contenu d'une cellule de tableau, laissant un espace entre
 	// les bords et le texte de la cellule.
-	private PdfPCell positionnerCellule(PdfPCell c,float lead,int padL,int padR,int padT,int padB)
+	private PdfPCell positionnerCellule(PdfPCell c, float lead, int padL, int padR, int padT, int padB)
 	{
 		c.setLeading(0f, lead);
 		c.setPaddingLeft(padL);
@@ -1627,15 +1653,15 @@ public class Export
 	// Affiche deux cases vides positionnces sur la mcme ordonnce mais un peu
 	// espacces au niveau de l'abscisse.
 	// Sert pour les rcponses des synthcses des ctapes.
-	private void deuxCasesVides(int abscissePremiereCase,int ordonnee,PdfWriter writer) throws MalformedURLException,
-			IOException,DocumentException
+	private void deuxCasesVides(int abscissePremiereCase, int ordonnee, PdfWriter writer) throws MalformedURLException,
+			IOException, DocumentException
 	{
 		caseVide(abscissePremiereCase, ordonnee, writer);
 		caseVide(abscissePremiereCase + 20, ordonnee, writer);
 	}
 
 	// Affiche une case vide c l'abscisse et c l'ordonnce spccifices.
-	private void caseVide(int abscisse,int ordonnee,PdfWriter writer) throws MalformedURLException,IOException,
+	private void caseVide(int abscisse, int ordonnee, PdfWriter writer) throws MalformedURLException, IOException,
 			DocumentException
 	{
 		// String strCheckboxUnchecked =
@@ -1647,7 +1673,7 @@ public class Export
 	}
 
 	// Affiche une case pleine (cochce) c l'abscisse et c l'ordonnce spccifices.
-	private void casePleine(int abscisse,int ordonnee,PdfWriter writer) throws MalformedURLException,IOException,
+	private void casePleine(int abscisse, int ordonnee, PdfWriter writer) throws MalformedURLException, IOException,
 			DocumentException
 	{
 		// String strCheckboxChecked =
@@ -1689,8 +1715,10 @@ public class Export
 		sommeHeure = sommeHeure + sommeMinute / 60;
 		sommeMinute = sommeMinute % 60;
 
-		if (sommeMinute != 0) somme = String.valueOf(sommeHeure) + " heure(s) " + String.valueOf(sommeMinute) + " ";
-		else somme = String.valueOf(sommeHeure) + " heure(s) ";
+		if (sommeMinute != 0)
+			somme = String.valueOf(sommeHeure) + " heure(s) " + String.valueOf(sommeMinute) + " ";
+		else
+			somme = String.valueOf(sommeHeure) + " heure(s) ";
 
 		return somme;
 
@@ -1722,8 +1750,10 @@ public class Export
 		sommeHeure = sommeHeure + sommeMinute / 60;
 		sommeMinute = sommeMinute % 60;
 
-		if (sommeMinute != 0) somme = String.valueOf(sommeHeure) + "h" + String.valueOf(sommeMinute) + " ";
-		else somme = String.valueOf(sommeHeure) + "h00";
+		if (sommeMinute != 0)
+			somme = String.valueOf(sommeHeure) + "h" + String.valueOf(sommeMinute) + " ";
+		else
+			somme = String.valueOf(sommeHeure) + "h00";
 
 		return somme;
 
