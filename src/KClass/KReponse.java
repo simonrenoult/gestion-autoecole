@@ -1,10 +1,10 @@
 package KClass;
 
-import net.ko.kobject.KListObject;
 import net.ko.kobject.KObject;
 /**
 * Classe KReponse
 */
+@SuppressWarnings("serial")
 public class KReponse extends KObject {
 private KEleve eleve;
 private int idQUESTION_SYNTHESE;

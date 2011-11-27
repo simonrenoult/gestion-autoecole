@@ -36,6 +36,9 @@ public class FenetreMoniteur extends JFrame
 	private JPanel				saisieNom			= new JPanel();
 	private JPanel				saisiePrenom		= new JPanel();
 	private JList				listeMoniteur		= new JList();
+	private JLabel information 					= new JLabel();
+	private JPanel informationM 				= new JPanel();
+
 
 	// ----------------------------------------- //
 	// ------------- CONSTRUCTEURS ------------- //
@@ -52,17 +55,32 @@ public class FenetreMoniteur extends JFrame
 		creerPanelRechrcheJlist();
 		creerPanelIdentiteMoniteur();
 		creerPanelBouton();
+		creerPanelInformation();
 		creerPanelIdentiteBouton();
 		CreationPanelPrincipal();
 
 		AjoutEcouteur();
 
 		this.setContentPane(principal);
+		this.setVisible(true);
 	}
 
 	// ----------------------------------------- //
 	// ---------------- METHODES --------------- //
 	// ----------------------------------------- //
+	
+	private void creerPanelInformation() {
+		informationM.setPreferredSize(new Dimension(380,60));
+		//informationM.setBackground(Color.red);
+		information.setPreferredSize(new Dimension(380,20));
+		//information.setBackground(Color.yellow);
+		JLabel warning = new JLabel("Information :");
+		warning.setPreferredSize(new Dimension(380,20));
+		information.setText("-Toute modification de moniteurs nécessitera le redémarrage de l'application.");
+		informationM.add(warning);
+		informationM.add(information);
+		
+	}
 	
 	private void creerPanelIdentiteBouton()
 	{
@@ -70,6 +88,7 @@ public class FenetreMoniteur extends JFrame
 		// BoutonMoniteur.setBackground(Color.yellow);
 		BoutonMoniteur.add(identiteMoniteur);
 		BoutonMoniteur.add(regroupementBouton);
+		BoutonMoniteur.add(informationM);
 
 	}
 
@@ -81,7 +100,6 @@ public class FenetreMoniteur extends JFrame
 		rechercheM.setPreferredSize(new Dimension(196, 20));
 		nouveauMoniteur.setPreferredSize(new Dimension(90, 20));
 
-		// Creation du scroll liï¿½ ï¿½ la Jlist
 		scrollListeM = new JScrollPane(listeMoniteur);
 		scrollListeM.setPreferredSize(new Dimension(196, 295));
 
@@ -97,7 +115,6 @@ public class FenetreMoniteur extends JFrame
 
 	private void CreationPanelPrincipal()
 	{
-
 		principal.add(rechercheJlist);
 		principal.add(BoutonMoniteur);
 	}
@@ -483,6 +500,34 @@ public class FenetreMoniteur extends JFrame
 	public void setDataMoniteur(DataMoniteur dataMoniteur)
 	{
 		this.dataMoniteur = dataMoniteur;
+	}
+
+	/**
+	 * @return the information
+	 */
+	public JLabel getInformation() {
+		return information;
+	}
+
+	/**
+	 * @param information the information to set
+	 */
+	public void setInformation(JLabel information) {
+		this.information = information;
+	}
+
+	/**
+	 * @return the informationM
+	 */
+	public JPanel getInformationM() {
+		return informationM;
+	}
+
+	/**
+	 * @param informationM the informationM to set
+	 */
+	public void setInformationM(JPanel informationM) {
+		this.informationM = informationM;
 	}
 
 }

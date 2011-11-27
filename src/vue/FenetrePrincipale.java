@@ -20,16 +20,8 @@ public class FenetrePrincipale extends JFrame
 	private InteroOrale			intero				= new InteroOrale();
 	private ExamenBlanc			examB				= new ExamenBlanc();
 	// Menu
-	private JMenuBar			menuBar				= new JMenuBar();
-	private JMenu				fichier				= new JMenu("PeriGest");
-	private JMenu				eleve				= new JMenu("?");
-	private JMenu				moniteur			= new JMenu("Moniteurs");
-	private JMenuItem			importerLivret		= new JMenuItem("Importer un livret");
-	private JMenuItem			exporterLivret		= new JMenuItem("Exporter le livret actuel");
-	private JMenuItem			exporterLivrets		= new JMenuItem("Exporter les livrets de tous les �l�ves");
-	private JMenuItem			imprimerLivret		= new JMenuItem("Imprimer le livret actuel");
-	private JMenuItem			quitter				= new JMenuItem("Quitter");
-	private JMenuItem			gestionM			= new JMenuItem("Gestion");
+	private BarMenu menuBar= new BarMenu();
+	
 	// Composant Panel droite.
 	private BoutonGroupe		BoutonFicheE		= new BoutonGroupe("Fiche Eleve");
 	private BoutonGroupe		BoutonEtape1		= new BoutonGroupe("Etape 1");
@@ -39,7 +31,6 @@ public class FenetrePrincipale extends JFrame
 	private BoutonGroupe		BoutonIntero		= new BoutonGroupe("Interrogation orale");
 	private BoutonGroupe		BoutonExamB			= new BoutonGroupe("Examen Blanc");
 	private JButton				BoutonValider		= new JButton("Ajouter");
-	private JButton				BoutonSupprimer		= new JButton("Supprimer");
 	private JButton				boutonAjouterEleve	= new JButton("Nouveau");
 	private ButtonGroup			groupeBoutonTheme	= new ButtonGroup();
 	private JTextField			rechercheE			= new JTextField("Rechercher...");
@@ -65,7 +56,7 @@ public class FenetrePrincipale extends JFrame
 			etape[i] = new VueEtape(i + 1);
 
 		JlisteEleves = new JList();
-		creationMenu();
+		this.setJMenuBar(menuBar);
 
 		// Creation du panel principal
 		JPanel containerP = new JPanel();
@@ -85,7 +76,7 @@ public class FenetrePrincipale extends JFrame
 	// ----------------------------------------- //
 
 	/*
-	 * Permet d'�couter les objets � la classe EcouteurPrincipale
+	 * Permet d'ecouter les objets a la classe EcouteurPrincipale
 	 */
 	public void ajouterActionListener()
 	{
@@ -101,42 +92,20 @@ public class FenetrePrincipale extends JFrame
 		JlisteEleves.addMouseListener(ecouteurPrincipale);
 		rechercheE.addMouseListener(ecouteurPrincipale);
 		rechercheE.addKeyListener(ecouteurPrincipale);
-		importerLivret.addActionListener(ecouteurPrincipale);
-		exporterLivret.addActionListener(ecouteurPrincipale);
-		exporterLivrets.addActionListener(ecouteurPrincipale);
-		imprimerLivret.addActionListener(ecouteurPrincipale);
-		quitter.addActionListener(ecouteurPrincipale);
-		gestionM.addActionListener(ecouteurPrincipale);
+		
 		boutonAjouterEleve.addActionListener(ecouteurPrincipale);
 
 		BoutonValider.addActionListener(ecouteurBouton);
-		BoutonSupprimer.addActionListener(ecouteurBouton);
 
 		ficheEleve.getOnglet().addChangeListener(ecouteurPrincipale);
 
 		this.addWindowListener(ecouteurPrincipale);
 	}
 
-	/*
-	 * Creation du menu graphique
-	 */
-	public void creationMenu()
-	{
-		fichier.add(importerLivret);
-		fichier.add(exporterLivret);
-		fichier.add(exporterLivrets);
-		fichier.add(imprimerLivret);
-		fichier.add(quitter);
-		moniteur.add(gestionM);
-		menuBar.add(fichier);
-		menuBar.add(moniteur);
-		menuBar.add(eleve);
-		setJMenuBar(menuBar);
 
-	}
 
 	/*
-	 * cr�ation du panel comportant les diff�rents panel (etape, fiche eleve,
+	 * creation du panel comportant les differents panel (etape, fiche eleve,
 	 * etc.)
 	 */
 	public JPanel CreationPanelDroite()
@@ -154,7 +123,6 @@ public class FenetrePrincipale extends JFrame
 		JPanel containerBoutonsConfirm = new JPanel();
 		containerBoutonsConfirm.setPreferredSize(new Dimension(400, 50));
 		containerBoutonsConfirm.add(BoutonValider);
-		// containerBoutonsConfirm.add(BoutonSupprimer);
 
 		panel.add(containerBoutonsConfirm, BorderLayout.SOUTH);
 
@@ -193,7 +161,7 @@ public class FenetrePrincipale extends JFrame
 		rechercheE.setPreferredSize(new Dimension(196, 20));
 		boutonAjouterEleve.setPreferredSize(new Dimension(90, 20));
 
-		// Creation du scroll li� � la Jlist
+		// Creation du scroll lie a la Jlist
 		JScrollPane scrollListeE = new JScrollPane(JlisteEleves);
 		scrollListeE.setPreferredSize(new Dimension(196, 295));
 
@@ -205,7 +173,7 @@ public class FenetrePrincipale extends JFrame
 		containerListeEleves.add(rechercheE);
 		containerListeEleves.add(scrollListeE);
 
-		// creation du panel final contenant les 2 panels cr��s dessus
+		// creation du panel final contenant les 2 panels cree au dessus
 		JPanel panel = new JPanel();
 		panel.setPreferredSize(new Dimension(200, 640));
 		panel.add(containerListeEleves);
@@ -256,11 +224,6 @@ public class FenetrePrincipale extends JFrame
 		return intero;
 	}
 
-	public JButton getBoutonSupprimer()
-	{
-		return BoutonSupprimer;
-	}
-
 	public JButton getBoutonValider()
 	{
 		return BoutonValider;
@@ -286,29 +249,14 @@ public class FenetrePrincipale extends JFrame
 		this.JlisteEleves = listeEleves;
 	}
 
-	public JMenuItem getQuitter()
-	{
-		return quitter;
-	}
-
 	public void setFicheEleve(FicheEleve ficheEleve)
 	{
 		this.ficheEleve = ficheEleve;
 	}
 
-	public JMenuItem getMoniteur()
-	{
-		return moniteur;
-	}
-
 	public JButton getBoutonAjouterEleve()
 	{
 		return boutonAjouterEleve;
-	}
-
-	public JMenuItem getGestionM()
-	{
-		return gestionM;
 	}
 
 	/**
@@ -482,79 +430,66 @@ public class FenetrePrincipale extends JFrame
 	}
 
 	/**
-	 * @return the importerLivret
+	 * @return the menuBar
 	 */
-	public JMenuItem getImporterLivret()
-	{
-		return importerLivret;
+	public BarMenu getBarMenu() {
+		return menuBar;
 	}
 
 	/**
-	 * @param importerLivret
-	 *            the importerLivret to set
+	 * @param menuBar the menuBar to set
 	 */
-	public void setImporterLivret(JMenuItem importerLivret)
-	{
-		this.importerLivret = importerLivret;
+	public void setMenuBar(BarMenu menuBar) {
+		this.menuBar = menuBar;
 	}
 
 	/**
-	 * @return the exporterLivret
+	 * @param etape the etape to set
 	 */
-	public JMenuItem getExporterLivret()
-	{
-		return exporterLivret;
+	public void setEtape(VueEtape[] etape) {
+		this.etape = etape;
 	}
 
 	/**
-	 * @param exporterLivret
-	 *            the exporterLivret to set
+	 * @param intero the intero to set
 	 */
-	public void setExporterLivret(JMenuItem exporterLivret)
-	{
-		this.exporterLivret = exporterLivret;
+	public void setIntero(InteroOrale intero) {
+		this.intero = intero;
 	}
 
 	/**
-	 * @return the exporterLivrets
+	 * @param examB the examB to set
 	 */
-	public JMenuItem getExporterLivrets()
-	{
-		return exporterLivrets;
+	public void setExamB(ExamenBlanc examB) {
+		this.examB = examB;
 	}
 
 	/**
-	 * @param exporterLivrets
-	 *            the exporterLivrets to set
+	 * @param boutonValider the boutonValider to set
 	 */
-	public void setExporterLivrets(JMenuItem exporterLivrets)
-	{
-		this.exporterLivrets = exporterLivrets;
+	public void setBoutonValider(JButton boutonValider) {
+		BoutonValider = boutonValider;
 	}
 
 	/**
-	 * @return the imprimerLivret
+	 * @param boutonAjouterEleve the boutonAjouterEleve to set
 	 */
-	public JMenuItem getImprimerLivret()
-	{
-		return imprimerLivret;
+	public void setBoutonAjouterEleve(JButton boutonAjouterEleve) {
+		this.boutonAjouterEleve = boutonAjouterEleve;
 	}
 
 	/**
-	 * @param imprimerLivret
-	 *            the imprimerLivret to set
+	 * @param rechercheE the rechercheE to set
 	 */
-	public void setImprimerLivret(JMenuItem imprimerLivret)
-	{
-		this.imprimerLivret = imprimerLivret;
+	public void setRechercheE(JTextField rechercheE) {
+		this.rechercheE = rechercheE;
 	}
 
 	/**
-	 * @param moniteur
-	 *            the moniteur to set
+	 * @param tabEleve the tabEleve to set
 	 */
-	public void setMoniteur(JMenu moniteur)
-	{
-		this.moniteur = moniteur;
+	public void setTabEleve(String[] tabEleve) {
+		this.tabEleve = tabEleve;
 	}
+
 }

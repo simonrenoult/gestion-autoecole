@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+				 
+<toc>
+	<tocitem text="General">
+		<tocitem text="Introduction"       target="general/introduction.html" home="true"/>
+		<tocitem text="License"  target="general/license.html"/>
+		<tocitem text="Installer Perigest"  target=""/>
+	</tocitem>
+	
+  <tocitem text="Interface Utilisateur">
+	  <tocitem text="Introduction"   target=""/>
+	  <tocitem text="Interface principale"           target=""/>
+	  <tocitem text="Menu"     target="">
+			<tocitem text="Perigest"   target=""/>
+			<tocitem text="Moniteur"   target=""/>
+			<tocitem text="Aide"   target=""/>
+	 </tocitem>
+	 <tocitem text="Recherche d'élèves"   target=""/>
+	 <tocitem text="Boutons de navigation"   target=""/>
+	 <tocitem text="Panneau élève"   target="">
+			<tocitem text="Panneau d'information de l'élève"   target=""/>
+			<tocitem text="Panneau de RDV de l'élève"   target=""/>
+	 </tocitem>
+	 <tocitem text="Panneau étape"   target="">
+			<tocitem text="Panneau objectif"   target=""/>
+			<tocitem text="Panneau synthese"   target=""/>
+	 </tocitem>
+	 <tocitem text="Panneau éinterrogation orale"   target="">
+			<tocitem text="Panneau interrogation orale"   target=""/>
+	 </tocitem>
+ </tocitem>	
+ 
+ <tocitem text="Utilisation">
+	<tocitem text="Suivre la fiche élève"   target="">
+			<tocitem text="Consultation"   target=""/>
+			<tocitem text="Création d'un élève"   target=""/>
+			<tocitem text="Modification d'un élève"   target="">
+				<tocitem text="Enregistrer la fiche d'information"   target=""/>
+				<tocitem text="Enregistrer des RDV"   target=""/>
+				<tocitem text="Evaluer et enregistrer des étapes"   target=""/>
+				<tocitem text="Evaluer et enregistrer l'interrogation orale"   target=""/>
+			</tocitem>
+	 </tocitem>
+	 <tocitem text="Gérer les moniteurs"   target="">
+			<tocitem text="Consultation"   target=""/>
+			<tocitem text="Création/modification d'un moniteur"   target=""/>
+	 </tocitem>
+	 <tocitem text="Export/impression de fiches élèves"   target="">
+			<tocitem text="ImprimerExporter une fiche élève"   target=""/>
+	 </tocitem>
+ </tocitem>	
+</toc>

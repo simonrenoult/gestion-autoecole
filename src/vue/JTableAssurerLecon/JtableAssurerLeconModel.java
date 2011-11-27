@@ -2,6 +2,7 @@
 package vue.JTableAssurerLecon;
 
 import java.awt.event.ActionEvent;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
@@ -55,7 +56,7 @@ public class JtableAssurerLeconModel extends AbstractTableModel
 			{
 				temp[indice2++] = value;
 			}
-			System.out.println("Indice = " + indice);
+			//System.out.println("Indice = " + indice);
 			indice++;
 		}
 		this.data = temp;
@@ -74,8 +75,8 @@ public class JtableAssurerLeconModel extends AbstractTableModel
 	public void addRow(Object [] data)
 	{
 		int indice = 0, nbRow = this.getRowCount(), nbCol = this.getColumnCount();
-		System.out.println("ligne : " + this.getRowCount());
-		System.out.println("colonne : " + this.getColumnCount());
+		//System.out.println("ligne : " + this.getRowCount());
+		//System.out.println("colonne : " + this.getColumnCount());
 		Object temp[][] = this.data;
 		this.data = new Object [nbRow + 1] [nbCol];
 		
@@ -94,32 +95,31 @@ public class JtableAssurerLeconModel extends AbstractTableModel
 		this.fireTableDataChanged();
 	}
 	
+	@SuppressWarnings("deprecation")
 	public boolean isCellEditable(int row, int col)
 	{
 		
-		String [] dateComparee = this.data[row][0].toString().split("-");
+		String[] dateComparee = this.data[row][0].toString().split("-");
 		java.util.Date dateActuelle = new java.util.Date();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		String [] DateACTUELLE = format.format(dateActuelle).split("-");
-		;
+		String[] DateACTUELLE = format.format(dateActuelle).split("-");;
 		
-		System.out.println("date comparee : " + Integer.parseInt(dateComparee[0]) + Integer.parseInt(dateComparee[1])
-				+ Integer.parseInt(dateComparee[2]));
-		System.out.println("dateactuelle : " + Integer.parseInt(DateACTUELLE[0]) + Integer.parseInt(DateACTUELLE[1])
-				+ Integer.parseInt(DateACTUELLE[2]));
-		
-		if (Integer.parseInt(dateComparee[0]) >= Integer.parseInt(DateACTUELLE[0]))
-		{
-			if (Integer.parseInt(dateComparee[1]) >= Integer.parseInt(DateACTUELLE[1]))
-			{
-				if (Integer.parseInt(dateComparee[2]) >= Integer.parseInt(DateACTUELLE[2]))
-				{
-					return true;
-				}
-			}
+		//System.out.println("date comparee : "+Integer.parseInt(dateComparee[0])+Integer.parseInt(dateComparee[1])+Integer.parseInt(dateComparee[2]));
+		//System.out.println("dateactuelle : "+Integer.parseInt(DateACTUELLE[0])+Integer.parseInt(DateACTUELLE[1])+Integer.parseInt(DateACTUELLE[2]));
+		try{
+			java.util.Date date1 = new java.util.Date(Integer.parseInt(dateComparee[0]),
+					  Integer.parseInt(dateComparee[1]),Integer.parseInt(dateComparee[2]));
+			  
+			  java.util.Date date2 = new java.util.Date(Integer.parseInt(DateACTUELLE[0]),
+					  Integer.parseInt(DateACTUELLE[1]),Integer.parseInt(DateACTUELLE[2]));
+			
+			  return !date1.before(date2);
+		}
+		catch(ArrayIndexOutOfBoundsException e){
+			
 		}
 		
-		return false;
+		return true;
 	}
 	
 	// ----------------------------------------- //
@@ -239,11 +239,46 @@ public class JtableAssurerLeconModel extends AbstractTableModel
 	/**
 	 * Défini la valeur à l'emplacement spécifié
 	 */
+	@SuppressWarnings("deprecation")
 	public void setValueAt(Object value, int row, int col)
 	{
-		// On interdit la modification sur certaine colonne !
-		if (!this.getColumnName(col).equals("Lecon") && !this.getColumnName(col).equals("Suppression"))
+		//System.out.println("colonne : "+this.getColumnName(col)+"value : "+value.toString());
+		//On interdit la modification sur certaine colonne !
+		if(this.getColumnName(col).equals("Suppression")){
+			this.data[row][col] = "Supprimer le RDV";
+		}
+		
+		else if(this.getColumnName(col).equals("Date")){
+			SimpleDateFormat formatdate = new SimpleDateFormat("yyyy-MM-dd");
+			java.util.Date date = new java.util.Date();
+			java.util.Date date1=null;
+			
+			java.util.Date dateComparee;
+			java.util.Date dateActuelle;
+			try {
+				date1 = (java.util.Date) formatdate.parse(value.toString());
+				dateComparee = new java.util.Date(date1.getYear(), date1.getMonth(), date1.getDate());
+				dateActuelle = new java.util.Date(date.getYear(),date.getMonth(),date.getDate());
+				
+				//System.out.println("dateActuelle : "+dateActuelle);
+				//System.out.println("dateComparee : "+dateComparee);
+				if(dateComparee.before(dateActuelle)){
+					//System.out.println("okIF");
+					this.data[row][col] = formatdate.format(dateActuelle);
+				}
+				else{
+					//System.out.println("okELSE");
+					this.data[row][col] = value;
+				}
+			} catch (ParseException e) {
+				dateActuelle = new java.util.Date(date.getYear(),date.getMonth(),date.getDate());
+				this.data[row][col] = formatdate.format(dateActuelle);
+				//e.printStackTrace();
+			}
+		}
+		else{
 			this.data[row][col] = value;
+		}
 	}
 	
 	/**

@@ -44,6 +44,7 @@ public class EcouteurMoniteur implements MouseListener, ActionListener, KeyListe
 		this.f = f;
 		Datamoniteur = f.getDataMoniteur();
 		initialiserJlist();
+		f.addWindowListener(this);
 	}
 	
 	// ----------------------------------------- //
@@ -68,8 +69,8 @@ public class EcouteurMoniteur implements MouseListener, ActionListener, KeyListe
 		for (int i = 0; i < KListe.count(); i++)
 		{
 			hashMoniteurRef.put(i , KListe.get(i).getId());
-			listeMoniteur.add(KListe.get(i).getPRENOM_MONITEUR().toLowerCase() + " "
-					+ KListe.get(i).getNOM_MONITEUR().toUpperCase());
+			listeMoniteur.add(KListe.get(i).getNOM_MONITEUR().toLowerCase() + " "
+					+ KListe.get(i).getPRENOM_MONITEUR().toUpperCase());
 		}
 		return listeMoniteur;
 		
@@ -94,30 +95,27 @@ public class EcouteurMoniteur implements MouseListener, ActionListener, KeyListe
 	private void filtreRechercheNomPrenomEleve()
 	{
 		ArrayList<String> listeMoniteur = new ArrayList<String>();
-		listeMoniteur = recupererListeMoniteur();
-		// On met à jour la plus récente des listes de moniteurs
-		f.getListeMoniteur().setListData(listeMoniteur.toArray());
-		// on recupere la chaine frappé dans la barre recherche.
+		listeMoniteur =  recupererListeMoniteur();
+		//On met à jour la plus récente des listes de moniteurs
+		f.getListeMoniteur().setListData( listeMoniteur.toArray());
+		//on recupere la chaine frappé dans la barre recherche.
 		String chaineRecherche = f.getRechercheM().getText();
-		// on recupere la taille de la liste de type JlistModel contenu dans la
-		// Jlist.
-		int tailleListeMoniteur = listeMoniteur.size();
+		//on recupere la taille de la liste de type JlistModel contenu dans la Jlist.
+		int tailleListeMoniteur =listeMoniteur.size();
 		hashMoniteurVar = hashMoniteurRef;
-		String tabMoniteurRecherche[] = new String [tailleListeMoniteur];
+		String tabMoniteurRecherche[] = new String[tailleListeMoniteur];
 		int cpt = 0;
-		for (int i = 0; i < tailleListeMoniteur; i++)
-		{
+		for(int i=0; i<tailleListeMoniteur; i++) {
 			// On recupere une a une les chaines de la Jlist
 			String chaineListe = f.getListeMoniteur().getModel().getElementAt(i).toString();
-			if (chaineListe.toUpperCase().indexOf(chaineRecherche) != -1
-					|| chaineListe.toUpperCase().indexOf(chaineRecherche.toUpperCase()) != -1)
+			if(chaineListe.toUpperCase().indexOf(chaineRecherche)!=-1 || 
+					chaineListe.toUpperCase().indexOf(chaineRecherche.toUpperCase())!=-1)
 			{
-				hashMoniteurVar.put(cpt , hashMoniteurRef.get(i));
-				// System.out.println("cpt : "+cpt+"id :"+correspondanceEleveRef.get(i));
+				hashMoniteurVar.put(cpt, hashMoniteurRef.get(i));
+				//System.out.println("cpt : "+cpt+"id :"+correspondanceEleveRef.get(i));
 				tabMoniteurRecherche[cpt] = chaineListe;
 				cpt++;
 			}
-			
 		}
 		
 		// On redefinit un tableau pour la taille.
@@ -167,6 +165,8 @@ public class EcouteurMoniteur implements MouseListener, ActionListener, KeyListe
 			if (confirmationEtInsertMaj(MoniteurAinserer))
 			{
 				initialiserJlist();
+				f.getNom().setBackground(Color.white);
+				f.getPrenom().setBackground(Color.white);
 			}
 		}
 		else
@@ -188,6 +188,8 @@ public class EcouteurMoniteur implements MouseListener, ActionListener, KeyListe
 			if (confirmationEtInsertAjout(MoniteurAinserer))
 			{
 				initialiserJlist();
+				f.getNom().setBackground(Color.white);
+				f.getPrenom().setBackground(Color.white);
 			}
 		}
 		else
@@ -219,8 +221,8 @@ public class EcouteurMoniteur implements MouseListener, ActionListener, KeyListe
 		
 		KMoniteur moniteur = new KMoniteur();
 		moniteur.setId(idMoniteur);
-		moniteur.setNOM_MONITEUR(f.getNom().getText());
-		moniteur.setPRENOM_MONITEUR(f.getPrenom().getText());
+		moniteur.setNOM_MONITEUR(f.getNom().getText().toLowerCase());
+		moniteur.setPRENOM_MONITEUR(f.getPrenom().getText().toLowerCase());
 		
 		return moniteur;
 	}
@@ -243,7 +245,7 @@ public class EcouteurMoniteur implements MouseListener, ActionListener, KeyListe
 			if (confirmation)
 			{
 				JOptionPane.showMessageDialog(null , Datamoniteur.messageRenvoyeeUI(2) ,
-						"Opération d'ajout d'un élève" , JOptionPane.INFORMATION_MESSAGE);
+						"Opération d'ajout d'un moniteur" , JOptionPane.INFORMATION_MESSAGE);
 			}
 			else
 			{
@@ -350,7 +352,6 @@ public class EcouteurMoniteur implements MouseListener, ActionListener, KeyListe
 		}
 		if (e.getSource() == f.getNouveauMoniteur())
 		{
-			System.out.println("ok");
 			f.getNom().setText("");
 			f.getPrenom().setText("");
 			

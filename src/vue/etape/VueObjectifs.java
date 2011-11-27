@@ -5,7 +5,6 @@ import vue.JTableAssurerLecon.CellEditorAera;
 import vue.JTableAssurerLecon.CellRenderAera;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;

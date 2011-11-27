@@ -23,7 +23,6 @@ public class ComboRenderer extends JComboBox implements TableCellRenderer
 		
 		for (int i = 0; i < KListe.count(); i++)
 		{
-			// correspondanceMoniteur.put(i,KListe.get(i).getID_MONITEUR());
 			ListeMoniteur[i] = KListe.get(i).getNOM_MONITEUR().toUpperCase() + " "
 					+ KListe.get(i).getPRENOM_MONITEUR().toLowerCase();
 			this.addItem(ListeMoniteur[i]);

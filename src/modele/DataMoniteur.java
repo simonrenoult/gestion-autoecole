@@ -152,27 +152,19 @@ public class DataMoniteur
 	/*
 	 * Message renvoyï¿½e lors d'une erreur
 	 */
-	public Object messageRenvoyeeUI(int num)
-	{
-		switch (num)
-		{
-			case 5:
-				return "-Echec de l'opï¿½ration : mise ï¿½ jour d'un moniteur dans base de donnï¿½e\n";
-				
-			case 4:
-				return "-Succï¿½s de l'opï¿½ration : mise ï¿½ jour d'un moniteur dans la base de donnï¿½e\n";
-				
-			case 3:
-				return "-Echec de l'opï¿½ration : ajout d'un moniteur en base de donnï¿½e\n";
-				
-			case 2:
-				return "-Succï¿½s de l'opï¿½ration : ajout d'un moniteur en base de donnï¿½e\n";
-				
-			case 1:
-				return "";
-				
-			case -5:
-				return "-Tous les champs n'ont pas ï¿½tï¿½ rempli correctement. Tous les champs symbolisï¿½ par * doivent ï¿½tre rempli\n";
+	public Object messageRenvoyeeUI(int num) {
+		switch(num){
+		case 5 : return "-Echec de l'opération : mise à jour d'un moniteur dans base de donnée\n";
+			
+		case 4 : return "-Succès de l'opération : mise à jour d'un moniteur dans la base de donnée\n";
+		
+		case 3 : return "-Echec de l'opération : ajout d'un moniteur en base de donnée\n";
+		
+		case 2 : return "-Succès de l'opération : ajout d'un moniteur en base de donnée\n";
+		
+		case 1 : return "";
+		
+		case -5 : return "-Tous les champs n'ont pas été rempli correctement. Tous les champs symbolisé par * doivent être rempli\n";
 		}
 		
 		return "";
@@ -182,14 +174,12 @@ public class DataMoniteur
 	// ------------------REGEXP----------------- //
 	// ----------------------------------------- //
 	
-	public boolean regexTraitementNom(String chaine)
-	{
-		return Pattern.matches("^[A-Za-z'-|\\s]{0,19}+$" , chaine) && (!chaine.isEmpty());
+	public boolean regexTraitementNom(String chaine){
+		return Pattern.matches("^[A-Za-z'-|\\s]{0,19}+$",chaine) && (!chaine.isEmpty());
 	}
 	
-	public boolean regexTraitementPrenom(String chaine)
-	{
-		return Pattern.matches("^[A-Za-z'-|\\s]{0,19}+$" , chaine) && (!chaine.isEmpty());
+	public boolean regexTraitementPrenom(String chaine){
+		return Pattern.matches("^[A-Za-z'-|\\s]{0,19}+$",chaine) && (!chaine.isEmpty());
 	}
 	
 	// ----------------------------------------- //

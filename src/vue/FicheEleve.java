@@ -77,6 +77,7 @@ public class FicheEleve extends JPanel
 	private JTextArea			areaTestVue				= new JTextArea();
 	private JScrollPane			scrollTestVue			= new JScrollPane(areaTestVue);
 	private ImageIcon			imageEleve				= null;
+	private EcouteurFicheEleve ecouteur =null;
 
 	// ----------------------------------------- //
 	// ------------- CONSTRUCTEURS ------------- //
@@ -84,7 +85,6 @@ public class FicheEleve extends JPanel
 	
 	public FicheEleve()
 	{
-
 		initElementGraphique();
 		this.setVisible(true);
 		this.repaint();
@@ -109,7 +109,6 @@ public class FicheEleve extends JPanel
 		this.getAdresse().setBackground(Color.white);
 		this.getProfession().setBackground(Color.white);
 		this.getNumLivret().setBackground(Color.white);
-
 		this.getDateNaissJ().setBackground(Color.white);
 		this.getDateNaissM().setBackground(Color.white);
 		this.getDateNaissA().setBackground(Color.white);
@@ -155,7 +154,7 @@ public class FicheEleve extends JPanel
 	 */
 	private void AjoutGraphiqueListener()
 	{
-		EcouteurFicheEleve ecouteur = new EcouteurFicheEleve(this);
+		ecouteur = new EcouteurFicheEleve(this);
 		nom.addFocusListener(ecouteur);
 		prenom.addFocusListener(ecouteur);
 		adresse.addFocusListener(ecouteur);
@@ -173,7 +172,7 @@ public class FicheEleve extends JPanel
 	}
 
 	/*
-	 * Permet de constiutuer le panel containerIdEleve, panel principal
+	 * Permet de constituer le panel containerIdEleve, panel principal
 	 */
 	private void StructurationPanel()
 	{
@@ -187,7 +186,7 @@ public class FicheEleve extends JPanel
 	}
 
 	/*
-	 * On cr�� les les paneaux "Evaluation de d�part" et "Inscription"
+	 * On cree les les paneaux "Evaluation de depart" et "Inscription"
 	 */
 	private void creerPanelDate()
 	{
@@ -249,13 +248,11 @@ public class FicheEleve extends JPanel
 		labelInscription.setFont(f);
 		labelInscription.setPreferredSize(new Dimension(200, 20));
 
-		// parametrerJComboBoxDate(dateInscriJ, dateInscriM, dateInscriA);
-
+		
 		JLabel labelEnregistrement = new JLabel("Enregistrement*");
 		labelEnregistrement.setFont(f);
 		labelEnregistrement.setPreferredSize(new Dimension(200, 20));
 
-		// parametrerJComboBoxDate(dateEnregiJ, dateEnregiM, dateEnregiA);
 
 		containerDate.add(labelInscription);
 		containerDate.add(dateInscriJ);
@@ -346,12 +343,12 @@ public class FicheEleve extends JPanel
 		this.parametrerJPanel(containerSous1, 250, 330, Color.white);
 		this.parametrerJPanel(containerSous2, 450, 140, Color.white);
 		this.parametrerJPanel(containerIdEleveS1, 380, 289, Color.white);
-		this.parametrerJPanel(containerIdEleveS2, 200, 289, Color.white);
+		this.parametrerJPanel(containerIdEleveS2, 190, 289, Color.white);
 
 	}
 
 	/*
-	 * On cr�� les bordures sans titre (== titre de la balise fieldset en HTML)
+	 * On cree les bordures sans titre (== titre de la balise fieldset en HTML)
 	 */
 	private void creerBordurePanelGaphique()
 	{
@@ -363,7 +360,7 @@ public class FicheEleve extends JPanel
 	}
 
 	/*
-	 * On cr�� l'objet graphique g�rant les onglets
+	 * On cree l'objet graphique g�rant les onglets
 	 */
 	private void creerSystemeOngletGraphique()
 	{
@@ -371,7 +368,6 @@ public class FicheEleve extends JPanel
 		JPanel containerAjouter = new JPanel();
 		containerAjouter.setPreferredSize(new Dimension(400, 40));
 		containerAjouter.setBackground(Color.white);
-		// boutonAjouter.setPreferredSize(new Dimension(80, 20));
 
 		onglet = new JTabbedPane();
 		JPanel partie1 = new JPanel();
@@ -393,7 +389,7 @@ public class FicheEleve extends JPanel
 	}
 
 	/*
-	 * On cr�� le panel eleve comporatnt les informations relatives � l'�l�ves,
+	 * On cree le panel eleve comporatnt les informations relatives a l'eleves,
 	 * photo.
 	 */
 	private void creerPanelEleve()
@@ -410,8 +406,7 @@ public class FicheEleve extends JPanel
 		JLabel labelDateNaiss = new JLabel("Date de naissance* :");
 		labelDateNaiss.setFont(f);
 		labelDateNaiss.setPreferredSize(new Dimension(150, 20));
-		// parametrerJComboBoxDate(dateNaissJ, dateNaissM, dateNaissA);
-
+		
 		JLabel labelEMail = new JLabel("E-Mail :");
 		this.parametrerJLabelEtJTextField(labelEMail, f, eMail, 290, 20);
 
@@ -1432,6 +1427,34 @@ public class FicheEleve extends JPanel
 	public void setContainertableauLecon(JTableAssurerLecon containertableauLecon)
 	{
 		this.containertableauLecon = containertableauLecon;
+	}
+
+	/**
+	 * @return the containerTabForma
+	 */
+	public JPanel getContainerTabForma() {
+		return containerTabForma;
+	}
+
+	/**
+	 * @param containerTabForma the containerTabForma to set
+	 */
+	public void setContainerTabForma(JPanel containerTabForma) {
+		this.containerTabForma = containerTabForma;
+	}
+
+	/**
+	 * @return the ecouteur
+	 */
+	public EcouteurFicheEleve getEcouteur() {
+		return ecouteur;
+	}
+
+	/**
+	 * @param ecouteur the ecouteur to set
+	 */
+	public void setEcouteur(EcouteurFicheEleve ecouteur) {
+		this.ecouteur = ecouteur;
 	}
 
 	/**

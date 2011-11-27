@@ -11,7 +11,6 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPasswordField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import com.sun.org.apache.xalan.internal.xsltc.runtime.Hashtable;
@@ -70,7 +69,7 @@ public class EcouteurPrincipal implements ActionListener, MouseListener, KeyList
 	 * Rempli l'objet Jliste de la liste des élèves contenu en base de donnée à
 	 * partir de la liste chargée.
 	 */
-	private void chargerListEleve()
+	public void chargerListEleve()
 	{
 		fenetre.getJlisteEleves().setListData(recupererListeEleve().toArray());
 	}
@@ -126,12 +125,11 @@ public class EcouteurPrincipal implements ActionListener, MouseListener, KeyList
 
 			// Besoin de recuperer le nom du moniteur a partir de la cle
 			// etrangere de l'eleve.
-			@SuppressWarnings("unused")
-			KMoniteur monit = new KMoniteur();
+			/*KMoniteur monit = new KMoniteur();
 			DataMoniteur DataMoniteur = new DataMoniteur();
-			monit = DataMoniteur.recupererProfilMoniteur(((Long) Eleve.getId()).intValue());
-			fenetre.getFicheEleve().getFormateur().setSelectedIndex(recuperCle(((Long) Eleve.getId()).intValue()));
-
+			monit = DataMoniteur.recupererProfilMoniteur(Eleve.getIdMONITEUR());*/
+			fenetre.getFicheEleve().getFormateur().setSelectedIndex(recuperCle(Eleve.getIdMONITEUR()));
+			
 			// chargement des dates.
 			Date date = new Date();
 			date = Eleve.getDATE_DE_NAISS_ELEVE();
@@ -206,24 +204,29 @@ public class EcouteurPrincipal implements ActionListener, MouseListener, KeyList
 
 			fenetre.getFicheEleve().getAreaTestVue().setText(Eleve.getOBSERVATION_VUE_ELEVE());
 
-			if (!(Eleve.getPHOTO_ELEVE() == null))
-			{
-				// Adapter la taille de l'image au dimensions du Jlabel le
-				// contenant.
-				ImageIcon image = new ImageIcon(Eleve.getPHOTO_ELEVE());
-				Image img = image.getImage();
-				Image newimg = img.getScaledInstance(fenetre.getFicheEleve().getLabelPhoto().getWidth(), fenetre
-						.getFicheEleve().getLabelPhoto().getHeight(), java.awt.Image.SCALE_SMOOTH);
-				ImageIcon newIcon = new ImageIcon(newimg);
+			String cheminPhoto = System.getProperty("user.dir");
+			cheminPhoto = cheminPhoto+"\\photo_identite_eleve\\"+Eleve.getPHOTO_ELEVE();
+			
+			if(!(Eleve.getPHOTO_ELEVE() == null)){
+				ImageIcon image = new ImageIcon(cheminPhoto);
+				Image img = image.getImage();  
+				Image newimg = img.getScaledInstance(fenetre.getFicheEleve().getLabelPhoto().getWidth(),fenetre.getFicheEleve().getLabelPhoto().getHeight(),  java.awt.Image.SCALE_SMOOTH);  
+				ImageIcon newIcon = new ImageIcon(newimg); 
 				fenetre.getFicheEleve().setImageEleve(newIcon);
-
-				fenetre.getFicheEleve().getLabelPhoto().setIcon(fenetre.getFicheEleve().getImageEleve());
+				
+				fenetre.getFicheEleve().getLabelPhoto().setIcon( fenetre.getFicheEleve().getImageEleve());
 				fenetre.getFicheEleve().repaint();
+				fenetre.getFicheEleve().setChemin(cheminPhoto);
+				fenetre.getFicheEleve().repaint();
+				
+				
 			}
-			else
-			{
-				fenetre.getFicheEleve().getLabelPhoto().setIcon(null);
+			else{
+				fenetre.getFicheEleve().getLabelPhoto().setIcon( null);
 				fenetre.getFicheEleve().repaint();
+				fenetre.getFicheEleve().setChemin(cheminPhoto);
+				fenetre.getFicheEleve().repaint();
+
 			}
 
 			// On initialise le tableau de booleen à vrai (toutes les données
@@ -272,7 +275,7 @@ public class EcouteurPrincipal implements ActionListener, MouseListener, KeyList
 		fenetre.getFicheEleve().getFormateur().setSelectedIndex(0);
 		fenetre.getFicheEleve().getTestVueN().setSelected(true);
 		fenetre.getFicheEleve().getLabelPhoto().setIcon(null);
-		fenetre.getFicheEleve().setIdMoniteur(0);
+		//fenetre.getFicheEleve().setIdMoniteur(0);
 		fenetre.getFicheEleve().repaint();
 
 		// CHANGER LA COULEUR DES BORDURES.
@@ -287,6 +290,19 @@ public class EcouteurPrincipal implements ActionListener, MouseListener, KeyList
 	private void parametrerDateDefault()
 	{
 
+		fenetre.getFicheEleve().getDateEnregiA().removeAllItems();
+		fenetre.getFicheEleve().getDateEnregiJ().removeAllItems();
+		fenetre.getFicheEleve().getDateEnregiM().removeAllItems();
+		fenetre.getFicheEleve().getDateEvaA().removeAllItems();
+		fenetre.getFicheEleve().getDateEvaJ().removeAllItems();
+		fenetre.getFicheEleve().getDateEvaM().removeAllItems();
+		fenetre.getFicheEleve().getDateInscriA().removeAllItems();
+		fenetre.getFicheEleve().getDateInscriJ().removeAllItems();
+		fenetre.getFicheEleve().getDateInscriM().removeAllItems();
+		fenetre.getFicheEleve().getDateNaissA().removeAllItems();
+		fenetre.getFicheEleve().getDateNaissJ().removeAllItems();
+		fenetre.getFicheEleve().getDateNaissM().removeAllItems();
+		
 		fenetre.getFicheEleve().parametrerJComboBoxDate(fenetre.getFicheEleve().getDateEnregiJ(),
 				fenetre.getFicheEleve().getDateEnregiM(), fenetre.getFicheEleve().getDateEnregiA());
 		fenetre.getFicheEleve().parametrerJComboBoxDate(fenetre.getFicheEleve().getDateEvaJ(),
@@ -313,7 +329,6 @@ public class EcouteurPrincipal implements ActionListener, MouseListener, KeyList
 		fenetre.getBoutonIntero().setEnabled(false);
 		fenetre.getBoutonExamB().setEnabled(false);
 		fenetre.getBoutonValider().setEnabled(true);
-		fenetre.getBoutonSupprimer().setEnabled(false);
 		for (int i = 0 ; i < 4 ; i++)
 			fenetre.getEtape()[i].setVisible(false);
 		fenetre.getFicheEleve().setVisible(true);
@@ -328,36 +343,32 @@ public class EcouteurPrincipal implements ActionListener, MouseListener, KeyList
 	private void filtreRechercheNomPrenomEleve()
 	{
 		ArrayList<String> listeEleves = new ArrayList<String>();
-		listeEleves = recupererListeEleve();
-		// On met à jour la plus récente des listes d'élèves
+		listeEleves =  recupererListeEleve();
+		//On met à jour la plus récente des listes d'élèves
 		fenetre.getListeEleves().setListData(listeEleves.toArray());
-		// on recupere la chaine frappé dans la barre recherche.
+		//on recupere la chaine frappé dans la barre recherche.
 		String chaineRecherche = fenetre.getRechercheE().getText();
-		// on recupere la taille de la liste de type JlistModel contenu dans la
-		// JList
-		Integer tailleListeEleve = listeEleves.size();
+		//on recupere la taille de la liste de type JlistModel contenu dans la Jlist.
+		int tailleListeEleve =listeEleves.size();
 		correspondanceEleveVar = correspondanceEleveRef;
 		String tabEleveRecherche[] = new String[tailleListeEleve];
-		Integer cpt = 0;
-
-		for (int i = 0 ; i < tailleListeEleve ; i++)
-		{
+		int cpt = 0;
+		for(int i=0; i<tailleListeEleve; i++) {
 			// On recupere une a une les chaines de la Jlist
 			String chaineListe = fenetre.getListeEleves().getModel().getElementAt(i).toString();
-			if (chaineListe.toUpperCase().indexOf(chaineRecherche) != -1
-					|| chaineListe.toUpperCase().indexOf(chaineRecherche.toUpperCase()) != -1)
+			if(chaineListe.toUpperCase().indexOf(chaineRecherche)!=-1 || 
+					chaineListe.toUpperCase().indexOf(chaineRecherche.toUpperCase())!=-1)
 			{
 				correspondanceEleveVar.put(cpt, correspondanceEleveRef.get(i));
-				// System.out.println("cpt : "+cpt+"id :"+correspondanceEleveRef.get(i));
+				//System.out.println("cpt : "+cpt+"id :"+correspondanceEleveRef.get(i));
 				tabEleveRecherche[cpt] = chaineListe;
 				cpt++;
 			}
-
+			
 		}
 
 		// On redefinit un tableau pour la taille.
 		String tabEleve[] = new String[cpt];
-
 		for (int i = 0 ; i < cpt ; i++)
 			tabEleve[i] = tabEleveRecherche[i];
 
@@ -383,28 +394,23 @@ public class EcouteurPrincipal implements ActionListener, MouseListener, KeyList
 	 */
 	public void chargerDonneesTableauLecon()
 	{
-		Integer cpt = 0;
+		int cpt = 0;
 		String supp = "Supprimer le RDV";
-		KListObject<KAssurer_lecon> liste = fenetre.getFicheEleve().getTableauLecon()
-				.chargerListeRDVEleve(((Long) Eleve.getId()).intValue());
-		Object[][] data = new Object[liste.count()][6];
-
+		KListObject<KAssurer_lecon> liste = fenetre.getFicheEleve().getTableauLecon().chargerListeRDVEleve(((Long)Eleve.getId()).intValue());
 		fenetre.getFicheEleve().getContainertableauLecon().getJModel().setLigneRef(liste.count());
-
-		for (KAssurer_lecon RDV : liste)
-		{
-			// System.out.println(RDV.getAgenda().toString());
-			data[cpt][0] = String.valueOf(RDV.getAgenda().getDATE_AGENDA().toString().substring(0, 10));
-			data[cpt][1] = String.valueOf(RDV.getAgenda().getHEURE_AGENDA().toString().substring(0, 5));
-			data[cpt][2] = fenetre.getFicheEleve().getTableauLecon()
-					.creerDureeJtable(String.valueOf(RDV.getDUREE_LECON()));
-			data[cpt][3] = ListeMoniteur[recuperCle((Integer) RDV.getIdMONITEUR())];
+		
+		Object[][] data  = new Object[liste.count()][6] ;
+		
+		for(KAssurer_lecon RDV : liste){
+			data[cpt][0] = String.valueOf(RDV.getAgenda().getDATE_AGENDA().toString().substring(0,10));
+			data[cpt][1] = String.valueOf(RDV.getAgenda().getHEURE_AGENDA().toString().substring(0,5));
+			data[cpt][2] = fenetre.getFicheEleve().getTableauLecon().creerDureeJtable(String.valueOf(RDV.getDUREE_LECON()));
+			data[cpt][3] = ListeMoniteur[recuperCle((Integer)RDV.getIdMONITEUR())]; 
 			data[cpt][4] = RDV.getOBSERVATION_LECON();
 			data[cpt][5] = supp;
 			cpt++;
 		}
-
-		fenetre.getFicheEleve().getTableauLecon().recupererAgendaRDV(((Long) Eleve.getId()).intValue());
+		fenetre.getFicheEleve().getTableauLecon().recupererAgendaRDV(((Long)Eleve.getId()).intValue());
 		fenetre.getFicheEleve().getContainertableauLecon().initialiserJlabel();
 		fenetre.getFicheEleve().getContainertableauLecon().getCombo().setModel(new DefaultComboBoxModel(ListeMoniteur));
 		fenetre.getFicheEleve().getContainertableauLecon().getJModel().setData(data);
@@ -440,18 +446,23 @@ public class EcouteurPrincipal implements ActionListener, MouseListener, KeyList
 	{
 		fenetre.getBoutonValider().setText("Enregistrer");
 		fenetre.getBoutonValider().setVisible(true);
-		// fenetre.getBoutonSupprimer().setVisible(false);
-		// fenetre.getBoutonSupprimer().setEnabled(false);
-
 	}
 
 	// ----------------------------------------- //
 	// ----------------LISTENERS---------------- //
 	// ----------------------------------------- //
 
-	@SuppressWarnings({ "static-access", "deprecation" })
 	public void actionPerformed(ActionEvent e)
 	{
+		fenetre.getBoutonFicheE().setSelected(false);
+		fenetre.getBoutonEtape1().setSelected(false);
+		fenetre.getBoutonEtape2().setSelected(false);
+		fenetre.getBoutonEtape3().setSelected(false);
+		fenetre.getBoutonEtape4().setSelected(false);
+		fenetre.getBoutonIntero().setSelected(false);
+		fenetre.getBoutonExamB().setSelected(false);
+		fenetre.getBoutonFicheE().setSelected(false);
+		
 		if (e.getSource() == fenetre.getBoutonFicheE())
 		{
 			fenetre.getFicheEleve().setVisible(true);
@@ -466,8 +477,6 @@ public class EcouteurPrincipal implements ActionListener, MouseListener, KeyList
 			if (fenetre.getFicheEleve().getOnglet().getSelectedIndex() == 0)
 			{
 				fenetre.getBoutonValider().setText("Mettre à jour");
-				// fenetre.getBoutonSupprimer().setVisible(true);
-				// fenetre.getBoutonSupprimer().setEnabled(true);
 			}
 
 		}
@@ -532,6 +541,7 @@ public class EcouteurPrincipal implements ActionListener, MouseListener, KeyList
 			fenetre.getIntero().setVisible(true);
 			fenetre.getExamB().setVisible(false);
 			changerEtatBouton();
+			fenetre.getIntero().chargerReponsesEleve();
 		}
 		else if (e.getSource() == fenetre.getBoutonExamB())
 		{
@@ -545,37 +555,6 @@ public class EcouteurPrincipal implements ActionListener, MouseListener, KeyList
 			changerEtatBouton();
 		}
 
-		else if (e.getSource() == fenetre.getQuitter() || e.getSource() == (Object) fenetre.getDefaultCloseOperation())
-		{
-
-			int option = new JOptionPane().showConfirmDialog(null, "Voulez-vous quitter l'application ?", "Quitter",
-					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-
-			if (option == JOptionPane.OK_OPTION)
-			{
-				System.exit(0);
-			}
-
-		}
-		else if (e.getSource() == fenetre.getGestionM())
-		{
-
-			JPasswordField pwd = new JPasswordField(10);
-			int action = 0;
-			do
-			{
-				action = JOptionPane.showConfirmDialog(null, pwd, "Identification : ", JOptionPane.OK_CANCEL_OPTION);
-				System.out.println("action : " + action);
-				if ((action == JOptionPane.OK_OPTION) && (pwd.getText().compareTo("admin") == 0))
-				{
-					FenetreMoniteur fenetreM = new FenetreMoniteur();
-					fenetreM.setVisible(true);
-					action = 2;
-				}
-			}
-			while ((action != 2) && (action != -1));
-
-		}
 		else if (e.getSource() == fenetre.getBoutonAjouterEleve())
 		{
 
@@ -595,7 +574,6 @@ public class EcouteurPrincipal implements ActionListener, MouseListener, KeyList
 			fenetre.getBoutonExamB().setEnabled(false);
 			// TODO : mettre a "true" si examen blanc utilise !!
 			fenetre.getBoutonValider().setEnabled(true);
-			fenetre.getBoutonSupprimer().setEnabled(false);
 			fenetre.getFicheEleve().getOnglet().setSelectedIndex(0);
 
 			RendreViergePanelFicheEleve();
@@ -605,14 +583,11 @@ public class EcouteurPrincipal implements ActionListener, MouseListener, KeyList
 			index = 0;
 
 			int selectedTab = fenetre.getFicheEleve().getOnglet().getSelectedIndex();
-			if (selectedTab == 0)
-			{
-				if (index != 0)
-				{
+			if (selectedTab == 0){
+				if (index != 0){
 					fenetre.getBoutonValider().setText("Mettre à jour");
 				}
-				else
-				{
+				else{
 					fenetre.getBoutonValider().setText("Ajouter");
 				}
 
@@ -621,32 +596,7 @@ public class EcouteurPrincipal implements ActionListener, MouseListener, KeyList
 			{
 				fenetre.getBoutonValider().setText("Enregistrer");
 			}
-
 		}
-
-		else if (e.getSource() == fenetre.getImporterLivret())
-		{
-
-		}
-
-		else if (e.getSource() == fenetre.getExporterLivret())
-		{
-			int indexExport = fenetre.getFicheEleve().getIdEleve() - 1;
-			Export exp = new Export();
-			exp.exportOuImpression(indexExport, fenetre, 0);
-		}
-		else if (e.getSource() == fenetre.getExporterLivrets())
-		{
-			Export exp = new Export();
-			exp.exportOuImpression(0, fenetre, 1);
-		}
-		else if (e.getSource() == fenetre.getImprimerLivret())
-		{
-			int indexExport = fenetre.getFicheEleve().getIdEleve() - 1;
-			Export exp = new Export();
-			exp.exportOuImpression(indexExport, fenetre, 2);
-		}
-
 	}
 
 	// --------MOUSE-------- //
@@ -696,7 +646,6 @@ public class EcouteurPrincipal implements ActionListener, MouseListener, KeyList
 				// selectionné et son ID à charger.
 				index = fenetre.getListeEleves().getSelectedIndex();
 
-				// int IdEleve = (Integer) correspondanceEleveVar.get(index);
 				int IdEleve = ((Long) correspondanceEleveVar.get(index)).intValue();
 				fenetre.getFicheEleve().setIdEleve(IdEleve);
 				chargerDonneesFicheEleve(IdEleve);
@@ -718,7 +667,6 @@ public class EcouteurPrincipal implements ActionListener, MouseListener, KeyList
 				// A mettre à vrai des que l'exam est pret
 				fenetre.getBoutonExamB().setEnabled(false);
 				fenetre.getBoutonValider().setEnabled(true);
-				fenetre.getBoutonSupprimer().setEnabled(true);
 			}
 		}
 		else if (e.getSource() == fenetre.getRechercheE() && e.getClickCount() == 1)
@@ -765,15 +713,11 @@ public class EcouteurPrincipal implements ActionListener, MouseListener, KeyList
 				{
 					fenetre.getBoutonValider().setText("Mettre à jour");
 				}
-				fenetre.getBoutonSupprimer().setVisible(true);
-				fenetre.getBoutonSupprimer().setEnabled(false);
 
 			}
 			else if (selectedTab == 1)
 			{
 				fenetre.getBoutonValider().setText("Enregistrer");
-				fenetre.getBoutonSupprimer().setVisible(false);
-				fenetre.getBoutonSupprimer().setEnabled(false);
 			}
 		}
 
@@ -827,6 +771,11 @@ public class EcouteurPrincipal implements ActionListener, MouseListener, KeyList
 	@Override
 	public void windowOpened(WindowEvent e)
 	{
+	}
+
+	public Hashtable getCorrespondanceMoniteur() {
+		// TODO Auto-generated method stub
+		return correspondanceMoniteur;
 	}
 
 }

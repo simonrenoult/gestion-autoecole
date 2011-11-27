@@ -96,23 +96,12 @@ public class EcouteurFicheEleve implements ActionListener, FocusListener
 		
 		if (donneeCorrect)
 		{
-			// champ.setBorder(BorderFactory.createLineBorder(Color.GREEN));
 			champ.setBackground(new Color(146 , 243 , 130));
 			champ.setToolTipText("");
 			
 		}
 		else
 		{
-			/*
-			 * JToolTip j = new JToolTip(); j.setFont( new Font(null, Font.BOLD,
-			 * 13)); j.setBackground(Color.GRAY);
-			 * j.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-			 * j.setToolTipText
-			 * (" votre texte ici séparer par \n pour indiquer les lignes ");
-			 * champ.add(j);
-			 */
-			
-			// champ.setBorder(BorderFactory.createLineBorder(Color.RED));
 			champ.setBackground(new Color(240 , 123 , 123));
 			champ.setToolTipText(messageToolTip);
 			
@@ -130,32 +119,32 @@ public class EcouteurFicheEleve implements ActionListener, FocusListener
 	
 	public void actionPerformed(ActionEvent e)
 	{
-		if (e.getSource() == ficheEleve.getParcourir())
-		{
-			String cheminActuel = System.getProperty("user.dir");
-			JFileChooser chooser = new JFileChooser(new File(cheminActuel + "\\img"));
+		if(e.getSource()==ficheEleve.getParcourir()){
+			String cheminPhoto = System.getProperty("user.dir");
+			JFileChooser chooser = new JFileChooser(new File(cheminPhoto+"\\photo_identite_eleve"));
 			JFrame test = new JFrame();
 			int returnVal = chooser.showOpenDialog(test);
-			if (returnVal == JFileChooser.APPROVE_OPTION)
-			{
-				ficheEleve.setChemin((chooser.getSelectedFile().getPath()));
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				cheminPhoto = chooser.getSelectedFile().getPath();
+				String [] tabPath = cheminPhoto.split("\\\\");
+				cheminPhoto = tabPath[tabPath.length-1];
+				ficheEleve.setChemin(cheminPhoto);
 				
-				// Adapter la taille de l'image au dimensions du Jlabel le
-				// contenant.
+				//Adapter la taille de l'image au dimensions du Jlabel le contenant.
 				ImageIcon image = new ImageIcon(chooser.getSelectedFile().getPath());
-				Image img = image.getImage();
-				Image newimg = img.getScaledInstance(ficheEleve.getLabelPhoto().getWidth() , ficheEleve.getLabelPhoto()
-						.getHeight() , java.awt.Image.SCALE_SMOOTH);
-				ImageIcon newIcon = new ImageIcon(newimg);
+				Image img = image.getImage();  
+				Image newimg = img.getScaledInstance(ficheEleve.getLabelPhoto().getWidth(),ficheEleve.getLabelPhoto().getHeight(),  java.awt.Image.SCALE_SMOOTH);  
+				ImageIcon newIcon = new ImageIcon(newimg); 
 				ficheEleve.setImageEleve(newIcon);
-				ficheEleve.getLabelPhoto().setIcon(ficheEleve.getImageEleve());
+				ficheEleve.getLabelPhoto().setIcon( ficheEleve.getImageEleve());
 				ficheEleve.repaint();
+
 			}
 		}
 		if (e.getSource() == ficheEleve.getFormateur())
 		{
-			int index = ficheEleve.getFormateur().getSelectedIndex();
-			ficheEleve.setIdMoniteur(((Integer) correspondanceMoniteur.get(index)));
+			//int index = ficheEleve.getFormateur().getSelectedIndex();
+			//ficheEleve.setIdMoniteur(((Integer) correspondanceMoniteur.get(index)));
 		}
 	}
 	

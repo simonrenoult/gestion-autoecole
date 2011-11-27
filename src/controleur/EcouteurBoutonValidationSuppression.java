@@ -5,13 +5,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import com.sun.org.apache.xalan.internal.xsltc.runtime.Hashtable;
 import modele.TableauLecon;
-import net.ko.kobject.KListObject;
-import KClass.KAssurer_lecon;
 import KClass.KEleve;
 import vue.FenetrePrincipale;
 
@@ -23,6 +20,7 @@ public class EcouteurBoutonValidationSuppression implements ActionListener, Mous
 	// ----------------------------------------- //
 	
 	private FenetrePrincipale	fenetre;
+	@SuppressWarnings("unused")
 	private Hashtable			correspondanceEleve	= new Hashtable();
 	
 	// ----------------------------------------- //
@@ -39,35 +37,6 @@ public class EcouteurBoutonValidationSuppression implements ActionListener, Mous
 	// ----------------------------------------- //
 	
 	// --------FICHE_ELEVE-------- //
-	
-	/**
-	 * Rempli l'objet Jliste de la liste des élèves contenu en base de donnée à
-	 * partir de la liste chargée.
-	 */
-	private void chargerListEleve()
-	{
-		fenetre.getJlisteEleves().setListData(recupererListeEleve().toArray());
-	}
-	
-	/**
-	 * Création d'une liste contenant nom et prénom des élèves.
-	 * @return
-	 */
-	private ArrayList<String> recupererListeEleve()
-	{
-		ArrayList<String> listeEleves = new ArrayList<String>();
-		KListObject<KEleve> KListe = new KListObject<KEleve>(KEleve.class);
-		KListe = fenetre.getFicheEleve().getDataFiche1().recupererListe();
-		
-		for (int i = 0; i < KListe.count(); i++)
-		{
-			correspondanceEleve.put(i , KListe.get(i).getId());
-			listeEleves.add(KListe.get(i).getNOM_ELEVE().toUpperCase() + " "
-					+ KListe.get(i).getPRENOM_ELEVE().toLowerCase());
-		}
-		
-		return listeEleves;
-	}
 	
 	/**
 	 * Creation d'un Objet KEleve à partir de l'ensemble des champs graphique.
@@ -92,8 +61,8 @@ public class EcouteurBoutonValidationSuppression implements ActionListener, Mous
 		eleve.setOBSERVATION_VUE_ELEVE(fenetre.getFicheEleve().getAreaTestVue().getText());
 		eleve.setTELEPHONE_ELEVE(fenetre.getFicheEleve().getTelephone().getText());
 		
-		eleve.setIdMONITEUR(fenetre.getFicheEleve().getIdMoniteur());
-		eleve.setIdFORMATION(0);
+		eleve.setIdMONITEUR((Integer) fenetre.getEcouteurPrincipale().getCorrespondanceMoniteur().get(fenetre.getFicheEleve().getFormateur().getSelectedIndex()));
+		eleve.setIdFORMATION(EcouteurPrincipal.Eleve.getIdFORMATION());
 		
 		eleve.setDATE_DE_NAISS_ELEVE((java.sql.Date) dateFormat(
 				String.valueOf(fenetre.getFicheEleve().getDateNaissJ().getSelectedItem()) ,
@@ -250,7 +219,8 @@ public class EcouteurBoutonValidationSuppression implements ActionListener, Mous
 				KEleve eleveAinserer = creationEleve();
 				if (confirmationEtInsertAjout(eleveAinserer))
 				{
-					chargerListEleve();
+					fenetre.getEcouteurPrincipale().chargerListEleve();
+					fenetre.getFicheEleve().couleurDefaultChamps();
 				}
 			}
 			else
@@ -285,7 +255,8 @@ public class EcouteurBoutonValidationSuppression implements ActionListener, Mous
 				KEleve eleveAinserer = creationEleve();
 				if (confirmationEtInsertMaj(eleveAinserer))
 				{
-					chargerListEleve();
+					fenetre.getEcouteurPrincipale().chargerListEleve();
+					fenetre.getFicheEleve().couleurDefaultChamps();
 				}
 			}
 			else
@@ -324,103 +295,75 @@ public class EcouteurBoutonValidationSuppression implements ActionListener, Mous
 	
 	private void enregistrerRDV()
 	{
-		/*
-		 * enlever le numero de lecon et ajouter un Jlabel recapitulant le
-		 * nombre dheure compté. et le nombre de leçon : OK
-		 * 
-		 * 
-		 * 1) Transformer en liste KassurerLecon (qui s'occupe des types) :OK 2)
-		 * Purger la liste sur les RDV a effacer en BDD (ceux qui existet mais
-		 * n'étant pas dans la liste) et les RDV vides. -> on a donc une liste
-		 * pleine de RDV exixtant et nouveaux. 2) Verification Regex. 2)
-		 * Verification de la chronologie des RDV. 3) Verification de la
-		 * cohérence des horaires. 4) Verification de la contrainte d'intégrité
-		 * sur le moniteur et de l'eleve sur un RDV 5) Deduire la nouvelleliste
-		 * de RDV (en separant ancien et nouveau RDV) sur la MAJ de la listeRef.
-		 * 6) Creer cle primaire de chaque nouveau RDV dans AGENDA. 7) update
-		 * des anciens RDV 8) insert des nouveaux RDV
-		 */
-		
-		KListObject<KAssurer_lecon> Kliste = null;
-		
+		fenetre.getFicheEleve().getContainertableauLecon().getTableau().getSelectionModel().clearSelection();
 		Object [][] tableauRDV = fenetre.getFicheEleve().getContainertableauLecon().getJModel().getData();
-		
-		// 1)
-		Kliste = fenetre.getFicheEleve().getTableauLecon()
-				.convertirTableau(tableauRDV , fenetre.getFicheEleve().getIdEleve());
-		
-		// 2)
-		fenetre.getFicheEleve().getTableauLecon().effacerRDVListe(Kliste);
-		fenetre.getFicheEleve().getTableauLecon().chargerListeRDVEleve(fenetre.getFicheEleve().getIdEleve());// MAJ
-																												// de
-																												// la
-																												// iste
-																												// de
-																												// reference.
-		
-		int erreur = fenetre.getFicheEleve().getTableauLecon().gererRDVvide(Kliste);
-		System.out.println("3 terminé");
-		if (erreur != 1)
-		{
-			fenetre.getFicheEleve().getContainertableauLecon().getTableau().getSelectionModel()
-					.addSelectionInterval(TableauLecon.numeroLigne , TableauLecon.numeroLigne);
-			JOptionPane.showMessageDialog(null , fenetre.getFicheEleve().getTableauLecon().messageRenvoyeeUI(erreur) ,
-					"Erreur" , JOptionPane.ERROR_MESSAGE);
+		TableauLecon enregistrementRDV = new TableauLecon(tableauRDV);
+		enregistrementRDV.separerRDV();
+		//enregistrementRDV.afficherListeRdvGraphique();
+		//enregistrementRDV.afficherListeRdvAnt();
+		//enregistrementRDV.afficherListeRdvPost();
+		enregistrementRDV.separerRDVEditable(((Long)EcouteurPrincipal.Eleve.getId()).intValue());
+		//enregistrementRDV.afficherListeRdvMaj();
+		//enregistrementRDV.afficherListeRdvNew();
+		//enregistrementRDV.afficherListeRdvsupp();
+		int erreur;
+		erreur = enregistrementRDV.verifierChampListeMaj();
+		if(erreur != 0){
+			fenetre.getFicheEleve().getContainertableauLecon().getTableau().getSelectionModel().addSelectionInterval(
+					TableauLecon.numeroLigne, TableauLecon.numeroLigne);
+			AfficherMessageErreurValidation(erreur,JOptionPane.ERROR_MESSAGE,"Erreur",enregistrementRDV);
 		}
-		else
-		{
-			
-			// 3)
-			System.out.println("3 avant chronologie");
-			erreur = fenetre.getFicheEleve().getTableauLecon().verifierChronologieDate();
-			System.out.println("3 terminé chronologie");
-			if (erreur != 1)
-			{
-				fenetre.getFicheEleve().getContainertableauLecon().getTableau().getSelectionModel()
-						.addSelectionInterval(TableauLecon.numeroLigne , TableauLecon.numeroLigne);
-				JOptionPane.showMessageDialog(null , fenetre.getFicheEleve().getTableauLecon()
-						.messageRenvoyeeUI(erreur) , "Erreur" , JOptionPane.ERROR_MESSAGE);
-				
+		else{
+			erreur = enregistrementRDV.verifierChampListeNouveau();
+			if(erreur != 0){
+				fenetre.getFicheEleve().getContainertableauLecon().getTableau().getSelectionModel().addSelectionInterval(
+						TableauLecon.numeroLigne, TableauLecon.numeroLigne);
+				AfficherMessageErreurValidation(erreur,JOptionPane.ERROR_MESSAGE,"Erreur",enregistrementRDV);
 			}
-			else
-			{
-				
-				// 5
-				KListObject<KAssurer_lecon> KlisteNouveauRDV = fenetre.getFicheEleve().getTableauLecon()
-						.recupererNouvelleLecon(Kliste);
-				KListObject<KAssurer_lecon> KlisteRDVexistant = fenetre.getFicheEleve().getTableauLecon()
-						.recupererLeconExistante(Kliste);
-				
-				// 4)
-				// contrainte d'intégrité sur l'eleve
-				// contraint d'integrité sur le moniteur
-				int rdv = fenetre.getFicheEleve().getTableauLecon().contrainteintegriteEleve(KlisteNouveauRDV);
-				if (rdv != -1)
-				{
-					JOptionPane.showMessageDialog(null , "Cette élève a déjà un RDV avec un autre moniteur (RDV " + rdv
-							+ ")." , "Erreur" , JOptionPane.ERROR_MESSAGE);
+			else{
+				enregistrementRDV.creerListeCrud();
+				//enregistrementRDV.afficherListeCrud();
+				erreur = enregistrementRDV.verifierContrainteIntegrite();
+				if(erreur != 0){
+					fenetre.getFicheEleve().getContainertableauLecon().getTableau().getSelectionModel().addSelectionInterval(
+							TableauLecon.numeroLigne, TableauLecon.numeroLigne);
+					AfficherMessageErreurValidation(erreur,JOptionPane.ERROR_MESSAGE,"Erreur",enregistrementRDV);
 				}
-				else
-				{
+				else{
+					 if(AfficherConfirmation("Confirmer l'enregistrement des RDV ?", "Confirmation")){
+						 if(enregistrementRDV.supprimerRDV(((Long)EcouteurPrincipal.Eleve.getId()).intValue())&&
+									(enregistrementRDV.InsererRDV())){
+							AfficherMessageErreurValidation(2,JOptionPane.INFORMATION_MESSAGE,"Succès",enregistrementRDV);
+							fenetre.getEcouteurPrincipale().chargerDonneesTableauLecon();
+						}
+						else{
+							AfficherMessageErreurValidation(3,JOptionPane.ERROR_MESSAGE,"Erreur",enregistrementRDV);
+						}
+					 }
 					
-					// 6
-					fenetre.getFicheEleve().getTableauLecon()
-							.creerClePrimaireTableAgendaEtInsertionRDVnouveau(KlisteNouveauRDV);
-					// 7)
-					fenetre.getFicheEleve().getTableauLecon().MAJRDV(KlisteRDVexistant);
-					// 8)
 					
-					JOptionPane.showMessageDialog(null ,
-							fenetre.getFicheEleve().getTableauLecon().messageRenvoyeeUI(2) , "Succes" ,
-							JOptionPane.INFORMATION_MESSAGE);
-					// 9
-					// recharger la liste.
-					fenetre.getEcouteurPrincipale().chargerDonneesTableauLecon();
 				}
-				
 			}
 		}
 		
+	}
+	
+	private void AfficherMessageErreurValidation(int error,int macroInformation,String msg,TableauLecon enregistrementRDV){
+		System.out.println("avant affichege JoptionPane , error vaut : "+error);
+		JOptionPane.showMessageDialog(null,enregistrementRDV.messageRenvoyeeUI(error)
+				, msg, macroInformation);
+	}
+	
+	@SuppressWarnings("static-access")
+	private boolean AfficherConfirmation(String msg, String title){
+		int option = new JOptionPane().showConfirmDialog(null, msg,
+				title, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+	    
+		if(option == JOptionPane.OK_OPTION)
+		{
+			return true;
+		}
+		return false;
 	}
 	
 	// ----------------------------------------- //
@@ -460,14 +403,7 @@ public class EcouteurBoutonValidationSuppression implements ActionListener, Mous
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		if (e.getSource() == fenetre.getBoutonSupprimer())
-		{
-			System.out.println("Suppression");
-			// supprimer l'utilsateur ou supprimer sa fiche élève ?
-			// Est il utile ici ? Sinon faire un menu dédié à la suppression des
-			// élèves.
-			// Boite de dialogue de confirmation
-		}
+		
 		if (e.getSource() == fenetre.getBoutonValider())
 		{
 			if (fenetre.getFicheEleve().isVisible())

@@ -19,10 +19,10 @@ class Main
 		{
 			//UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
 			// UIManager.setLookAndFeel("com.sun.java.swing.plaf.metal.MetalLookAndFeel");
-			//UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 			// UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel");
 			// UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
-			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+			//UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 			
 		}
 		catch (UnsupportedLookAndFeelException e)
@@ -42,10 +42,17 @@ class Main
 			System.out.println("Classe LookAndFeel non accessible.");
 		}
 		
-		Splasher J = new Splasher();
-		J.start();
+		try{
+			Splasher J = new Splasher();
+			J.start();
+			
+			FenetrePrincipale fenetre = new FenetrePrincipale();
+			fenetre.setVisible(true);
+		}
+		catch(Exception e){
+			System.err.println("Erreur lors du lancement du programme");
+			e.printStackTrace();
+		}
 		
-		FenetrePrincipale fenetre = new FenetrePrincipale();
-		fenetre.setVisible(true);
 	}
 }
